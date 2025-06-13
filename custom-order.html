@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Order - COLP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="customized.html" class="active">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="custom-order-page">
+        <div class="container">
+            <div class="page-header">
+                <h1>Create Your Custom Order</h1>
+                <p>Transform your ideas into magical jewelry</p>
+                <button class="btn-secondary" onclick="location.href='customized.html'">← Back to Examples</button>
+            </div>
+
+            <form class="custom-order-form" id="customOrderForm">
+                <div class="form-section">
+                    <h2>Category Selection</h2>
+                    <div class="category-selection">
+                        <label class="category-option">
+                            <input type="radio" name="category" value="tattoo" required>
+                            <div class="category-card">
+                                <h3>Tattoo to Jewelry</h3>
+                                <p>Transform your meaningful tattoos into wearable 3D art</p>
+                            </div>
+                        </label>
+                        
+                        <label class="category-option">
+                            <input type="radio" name="category" value="pet" required>
+                            <div class="category-card">
+                                <h3>Pet Portrait</h3>
+                                <p>Carry your beloved companion with you always</p>
+                            </div>
+                        </label>
+                        
+                        <label class="category-option">
+                            <input type="radio" name="category" value="person" required>
+                            <div class="category-card">
+                                <h3>Person Portrait</h3>
+                                <p>Keep your loved ones close to your heart</p>
+                            </div>
+                        </label>
+                        
+                        <label class="category-option">
+                            <input type="radio" name="category" value="place" required>
+                            <div class="category-card">
+                                <h3>Place/Building</h3>
+                                <p>Miniaturize your special places and memories</p>
+                            </div>
+                        </label>
+                        
+                        <label class="category-option">
+                            <input type="radio" name="category" value="symbol" required>
+                            <div class="category-card">
+                                <h3>Logo/Symbol</h3>
+                                <p>Wear your personal symbols and emblems</p>
+                            </div>
+                        </label>
+                        
+                        <label class="category-option">
+                            <input type="radio" name="category" value="other" required>
+                            <div class="category-card">
+                                <h3>Other</h3>
+                                <p>Tell us about your unique vision</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Upload Reference Images</h2>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <input type="file" id="imageUpload" name="images" multiple accept="image/*" required>
+                        <div class="upload-placeholder">
+                            <div class="upload-icon">📸</div>
+                            <p>Click to upload images or drag and drop</p>
+                            <small>You can upload multiple images (JPG, PNG, HEIC)</small>
+                        </div>
+                        <div class="image-preview" id="imagePreview"></div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Project Details</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jewelryType">Jewelry Type</label>
+                            <select id="jewelryType" name="jewelryType" required>
+                                <option value="">Select jewelry type</option>
+                                <option value="ring">Ring</option>
+                                <option value="necklace">Necklace/Pendant</option>
+                                <option value="earrings">Earrings</option>
+                                <option value="bracelet">Bracelet</option>
+                                <option value="brooch">Brooch/Pin</option>
+                                <option value="cufflinks">Cufflinks</option>
+                                <option value="keychain">Keychain</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="material">Preferred Material</label>
+                            <select id="material" name="material" required>
+                                <option value="">Select material</option>
+                                <option value="silver">Sterling Silver</option>
+                                <option value="gold">Gold Plated</option>
+                                <option value="brass">Brass</option>
+                                <option value="stainless">Stainless Steel</option>
+                                <option value="bronze">Bronze</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Detailed Description</label>
+                        <textarea id="description" name="description" rows="6" placeholder="Please describe your vision in detail. Include size preferences, specific elements you want highlighted, color preferences, and any special requirements..." required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="budget">Budget Range</label>
+                            <select id="budget" name="budget" required>
+                                <option value="">Select budget range</option>
+                                <option value="50-100">$50 - $100</option>
+                                <option value="100-200">$100 - $200</option>
+                                <option value="200-300">$200 - $300</option>
+                                <option value="300-500">$300 - $500</option>
+                                <option value="500+">$500+</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="timeline">Preferred Timeline</label>
+                            <select id="timeline" name="timeline" required>
+                                <option value="">Select timeline</option>
+                                <option value="rush">Rush (1-2 weeks) +$50</option>
+                                <option value="standard">Standard (2-4 weeks)</option>
+                                <option value="extended">Extended (4-6 weeks) -10%</option>
+                                <option value="flexible">No rush (6+ weeks) -15%</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Contact Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number (Optional)</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select id="country" name="country" required>
+                                <option value="">Select country</option>
+                                <option value="us">United States</option>
+                                <option value="ca">Canada</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="au">Australia</option>
+                                <option value="de">Germany</option>
+                                <option value="fr">France</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Submit Custom Order</button>
+                    <div class="pricing-note">
+                        <small>* Final pricing will be provided within 24-48 hours based on your specifications</small>
+                    </div>
+                </div>
+            </form>
+
+            <div class="social-links">
+                <h3>Follow Our Work</h3>
+                <div class="social-buttons">
+                    <a href="https://instagram.com/colpjewelry" target="_blank" class="social-btn instagram">
+                        <span>📷</span> Instagram
+                    </a>
+                    <a href="https://etsy.com/shop/colpjewelry" target="_blank" class="social-btn etsy">
+                        <span>🛍️</span> Etsy Shop
+                    </a>
+                    <a href="https://amazon.com/handmade/colp" target="_blank" class="social-btn amazon">
+                        <span>📦</span> Amazon Handmade
+                    </a>
+                </div>
+            </div>
+
+            <div class="previous-orders">
+                <h3>Recent Custom Orders</h3>
+                <div class="orders-showcase">
+                    <div class="order-example">
+                        <img src="https://via.placeholder.com/150x150/8B4513/FFFFFF?text=Custom+Dog" alt="Custom Dog Pendant">
+                        <div class="order-details">
+                            <h4>Custom Dog Portrait Pendant</h4>
+                            <p>"Perfect recreation of my beloved Golden Retriever. The detail is incredible!"</p>
+                            <span class="customer">- Sarah M.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="order-example">
+                        <img src="https://via.placeholder.com/150x150/4B0082/FFFFFF?text=Custom+Tattoo" alt="Custom Tattoo Ring">
+                        <div class="order-details">
+                            <h4>Dragon Tattoo Ring</h4>
+                            <p>"They captured every detail of my tattoo perfectly. I wear it every day!"</p>
+                            <span class="customer">- Michael R.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="order-example">
+                        <img src="https://via.placeholder.com/150x150/DC143C/FFFFFF?text=Custom+House" alt="Custom House Charm">
+                        <div class="order-details">
+                            <h4>Childhood Home Charm</h4>
+                            <p>"A beautiful way to carry my childhood memories. Exquisite craftsmanship!"</p>
+                            <span class="customer">- Emma L.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

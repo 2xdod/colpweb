@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="products-page">
+        <div class="container">
+            <div class="products-layout">
+                <aside class="filters-sidebar">
+                    <h3>Categories</h3>
+                    <div class="category-filters">
+                        <button class="filter-btn active" data-category="all">All Products</button>
+                        <button class="filter-btn" data-category="rings">Rings</button>
+                        <button class="filter-btn" data-category="necklaces">Necklaces</button>
+                        <button class="filter-btn" data-category="brooches">Brooches</button>
+                        <button class="filter-btn" data-category="earrings">Earrings</button>
+                        <button class="filter-btn" data-category="formal">Formal Jewelry</button>
+                    </div>
+
+                    <h3>Style Filters</h3>
+                    <div class="style-filters">
+                        <button class="filter-btn" data-style="miniature">Miniature Monuments</button>
+                        <button class="filter-btn" data-style="lowpoly">Low Poly</button>
+                        <button class="filter-btn" data-style="classic">Classics</button>
+                        <button class="filter-btn" data-style="people">People</button>
+                        <button class="filter-btn" data-style="nature">Nature</button>
+                        <button class="filter-btn" data-style="mystical">Mystical</button>
+                    </div>
+                </aside>
+
+                <main class="products-main">
+                    <div class="products-header">
+                        <h1>Fantasy Jewelry Collection</h1>
+                        <p>Discover magical accessories from the mystical realm</p>
+                        <div class="marketplace-buttons">
+                            <a href="https://etsy.com/shop/colpjewelry" target="_blank" class="marketplace-btn etsy-btn">
+                                <span>🛍️</span> SHOP ON ETSY
+                            </a>
+                            <a href="https://amazon.com/handmade/colp" target="_blank" class="marketplace-btn amazon-btn">
+                                <span>📦</span> SHOP ON AMAZON
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="products-grid" id="productsGrid">
+                        <!-- Rings -->
+                        <div class="product-card" data-category="rings" data-style="mystical">
+                            <img src="https://via.placeholder.com/250x250/8B4513/FFFFFF?text=Dragon+Ring" alt="Dragon's Ember Ring">
+                            <h3>Dragon's Ember Ring</h3>
+                            <p>Forged in the flames of ancient dragons</p>
+                            <span class="price">$89.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <div class="product-card" data-category="rings" data-style="classic">
+                            <img src="https://via.placeholder.com/250x250/DC143C/FFFFFF?text=Guardian+Ring" alt="Guardian's Seal Ring">
+                            <h3>Guardian's Seal Ring</h3>
+                            <p>Protective talisman of ancient guardians</p>
+                            <span class="price">$178.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <div class="product-card" data-category="rings" data-style="miniature">
+                            <img src="https://via.placeholder.com/250x250/DAA520/FFFFFF?text=Tower+Ring" alt="Wizard Tower Ring">
+                            <h3>Wizard Tower Ring</h3>
+                            <p>Miniature replica of the Great Wizard Tower</p>
+                            <span class="price">$134.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <!-- Necklaces -->
+                        <div class="product-card" data-category="necklaces" data-style="mystical">
+                            <img src="https://via.placeholder.com/250x250/4169E1/FFFFFF?text=Moonstone+Necklace" alt="Elven Moonstone Pendant">
+                            <h3>Elven Moonstone Pendant</h3>
+                            <p>Blessed by the moon elves</p>
+                            <span class="price">$124.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <div class="product-card" data-category="necklaces" data-style="nature">
+                            <img src="https://via.placeholder.com/250x250/228B22/FFFFFF?text=Nature+Necklace" alt="Forest Spirit Necklace">
+                            <h3>Forest Spirit Necklace</h3>
+                            <p>Infused with ancient forest essence</p>
+                            <span class="price">$142.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <div class="product-card" data-category="necklaces" data-style="people">
+                            <img src="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Hero+Pendant" alt="Hero's Legacy Pendant">
+                            <h3>Hero's Legacy Pendant</h3>
+                            <p>Worn by legendary heroes of Colp Town</p>
+                            <span class="price">$189.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <!-- Brooches -->
+                        <div class="product-card" data-category="brooches" data-style="mystical">
+                            <img src="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch" alt="Mystical Crystal Brooch">
+                            <h3>Mystical Crystal Brooch</h3>
+                            <p>Enhances magical abilities</p>
+                            <span class="price">$156.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <div class="product-card" data-category="brooches" data-style="classic">
+                            <img src="https://via.placeholder.com/250x250/191970/FFFFFF?text=Starlight+Brooch" alt="Starlight Compass Brooch">
+                            <h3>Starlight Compass Brooch</h3>
+                            <p>Celestial navigation tool</p>
+                            <span class="price">$198.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <div class="product-card" data-category="brooches" data-style="lowpoly">
+                            <img src="https://via.placeholder.com/250x250/FF6347/FFFFFF?text=Geometric+Brooch" alt="Geometric Phoenix Brooch">
+                            <h3>Geometric Phoenix Brooch</h3>
+                            <p>Modern low-poly phoenix design</p>
+                            <span class="price">$167.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <!-- Earrings -->
+                        <div class="product-card" data-category="earrings" data-style="mystical">
+                            <img src="https://via.placeholder.com/250x250/FFD700/000000?text=Phoenix+Earrings" alt="Phoenix Feather Earrings">
+                            <h3>Phoenix Feather Earrings</h3>
+                            <p>Genuine phoenix feathers</p>
+                            <span class="price">$203.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <div class="product-card" data-category="earrings" data-style="nature">
+                            <img src="https://via.placeholder.com/250x250/98FB98/000000?text=Leaf+Earrings" alt="Enchanted Leaf Earrings">
+                            <h3>Enchanted Leaf Earrings</h3>
+                            <p>Leaves from the Sacred Grove</p>
+                            <span class="price">$94.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <div class="product-card" data-category="earrings" data-style="lowpoly">
+                            <img src="https://via.placeholder.com/250x250/FF1493/FFFFFF?text=Crystal+Earrings" alt="Low Poly Crystal Earrings">
+                            <h3>Low Poly Crystal Earrings</h3>
+                            <p>Geometric crystal formations</p>
+                            <span class="price">$112.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <!-- Formal Jewelry -->
+                        <div class="product-card" data-category="formal" data-style="classic">
+                            <img src="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Wizard+Cufflinks" alt="Wizard's Formal Cufflinks">
+                            <h3>Wizard's Formal Cufflinks</h3>
+                            <p>Elegant formal wear for magic practitioners</p>
+                            <span class="price">$267.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <div class="product-card" data-category="formal" data-style="people">
+                            <img src="https://via.placeholder.com/250x250/4B0082/FFFFFF?text=Noble+Tie+Pin" alt="Noble's Tie Pin">
+                            <h3>Noble's Tie Pin</h3>
+                            <p>Worn by the nobility of Colp Town</p>
+                            <span class="price">$156.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+
+                        <div class="product-card" data-category="formal" data-style="miniature">
+                            <img src="https://via.placeholder.com/250x250/2F4F4F/FFFFFF?text=Castle+Cufflinks" alt="Castle Monument Cufflinks">
+                            <h3>Castle Monument Cufflinks</h3>
+                            <p>Miniature Colp Castle replicas</p>
+                            <span class="price">$234.99</span>
+                            <button class="add-to-cart">Add to Cart</button>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

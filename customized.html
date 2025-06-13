@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customized Jewelry - COLP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="customized.html" class="active">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="customized-page">
+        <div class="container">
+            <div class="contact-button-top">
+                <button class="btn-primary" onclick="location.href='contact-us.html'">Contact Us</button>
+            </div>
+
+            <div class="hero-custom">
+                <div class="hero-custom-content">
+                    <h1>Custom Fantasy Jewelry</h1>
+                    <p>Transform your ideas into magical reality</p>
+                </div>
+                <div class="hero-custom-image">
+                    <img src="https://via.placeholder.com/400x300/4B0082/FFFFFF?text=Person+Holding+Custom+Necklace" alt="Person holding custom necklace">
+                </div>
+            </div>
+
+            <div class="examples-section">
+                <div class="example-category">
+                    <div class="examples-row">
+                        <div class="example-item clickable" onclick="openCustomOrder('tattoo')">
+                            <img src="https://via.placeholder.com/200x200/8B4513/FFFFFF?text=Tattoo+Dragon" alt="Dragon tattoo necklace">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('tattoo')">
+                            <img src="https://via.placeholder.com/200x200/DC143C/FFFFFF?text=Tattoo+Rose" alt="Rose tattoo pendant">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('tattoo')">
+                            <img src="https://via.placeholder.com/200x200/4169E1/FFFFFF?text=Tattoo+Anchor" alt="Anchor tattoo charm">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('tattoo')">
+                            <img src="https://via.placeholder.com/200x200/228B22/FFFFFF?text=Tattoo+Tree" alt="Tree tattoo necklace">
+                        </div>
+                    </div>
+                    <div class="category-description">
+                        <h3><button class="category-title-btn" onclick="openCustomOrder('tattoo')">Would you like to wear your tattoo as a 3D jewelry piece?</button></h3>
+                        <p>Transform your meaningful tattoos into beautiful, wearable art pieces that you can carry with you always.</p>
+                    </div>
+                </div>
+
+                <div class="example-category">
+                    <div class="examples-row">
+                        <div class="example-item clickable" onclick="openCustomOrder('pet')">
+                            <img src="https://via.placeholder.com/200x200/8B4513/FFFFFF?text=Dog+Necklace" alt="Dog portrait necklace">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('pet')">
+                            <img src="https://via.placeholder.com/200x200/FF6347/FFFFFF?text=Cat+Pendant" alt="Cat portrait pendant">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('pet')">
+                            <img src="https://via.placeholder.com/200x200/32CD32/FFFFFF?text=Bird+Charm" alt="Bird portrait charm">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('pet')">
+                            <img src="https://via.placeholder.com/200x200/FF1493/FFFFFF?text=Rabbit+Ring" alt="Rabbit portrait ring">
+                        </div>
+                    </div>
+                    <div class="category-description">
+                        <h3><button class="category-title-btn" onclick="openCustomOrder('pet')">Would you like to carry your pet's jewelry with you always?</button></h3>
+                        <p>Create a lasting memorial or celebration of your beloved companion with custom pet jewelry.</p>
+                    </div>
+                </div>
+
+                <div class="example-category">
+                    <div class="examples-row">
+                        <div class="example-item clickable" onclick="openCustomOrder('person')">
+                            <img src="https://via.placeholder.com/200x200/DAA520/FFFFFF?text=Portrait+Mom" alt="Mother portrait pendant">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('person')">
+                            <img src="https://via.placeholder.com/200x200/8B008B/FFFFFF?text=Portrait+Dad" alt="Father portrait cufflink">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('person')">
+                            <img src="https://via.placeholder.com/200x200/4B0082/FFFFFF?text=Portrait+Child" alt="Child portrait locket">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('person')">
+                            <img src="https://via.placeholder.com/200x200/DC143C/FFFFFF?text=Portrait+Couple" alt="Couple portrait ring">
+                        </div>
+                    </div>
+                    <div class="category-description">
+                        <h3><button class="category-title-btn" onclick="openCustomOrder('person')">Would you like to carry your loved ones close to your heart?</button></h3>
+                        <p>Commission personalized portraits of family members, friends, or special people in your life.</p>
+                    </div>
+                </div>
+
+                <div class="example-category">
+                    <div class="examples-row">
+                        <div class="example-item clickable" onclick="openCustomOrder('place')">
+                            <img src="https://via.placeholder.com/200x200/191970/FFFFFF?text=House+Charm" alt="House replica charm">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('place')">
+                            <img src="https://via.placeholder.com/200x200/2F4F4F/FFFFFF?text=Car+Keychain" alt="Car replica keychain">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('place')">
+                            <img src="https://via.placeholder.com/200x200/8B4513/FFFFFF?text=Building+Pin" alt="Building replica pin">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('place')">
+                            <img src="https://via.placeholder.com/200x200/800080/FFFFFF?text=Monument+Necklace" alt="Monument replica necklace">
+                        </div>
+                    </div>
+                    <div class="category-description">
+                        <h3><button class="category-title-btn" onclick="openCustomOrder('place')">Would you like to miniaturize your special places?</button></h3>
+                        <p>Create miniature replicas of meaningful locations, buildings, or monuments in jewelry form.</p>
+                    </div>
+                </div>
+
+                <div class="example-category">
+                    <div class="examples-row">
+                        <div class="example-item clickable" onclick="openCustomOrder('symbol')">
+                            <img src="https://via.placeholder.com/200x200/FF6347/FFFFFF?text=Logo+Cufflinks" alt="Company logo cufflinks">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('symbol')">
+                            <img src="https://via.placeholder.com/200x200/32CD32/FFFFFF?text=Symbol+Pendant" alt="Personal symbol pendant">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('symbol')">
+                            <img src="https://via.placeholder.com/200x200/FF1493/FFFFFF?text=Emblem+Ring" alt="Family emblem ring">
+                        </div>
+                        <div class="example-item clickable" onclick="openCustomOrder('symbol')">
+                            <img src="https://via.placeholder.com/200x200/4169E1/FFFFFF?text=Sign+Brooch" alt="Zodiac sign brooch">
+                        </div>
+                    </div>
+                    <div class="category-description">
+                        <h3><button class="category-title-btn" onclick="openCustomOrder('symbol')">Would you like to wear your personal symbols?</button></h3>
+                        <p>Transform logos, symbols, emblems, or signs that are meaningful to you into wearable art.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-button-bottom">
+                <button class="btn-primary" onclick="location.href='contact-us.html'">Contact Us</button>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

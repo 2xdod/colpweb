@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recently Added Stories - Colp Town Stories</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html" class="active">Colp Town Stories</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="stories-listing-page">
+        <div class="container">
+            <div class="page-header">
+                <h1>Recently Added Stories</h1>
+                <p>The latest tales from the mystical realm</p>
+                <div class="navigation-buttons">
+                    <button class="btn-secondary" onclick="location.href='stories.html'">← Back to Stories</button>
+                    <button class="btn-library" onclick="location.href='library.html'">Visit Library</button>
+                </div>
+            </div>
+
+            <div class="sorting-controls">
+                <label for="sort-by">Sort by:</label>
+                <select id="sort-by" onchange="sortStories(this.value)">
+                    <option value="date-desc">Newest First</option>
+                    <option value="date-asc">Oldest First</option>
+                    <option value="popularity">Most Popular</option>
+                    <option value="alphabetical">A-Z</option>
+                </select>
+            </div>
+
+            <div class="stories-grid" id="storiesGrid">
+                <article class="story-card clickable recent" data-clicks="45" data-date="2024-06-10" onclick="openStory('forest-spirit')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/228B22/FFFFFF?text=Forest+Spirit" alt="Forest Spirit Necklace">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Forest Spirit's Gift</h3>
+                        <p>A wandering minstrel received an unexpected gift from the ancient spirits of the Whispering Woods...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">45 reads</span>
+                            <span class="story-category">Nature</span>
+                            <span class="story-date">Added: Jun 10, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="story-card clickable recent" data-clicks="67" data-date="2024-06-03" onclick="openStory('wizard-formal')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/8B008B/FFFFFF?text=Wizard+Cufflinks" alt="Wizard's Formal Wear">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Wizard's Formal Attire</h3>
+                        <p>At the Grand Magical Council, even the most powerful wizards must dress appropriately for the occasion...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">67 reads</span>
+                            <span class="story-category">Humor</span>
+                            <span class="story-date">Added: Jun 3, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="story-card clickable recent" data-clicks="89" data-date="2024-05-27" onclick="openStory('miniature-tower')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/DAA520/FFFFFF?text=Wizard+Tower" alt="Wizard Tower Ring">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Miniature Tower</h3>
+                        <p>When the Great Wizard Tower fell, its essence was captured in a ring, allowing its magic to live on in miniature form...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">89 reads</span>
+                            <span class="story-category">Historical</span>
+                            <span class="story-date">Added: May 27, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="story-card clickable recent" data-clicks="123" data-date="2024-05-20" onclick="openStory('modern-phoenix')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/FF6347/FFFFFF?text=Geometric+Phoenix" alt="Low Poly Phoenix">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Modern Phoenix</h3>
+                        <p>In the digital age of magic, even mythical creatures adapt to contemporary artistic styles...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">123 reads</span>
+                            <span class="story-category">Modern</span>
+                            <span class="story-date">Added: May 20, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="story-card clickable recent" data-clicks="156" data-date="2024-05-13" onclick="openStory('sacred-leaves')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/98FB98/000000?text=Enchanted+Leaves" alt="Enchanted Leaf Earrings">
+                    </div>
+                    <div class="story-content">
+                        <h3>Leaves of the Sacred Grove</h3>
+                        <p>Only the most deserving may claim a leaf from the Sacred Grove, where each leaf holds centuries of wisdom...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">156 reads</span>
+                            <span class="story-category">Wisdom</span>
+                            <span class="story-date">Added: May 13, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="story-card clickable recent" data-clicks="234" data-date="2024-05-06" onclick="openStory('nobles-secret')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/4B0082/FFFFFF?text=Noble+Tie+Pin" alt="Noble's Tie Pin">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Noble's Secret</h3>
+                        <p>Behind every piece of noble jewelry lies a secret that could change the fate of Colp Town forever...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">234 reads</span>
+                            <span class="story-category">Intrigue</span>
+                            <span class="story-date">Added: May 6, 2024</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popular Stories - Colp Town Stories</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html" class="active">Colp Town Stories</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="stories-listing-page">
+        <div class="container">
+            <div class="page-header">
+                <h1>Popular Stories</h1>
+                <p>The most beloved tales from Colp Town</p>
+                <div class="navigation-buttons">
+                    <button class="btn-secondary" onclick="location.href='stories.html'">← Back to Stories</button>
+                    <button class="btn-library" onclick="location.href='library.html'">Visit Library</button>
+                </div>
+            </div>
+
+            <div class="sorting-controls">
+                <label for="sort-by">Sort by:</label>
+                <select id="sort-by" onchange="sortStories(this.value)">
+                    <option value="popularity">Most Popular</option>
+                    <option value="date-desc">Newest First</option>
+                    <option value="date-asc">Oldest First</option>
+                    <option value="alphabetical">A-Z</option>
+                </select>
+            </div>
+
+            <div class="stories-grid" id="storiesGrid">
+                <article class="story-card clickable" data-clicks="1847" data-date="2024-01-15" onclick="openStory('dragons-ember')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/8B4513/FFFFFF?text=Dragon+Ring+Story" alt="The Dragon's Ember">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Dragon's Ember</h3>
+                        <p>Deep in the volcanic caves of Mount Pyrion, a young blacksmith discovered a dragon's tear that had crystallized into the most powerful gem...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">1,847 reads</span>
+                            <span class="story-category">Mystical</span>
+                            <span class="story-date">Added: Jan 15, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="story-card clickable" data-clicks="1634" data-date="2024-01-20" onclick="openStory('elven-moonstone')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/4169E1/FFFFFF?text=Moonstone+Tale" alt="The Elven Moonstone">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Elven Moonstone</h3>
+                        <p>In the heart of the Silverleaf Forest, the moon elves crafted a pendant that could capture the very essence of moonlight...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">1,634 reads</span>
+                            <span class="story-category">Elven</span>
+                            <span class="story-date">Added: Jan 20, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="story-card clickable" data-clicks="1523" data-date="2024-01-25" onclick="openStory('guardians-seal')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/DC143C/FFFFFF?text=Guardian+Seal" alt="The Guardian's Seal">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Guardian's Seal</h3>
+                        <p>When the ancient guardians of Colp Town fell in the Great War, their protective magic was sealed into rings that still watch over the town...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">1,523 reads</span>
+                            <span class="story-category">Historical</span>
+                            <span class="story-date">Added: Jan 25, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="story-card clickable" data-clicks="1402" data-date="2024-02-01" onclick="openStory('phoenix-feathers')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/FFD700/000000?text=Phoenix+Feathers" alt="Phoenix Feather Tale">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Phoenix Feather Earrings</h3>
+                        <p>Legend tells of a phoenix who gifted her feathers to a grieving mother, transforming sorrow into hope and rebirth...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">1,402 reads</span>
+                            <span class="story-category">Legendary</span>
+                            <span class="story-date">Added: Feb 1, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="story-card clickable" data-clicks="1298" data-date="2024-02-05" onclick="openStory('mystical-crystal')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/800080/FFFFFF?text=Crystal+Brooch" alt="Mystical Crystal">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Mystical Crystal Brooch</h3>
+                        <p>In the depths of the Crystal Caverns, a rare formation was discovered that could amplify magical abilities beyond imagination...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">1,298 reads</span>
+                            <span class="story-category">Mystical</span>
+                            <span class="story-date">Added: Feb 5, 2024</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="story-card clickable" data-clicks="1156" data-date="2024-02-10" onclick="openStory('starlight-compass')">
+                    <div class="story-image">
+                        <img src="https://via.placeholder.com/300x200/191970/FFFFFF?text=Starlight+Compass" alt="Starlight Compass">
+                    </div>
+                    <div class="story-content">
+                        <h3>The Starlight Compass</h3>
+                        <p>Sailors and travelers have long sought the mystical compass brooch that guides through the darkest nights using celestial magic...</p>
+                        <div class="story-meta">
+                            <span class="story-clicks">1,156 reads</span>
+                            <span class="story-category">Adventure</span>
+                            <span class="story-date">Added: Feb 10, 2024</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
