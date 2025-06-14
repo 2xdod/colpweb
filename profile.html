@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="wishlist-icon" onclick="toggleWishlistModal()">
+                        ❤️
+                        <span class="wishlist-count hidden" id="wishlistCount">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="profile-page">
+        <div class="container">
+            <div class="profile-header">
+                <h1>👤 My Profile</h1>
+                <p>Manage your account information and preferences</p>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-sidebar">
+                    <div class="profile-nav">
+                        <a href="profile.html" class="profile-nav-item active">👤 Personal Info</a>
+                        <a href="orders.html" class="profile-nav-item">📦 My Orders</a>
+                        <a href="settings.html" class="profile-nav-item">⚙️ Settings</a>
+                        <a href="#" onclick="logoutUser()" class="profile-nav-item logout">🚪 Logout</a>
+                    </div>
+                </div>
+
+                <div class="profile-main">
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <h2>Personal Information</h2>
+                            <button class="btn-primary" onclick="toggleEditMode()">Edit Profile</button>
+                        </div>
+
+                        <form id="profileForm" onsubmit="handleProfileUpdate(event)">
+                            <div class="profile-info" id="profileDisplay">
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <label>First Name</label>
+                                        <span id="displayFirstName">-</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Last Name</label>
+                                        <span id="displayLastName">-</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Email Address</label>
+                                        <span id="displayEmail">-</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Date of Birth</label>
+                                        <span id="displayBirthDate">Not provided</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Member Since</label>
+                                        <span id="displayMemberSince">-</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Newsletter</label>
+                                        <span id="displayNewsletter">-</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="profile-edit" id="profileEdit" style="display: none;">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="editFirstName">First Name</label>
+                                        <input type="text" id="editFirstName" name="firstName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="editLastName">Last Name</label>
+                                        <input type="text" id="editLastName" name="lastName" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editEmail">Email Address</label>
+                                    <input type="email" id="editEmail" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editBirthDate">Date of Birth</label>
+                                    <input type="date" id="editBirthDate" name="birthDate">
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="editNewsletter" name="newsletter">
+                                        <span class="checkmark"></span>
+                                        Subscribe to newsletter
+                                    </label>
+                                </div>
+                                <div class="edit-actions">
+                                    <button type="button" class="btn-secondary" onclick="cancelEdit()">Cancel</button>
+                                    <button type="submit" class="btn-primary">Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>📍 Saved Addresses</h2>
+                        <div class="addresses-container" id="addressesContainer">
+                            <!-- Addresses will be populated here -->
+                        </div>
+                        <button class="btn-secondary" onclick="showAddAddressModal()">➕ Add New Address</button>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Change Password</h2>
+                        <form id="passwordForm" onsubmit="handlePasswordChange(event)">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" name="currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" name="newPassword" required minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmNewPassword">Confirm New Password</label>
+                                <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Change Password</button>
+                        </form>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Account Statistics</h2>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon">🛒</div>
+                                <div class="stat-info">
+                                    <h3 id="totalOrders">0</h3>
+                                    <p>Total Orders</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">❤️</div>
+                                <div class="stat-info">
+                                    <h3 id="wishlistCount">0</h3>
+                                    <p>Wishlist Items</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">📧</div>
+                                <div class="stat-info">
+                                    <h3 id="newsletterStatus">No</h3>
+                                    <p>Newsletter</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">📅</div>
+                                <div class="stat-info">
+                                    <h3 id="daysSinceMember">0</h3>
+                                    <p>Days as Member</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Address Modal -->
+    <div class="modal" id="addAddressModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📍 Add New Address</h2>
+                <button class="modal-close" onclick="closeAddAddressModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addAddressForm" onsubmit="handleAddAddress(event)">
+                    <div class="form-group">
+                        <label for="addressTitle">Address Title *</label>
+                        <input type="text" id="addressTitle" name="title" placeholder="e.g. Home, Work, etc." required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addressFirstName">First Name *</label>
+                            <input type="text" id="addressFirstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="addressLastName">Last Name *</label>
+                            <input type="text" id="addressLastName" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="addressPhone">Phone Number</label>
+                        <input type="tel" id="addressPhone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="addressStreet">Street Address *</label>
+                        <input type="text" id="addressStreet" name="street" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addressCity">City *</label>
+                            <input type="text" id="addressCity" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="addressState">State/Province *</label>
+                            <input type="text" id="addressState" name="state" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addressZip">Zip/Postal Code *</label>
+                            <input type="text" id="addressZip" name="zip" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="addressCountry">Country *</label>
+                            <select id="addressCountry" name="country" required>
+                                <option value="">Select Country</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="AU">Australia</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="TR">Turkey</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isDefaultAddress" name="isDefault">
+                            <span class="checkmark"></span>
+                            Set as default address
+                        </label>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeAddAddressModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Address</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <!-- Newsletter Footer -->
+            <div class="footer-newsletter">
+                <div class="newsletter-content">
+                    <h4>✨ Join Our Magical Newsletter</h4>
+                    <p>Get exclusive offers, new arrivals, and magical updates delivered to your inbox!</p>
+                    <form id="footerNewsletterForm" onsubmit="handleFooterNewsletter(event)">
+                        <div class="footer-newsletter-group">
+                            <input type="email" id="footerNewsletterEmail" placeholder="Your email address" required>
+                            <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>

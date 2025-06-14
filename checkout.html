@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - COLP Fantasy Jewelry</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Stripe SDK -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD&intent=capture"></script>
 </head>
 <body>
     <div class="campaign-banner">
@@ -16,7 +20,12 @@
             <div class="logo">
                 <h1 onclick="location.href='index.html'">COLP</h1>
             </div>
-            <ul class="nav-menu">
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="products.html">Products</a></li>
                 <li><a href="customized.html">Customized</a></li>
@@ -47,6 +56,13 @@
                         <input type="hidden" name="cart-items" id="cartItemsHidden">
                         <input type="hidden" name="total-amount" id="totalAmountHidden">
                         
+                        <!-- User Status Section -->
+                        <div class="form-section" id="userStatusSection">
+                            <div class="user-status" id="userStatus">
+                                <!-- User status will be populated here -->
+                            </div>
+                        </div>
+
                         <div class="form-section">
                             <h2>Contact Information</h2>
                             <div class="form-row">
@@ -71,6 +87,18 @@
 
                         <div class="form-section">
                             <h2>Shipping Address</h2>
+                            <!-- Saved Addresses Section (for logged-in users) -->
+                            <div class="saved-addresses-section" id="savedAddressesSection" style="display: none;">
+                                <div class="form-group">
+                                    <label for="savedAddresses">Select Saved Address</label>
+                                    <select id="savedAddresses" onchange="handleSavedAddressChange()">
+                                        <option value="">Choose a saved address or enter new one</option>
+                                    </select>
+                                </div>
+                                <div class="address-options">
+                                    <button type="button" class="btn-secondary" onclick="useNewAddress()">Use New Address</button>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="address">Street Address *</label>
                                 <input type="text" id="address" name="address" required>
@@ -110,10 +138,17 @@
                             <h2>Payment Method</h2>
                             <div class="payment-options">
                                 <label class="payment-option">
-                                    <input type="radio" name="payment-method" value="paypal" checked>
+                                    <input type="radio" name="payment-method" value="stripe" checked>
                                     <span class="payment-label">
-                                        💳 PayPal / Credit Card
-                                        <small>You will be redirected to PayPal</small>
+                                        💳 Credit/Debit Card
+                                        <small>Secure payment with Stripe</small>
+                                    </span>
+                                </label>
+                                <label class="payment-option">
+                                    <input type="radio" name="payment-method" value="paypal">
+                                    <span class="payment-label">
+                                        💰 PayPal
+                                        <small>Pay with your PayPal account</small>
                                     </span>
                                 </label>
                                 <label class="payment-option">
@@ -123,13 +158,30 @@
                                         <small>We will send you bank details via email</small>
                                     </span>
                                 </label>
-                                <label class="payment-option">
-                                    <input type="radio" name="payment-method" value="zelle">
-                                    <span class="payment-label">
-                                        📱 Zelle/Venmo
-                                        <small>Quick payment for US customers</small>
-                                    </span>
-                                </label>
+                            </div>
+                            
+                            <!-- Stripe Card Element -->
+                            <div id="stripe-card-section" class="stripe-payment-section">
+                                <div class="form-group">
+                                    <label for="card-element">Card Information</label>
+                                    <div id="card-element" class="stripe-card-element">
+                                        <!-- Stripe Elements will mount here -->
+                                    </div>
+                                    <div id="card-errors" role="alert" class="stripe-error"></div>
+                                </div>
+                            </div>
+
+                            <!-- PayPal Section -->
+                            <div id="paypal-section" class="paypal-payment-section" style="display: none;">
+                                <div id="paypal-button-container"></div>
+                            </div>
+
+                            <!-- Bank Transfer Section -->
+                            <div id="bank-transfer-section" class="bank-transfer-section" style="display: none;">
+                                <div class="bank-transfer-info">
+                                    <h4>🏦 Bank Transfer Instructions</h4>
+                                    <p>After placing your order, we'll send detailed bank transfer instructions to your email address. Your order will be processed once payment is received.</p>
+                                </div>
                             </div>
                         </div>
 
@@ -215,5 +267,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="profile.js"></script>
 </body>
 </html>

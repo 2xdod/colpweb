@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="wishlist-icon" onclick="toggleWishlistModal()">
+                        ❤️
+                        <span class="wishlist-count hidden" id="wishlistCount">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="profile-page">
+        <div class="container">
+            <div class="profile-header">
+                <h1>📦 My Orders</h1>
+                <p>Track your orders and view purchase history</p>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-sidebar">
+                    <div class="profile-nav">
+                        <a href="profile.html" class="profile-nav-item">👤 Personal Info</a>
+                        <a href="orders.html" class="profile-nav-item active">📦 My Orders</a>
+                        <a href="settings.html" class="profile-nav-item">⚙️ Settings</a>
+                        <a href="#" onclick="logoutUser()" class="profile-nav-item logout">🚪 Logout</a>
+                    </div>
+                </div>
+
+                <div class="profile-main">
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <h2>Order History</h2>
+                            <div class="order-filters">
+                                <select id="orderFilter" onchange="filterOrders()">
+                                    <option value="all">All Orders</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="delivered">Delivered</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                                <input type="text" id="orderSearch" placeholder="Search orders..." onkeyup="searchOrders()">
+                            </div>
+                        </div>
+
+                        <div class="orders-container" id="ordersContainer">
+                            <!-- Orders will be populated here -->
+                        </div>
+
+                        <!-- No orders state -->
+                        <div class="no-orders" id="noOrders" style="display: none;">
+                            <div class="no-orders-icon">📦</div>
+                            <h3>No Orders Yet</h3>
+                            <p>You haven't placed any orders yet. Start shopping to see your orders here!</p>
+                            <a href="products.html" class="btn-primary">Start Shopping</a>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Order Statistics</h2>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-icon">📦</div>
+                                <div class="stat-info">
+                                    <h3 id="totalOrdersCount">0</h3>
+                                    <p>Total Orders</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">💰</div>
+                                <div class="stat-info">
+                                    <h3 id="totalSpent">$0</h3>
+                                    <p>Total Spent</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">🚚</div>
+                                <div class="stat-info">
+                                    <h3 id="pendingOrders">0</h3>
+                                    <p>Pending Orders</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">⭐</div>
+                                <div class="stat-info">
+                                    <h3 id="avgOrderValue">$0</h3>
+                                    <p>Avg Order Value</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>Frequently Bought Items</h2>
+                        <div class="frequent-items" id="frequentItems">
+                            <!-- Frequent items will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal" id="orderDetailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📦 Order Details</h2>
+                <button class="modal-close" onclick="closeOrderModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="orderDetailContent">
+                <!-- Order details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <!-- Newsletter Footer -->
+            <div class="footer-newsletter">
+                <div class="newsletter-content">
+                    <h4>✨ Join Our Magical Newsletter</h4>
+                    <p>Get exclusive offers, new arrivals, and magical updates delivered to your inbox!</p>
+                    <form id="footerNewsletterForm" onsubmit="handleFooterNewsletter(event)">
+                        <div class="footer-newsletter-group">
+                            <input type="email" id="footerNewsletterEmail" placeholder="Your email address" required>
+                            <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="profile.js"></script>
+    <script src="orders.js"></script>
+</body>
+</html>

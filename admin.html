@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="wishlist-icon" onclick="toggleWishlistModal()">
+                        ❤️
+                        <span class="wishlist-count hidden" id="wishlistCount">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="admin-page">
+        <div class="container">
+            <div class="admin-header">
+                <h1>🔧 Admin Dashboard</h1>
+                <p>Manage users, track activities, and monitor system performance</p>
+            </div>
+
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <h3 id="totalUsers">0</h3>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🛒</div>
+                    <div class="stat-info">
+                        <h3 id="activeOrders">0</h3>
+                        <p>Active Orders</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-info">
+                        <h3 id="totalActivities">0</h3>
+                        <p>User Activities</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💎</div>
+                    <div class="stat-info">
+                        <h3 id="totalRevenue">$0</h3>
+                        <p>Total Revenue</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="switchAdminTab('users')">👥 Users</button>
+                <button class="admin-tab" onclick="switchAdminTab('activities')">📊 Activities</button>
+                <button class="admin-tab" onclick="switchAdminTab('analytics')">📈 Analytics</button>
+                <button class="admin-tab" onclick="switchAdminTab('admins')">🔐 Admin Management</button>
+                <button class="admin-tab" onclick="switchAdminTab('newsletter')">📧 Newsletter</button>
+                <button class="admin-tab" onclick="switchAdminTab('settings')">⚙️ Settings</button>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="users-tab" class="admin-tab-content active">
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>👥 Users & Subscribers</h2>
+                        <div class="admin-controls">
+                            <input type="text" id="userSearch" placeholder="Search users..." onkeyup="filterUsers()">
+                            <select id="userFilter" onchange="filterUsersByType()">
+                                <option value="all">All Users</option>
+                                <option value="registered">Registered Users Only</option>
+                                <option value="newsletter">Newsletter Subscribers Only</option>
+                                <option value="both">Both Registered & Subscribed</option>
+                            </select>
+                            <select id="userSort" onchange="sortUsers()">
+                                <option value="date-desc">Latest First</option>
+                                <option value="date-asc">Oldest First</option>
+                                <option value="name-asc">Name A-Z</option>
+                                <option value="name-desc">Name Z-A</option>
+                                <option value="activity-desc">Most Active</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="users-table-container">
+                        <table class="admin-table" id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Registration Date</th>
+                                    <th>Last Login</th>
+                                    <th>Activities</th>
+                                    <th>Cart Items</th>
+                                    <th>Wishlist</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Users will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activities Tab -->
+            <div id="activities-tab" class="admin-tab-content">
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>📊 User Activities</h2>
+                        <div class="admin-controls">
+                            <select id="activityFilter" onchange="filterActivities()">
+                                <option value="all">All Activities</option>
+                                <option value="login">Login</option>
+                                <option value="register">Register</option>
+                                <option value="add_to_cart">Add to Cart</option>
+                                <option value="remove_from_cart">Remove from Cart</option>
+                                <option value="add_to_wishlist">Add to Wishlist</option>
+                                <option value="remove_from_wishlist">Remove from Wishlist</option>
+                                <option value="page_view">Page Views</option>
+                            </select>
+                            <input type="date" id="dateFilter" onchange="filterActivities()">
+                        </div>
+                    </div>
+                    <div class="activities-list" id="activitiesList">
+                        <!-- Activities will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics-tab" class="admin-tab-content">
+                <div class="admin-section">
+                    <h2>📈 Analytics Dashboard</h2>
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <h3>Most Popular Products</h3>
+                            <div id="popularProducts" class="analytics-content">
+                                <!-- Popular products will be shown here -->
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>User Activity Timeline</h3>
+                            <div id="activityTimeline" class="analytics-content">
+                                <!-- Activity timeline will be shown here -->
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Cart Abandonment</h3>
+                            <div id="cartAnalytics" class="analytics-content">
+                                <!-- Cart analytics will be shown here -->
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>User Demographics</h3>
+                            <div id="userDemographics" class="analytics-content">
+                                <!-- User demographics will be shown here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Management Tab -->
+            <div id="admins-tab" class="admin-tab-content">
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>🔐 Admin Management</h2>
+                        <button class="btn-primary" onclick="showAddAdminModal()" id="addAdminBtn">Add New Admin</button>
+                    </div>
+                    <div class="admins-table-container">
+                        <table class="admin-table" id="adminsTable">
+                            <thead>
+                                <tr>
+                                    <th>Admin</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Added Date</th>
+                                    <th>Last Login</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminsTableBody">
+                                <!-- Admins will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Newsletter Tab -->
+            <div id="newsletter-tab" class="admin-tab-content">
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>📧 Newsletter Management</h2>
+                        <div class="admin-controls">
+                            <input type="text" id="newsletterSearch" placeholder="Search subscribers..." onkeyup="filterNewsletterSubscribers()">
+                            <button class="btn-primary" onclick="sendNewsletterToAll()">Send Newsletter</button>
+                        </div>
+                    </div>
+                    
+                    <div class="newsletter-stats">
+                        <div class="stat-row">
+                            <span>Total Subscribers:</span>
+                            <span id="totalSubscribers">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Active Subscribers:</span>
+                            <span id="activeSubscribers">0</span>
+                        </div>
+                    </div>
+
+                    <div class="newsletter-subscribers-container">
+                        <table class="admin-table" id="newsletterTable">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Subscription Date</th>
+                                    <th>User Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="newsletterTableBody">
+                                <!-- Newsletter subscribers will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="admin-tab-content">
+                <div class="admin-section">
+                    <h2>⚙️ System Settings</h2>
+                    <div class="settings-grid">
+                        <div class="setting-item">
+                            <h3>🗄️ Data Management</h3>
+                            <p>Manage user data and system storage</p>
+                            <div class="setting-actions">
+                                <button class="btn-secondary" onclick="exportUserData()">Export User Data</button>
+                                <button class="btn-danger" onclick="clearOldActivities()">Clear Old Activities</button>
+                                <button class="btn-secondary" onclick="exportNewsletterData()">Export Newsletter Data</button>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <h3>📧 User Communications</h3>
+                            <p>Send notifications to users</p>
+                            <div class="setting-actions">
+                                <button class="btn-primary" onclick="sendNewsletterModal()">Send Newsletter</button>
+                                <button class="btn-secondary" onclick="sendPromotionModal()">Send Promotion</button>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <h3>🔧 System Maintenance</h3>
+                            <p>System optimization and maintenance tools</p>
+                            <div class="setting-actions">
+                                <button class="btn-secondary" onclick="optimizeStorage()">Optimize Storage</button>
+                                <button class="btn-secondary" onclick="generateReport()">Generate Report</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Detail Modal -->
+    <div class="modal" id="userDetailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>👤 User Details</h2>
+                <button class="modal-close" onclick="closeUserModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="userDetailContent">
+                <!-- User details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Admin Modal -->
+    <div class="modal" id="addAdminModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔐 Add New Admin</h2>
+                <button class="modal-close" onclick="closeAddAdminModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addAdminForm" onsubmit="handleAddAdmin(event)">
+                    <div class="form-group">
+                        <label for="adminEmail">Email Address</label>
+                        <input type="email" id="adminEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminFirstName">First Name</label>
+                        <input type="text" id="adminFirstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminLastName">Last Name</label>
+                        <input type="text" id="adminLastName" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminRole">Admin Role</label>
+                        <select id="adminRole" name="role" required>
+                            <option value="admin">Admin</option>
+                            <option value="super_admin">Super Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Temporary Password</label>
+                        <input type="password" id="adminPassword" name="password" required minlength="6">
+                        <small>Admin will be asked to change this on first login</small>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeAddAdminModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Add Admin</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Modal -->
+    <div class="modal" id="newsletterModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📧 Send Newsletter</h2>
+                <button class="modal-close" onclick="closeNewsletterModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="newsletterForm" onsubmit="handleSendNewsletter(event)">
+                    <div class="form-group">
+                        <label for="newsletterSubject">Subject</label>
+                        <input type="text" id="newsletterSubject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newsletterContent">Message</label>
+                        <textarea id="newsletterContent" name="content" rows="8" required placeholder="Enter your newsletter content..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="includePromo" name="includePromo">
+                            Include current promotions
+                        </label>
+                    </div>
+                    <div class="newsletter-preview">
+                        <h4>Recipients: <span id="recipientCount">0</span> subscribers</h4>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeNewsletterModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Send Newsletter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

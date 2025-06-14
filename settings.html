@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="wishlist-icon" onclick="toggleWishlistModal()">
+                        ❤️
+                        <span class="wishlist-count hidden" id="wishlistCount">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="profile-page">
+        <div class="container">
+            <div class="profile-header">
+                <h1>⚙️ Settings</h1>
+                <p>Manage your account preferences and privacy settings</p>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-sidebar">
+                    <div class="profile-nav">
+                        <a href="profile.html" class="profile-nav-item">👤 Personal Info</a>
+                        <a href="orders.html" class="profile-nav-item">📦 My Orders</a>
+                        <a href="settings.html" class="profile-nav-item active">⚙️ Settings</a>
+                        <a href="#" onclick="logoutUser()" class="profile-nav-item logout">🚪 Logout</a>
+                    </div>
+                </div>
+
+                <div class="profile-main">
+                    <div class="profile-section">
+                        <h2>📧 Email Preferences</h2>
+                        <form id="emailPreferencesForm" onsubmit="handleEmailPreferences(event)">
+                            <div class="settings-group">
+                                <div class="setting-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="newsletterPref" name="newsletter">
+                                        <span class="checkmark"></span>
+                                        <div class="setting-content">
+                                            <h4>Newsletter Subscription</h4>
+                                            <p>Receive our weekly newsletter with new arrivals and exclusive offers</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="promotionsPref" name="promotions">
+                                        <span class="checkmark"></span>
+                                        <div class="setting-content">
+                                            <h4>Promotional Emails</h4>
+                                            <p>Get notified about special discounts and seasonal sales</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="newArrivalsPref" name="newArrivals">
+                                        <span class="checkmark"></span>
+                                        <div class="setting-content">
+                                            <h4>New Arrivals</h4>
+                                            <p>Be the first to know about new jewelry collections</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="orderUpdatesPref" name="orderUpdates">
+                                        <span class="checkmark"></span>
+                                        <div class="setting-content">
+                                            <h4>Order Updates</h4>
+                                            <p>Receive notifications about your order status and shipping</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">Save Email Preferences</button>
+                        </form>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>🔔 Notification Settings</h2>
+                        <form id="notificationForm" onsubmit="handleNotificationSettings(event)">
+                            <div class="settings-group">
+                                <div class="setting-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="browserNotifications" name="browserNotifications">
+                                        <span class="checkmark"></span>
+                                        <div class="setting-content">
+                                            <h4>Browser Notifications</h4>
+                                            <p>Allow browser notifications for important updates</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="soundNotifications" name="soundNotifications">
+                                        <span class="checkmark"></span>
+                                        <div class="setting-content">
+                                            <h4>Sound Notifications</h4>
+                                            <p>Play sounds for notifications and alerts</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">Save Notification Settings</button>
+                        </form>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>🎨 Display Preferences</h2>
+                        <form id="displayForm" onsubmit="handleDisplaySettings(event)">
+                            <div class="settings-group">
+                                <div class="setting-item">
+                                    <label for="language">Language</label>
+                                    <select id="language" name="language">
+                                        <option value="en">English</option>
+                                        <option value="tr">Türkçe</option>
+                                        <option value="es">Español</option>
+                                        <option value="fr">Français</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <label for="currency">Currency</label>
+                                    <select id="currency" name="currency">
+                                        <option value="USD">USD ($)</option>
+                                        <option value="EUR">EUR (€)</option>
+                                        <option value="GBP">GBP (£)</option>
+                                        <option value="TRY">TRY (₺)</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <label for="timezone">Timezone</label>
+                                    <select id="timezone" name="timezone">
+                                        <option value="UTC">UTC</option>
+                                        <option value="America/New_York">Eastern Time</option>
+                                        <option value="America/Los_Angeles">Pacific Time</option>
+                                        <option value="Europe/London">London</option>
+                                        <option value="Europe/Istanbul">Istanbul</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">Save Display Settings</button>
+                        </form>
+                    </div>
+
+                    <div class="profile-section">
+                        <h2>🔒 Privacy & Security</h2>
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <h4>Data Export</h4>
+                                <p>Download a copy of your personal data</p>
+                                <button type="button" class="btn-secondary" onclick="exportUserData()">Export My Data</button>
+                            </div>
+                            <div class="setting-item">
+                                <h4>Clear Browsing Data</h4>
+                                <p>Clear your browsing history and preferences</p>
+                                <button type="button" class="btn-secondary" onclick="clearBrowsingData()">Clear Data</button>
+                            </div>
+                            <div class="setting-item">
+                                <h4>Delete Account</h4>
+                                <p>Permanently delete your account and all associated data</p>
+                                <button type="button" class="btn-danger" onclick="deleteAccount()">Delete Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <!-- Newsletter Footer -->
+            <div class="footer-newsletter">
+                <div class="newsletter-content">
+                    <h4>✨ Join Our Magical Newsletter</h4>
+                    <p>Get exclusive offers, new arrivals, and magical updates delivered to your inbox!</p>
+                    <form id="footerNewsletterForm" onsubmit="handleFooterNewsletter(event)">
+                        <div class="footer-newsletter-group">
+                            <input type="email" id="footerNewsletterEmail" placeholder="Your email address" required>
+                            <button type="submit" class="footer-newsletter-btn">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="profile.js"></script>
+    <script src="settings.js"></script>
+</body>
+</html>
