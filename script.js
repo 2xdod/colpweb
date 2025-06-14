@@ -265,44 +265,44 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Enhanced mobile navigation
-const createMobileMenu = () => {
-    const navbar = document.querySelector('.navbar');
-    const navMenu = document.querySelector('.nav-menu');
+// Mobile Menu Toggle Function
+function toggleMobileMenu() {
+    const navMenu = document.getElementById('navMenu');
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
     
-    if (window.innerWidth <= 768 && !document.querySelector('.mobile-menu-toggle')) {
-        const mobileToggle = document.createElement('button');
-        mobileToggle.className = 'mobile-menu-toggle';
-        mobileToggle.innerHTML = '☰';
-        mobileToggle.style.cssText = `
-            display: block;
-            background: none;
-            border: none;
-            color: #DAA520;
-            font-size: 2rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        `;
-        
-        navbar.querySelector('.nav-container').appendChild(mobileToggle);
-        
-        mobileToggle.addEventListener('click', () => {
-            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
-            navMenu.style.flexDirection = 'column';
-            navMenu.style.position = 'absolute';
-            navMenu.style.top = '100%';
-            navMenu.style.left = '0';
-            navMenu.style.right = '0';
-            navMenu.style.background = 'rgba(22, 22, 58, 0.95)';
-            navMenu.style.padding = '1rem';
-            navMenu.style.borderRadius = '0 0 10px 10px';
-        });
+    if (navMenu && mobileToggle) {
+        navMenu.classList.toggle('active');
+        mobileToggle.classList.toggle('active');
     }
-};
+}
 
-// Call mobile menu function on load and resize
-window.addEventListener('load', createMobileMenu);
-window.addEventListener('resize', createMobileMenu);
+// Close mobile menu when clicking on menu items
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const navMenu = document.getElementById('navMenu');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (navMenu && mobileToggle) {
+                navMenu.classList.remove('active');
+                mobileToggle.classList.remove('active');
+            }
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        const navMenu = document.getElementById('navMenu');
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const navbar = document.querySelector('.navbar');
+        
+        if (navMenu && mobileToggle && !navbar.contains(e.target)) {
+            navMenu.classList.remove('active');
+            mobileToggle.classList.remove('active');
+        }
+    });
+});
 
 // Search functionality for story library
 const createSearchBox = () => {
