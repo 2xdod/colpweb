@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero's Legacy Pendant - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="product-detail-page">
+        <div class="product-detail-container">
+            <a href="products.html" class="back-to-products">
+                ← Back to Products
+            </a>
+
+            <div class="product-detail-layout">
+                <div class="product-gallery">
+                    <img src="https://via.placeholder.com/500x500/8B008B/FFFFFF?text=Hero+Pendant+Main" alt="Hero's Legacy Pendant" class="main-image" id="mainImage">
+                    <div class="thumbnail-gallery">
+                        <img src="https://via.placeholder.com/120x120/8B008B/FFFFFF?text=View+1" alt="Hero Pendant View 1" class="thumbnail active" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/9932CC/FFFFFF?text=View+2" alt="Hero Pendant View 2" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/BA55D3/FFFFFF?text=Crest" alt="Hero Crest Detail" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/FFD700/FFFFFF?text=Glow" alt="Heroic Glow" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-breadcrumb">
+                        <a href="index.html">Home</a>
+                        <span>/</span>
+                        <a href="products.html">Products</a>
+                        <span>/</span>
+                        <a href="products.html?category=necklaces">Necklaces</a>
+                        <span>/</span>
+                        <span>Hero's Legacy Pendant</span>
+                    </div>
+
+                    <h1 class="product-title">Hero's Legacy Pendant</h1>
+                    <div class="product-price">$189.99</div>
+
+                    <p class="product-description">
+                        Worn by the legendary heroes who saved Colp Town from the Great Shadow War, this noble pendant bears the sacred crest of valor. Forged from celestial metals and blessed by the spirits of fallen heroes, it inspires courage in the face of overwhelming odds and reminds the wearer of their noble purpose.
+                    </p>
+
+                    <div class="product-features">
+                        <h3>Product Details</h3>
+                        <ul>
+                            <li>
+                                <span class="feature-label">Material:</span>
+                                <span class="feature-value">Celestial Silver & Hero's Amethyst</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Chain Length:</span>
+                                <span class="feature-value">22 inches (Adjustable)</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Origin:</span>
+                                <span class="feature-value">Hall of Heroes, Colp Town</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Magical Properties:</span>
+                                <span class="feature-value">Courage Enhancement & Heroic Resolve</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Blessed by:</span>
+                                <span class="feature-value">Spirit of Sir Galahan the Bold</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Care Instructions:</span>
+                                <span class="feature-value">Honor fallen heroes in your deeds</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" value="1" min="1" max="10" class="quantity-input" id="productQuantity">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <button class="add-to-cart-large" onclick="addToCartFromDetail('hero-pendant')">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-story">
+                        <h3>The Great Shadow War</h3>
+                        <p>
+                            When darkness threatened to consume all of Colp Town, brave heroes stood as the final hope. Sir Galahan the Bold, Lady Seraphina the Pure, and Master Thorne the Steadfast led the charge against impossible odds. Each wore a pendant bearing the sacred crest of their noble order.
+                        </p>
+                        <p>
+                            Though the heroes fell in the final battle, their sacrifice saved the realm. Their spirits blessed these pendants with eternal courage, ensuring that future generations would never lack for heroes when darkness returns. The amethyst within each pendant glows brighter when worn by those with pure intentions.
+                        </p>
+                        <a href="stories.html" class="story-link">Read the Heroes' Chronicle →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-products-section">
+                <h2>You Might Also Like</h2>
+                <div class="related-products-grid">
+                    <div class="product-card" data-product-id="guardian-ring" data-product-name="Guardian's Seal Ring" data-product-price="178.99" data-product-image="https://via.placeholder.com/250x250/DC143C/FFFFFF?text=Guardian+Ring">
+                        <img src="https://via.placeholder.com/250x250/DC143C/FFFFFF?text=Guardian+Ring" alt="Guardian's Seal Ring">
+                        <h3>Guardian's Seal Ring</h3>
+                        <p>A protective talisman worn by the ancient guardians.</p>
+                        <span class="price">$178.99</span>
+                        <button class="add-to-cart" onclick="addToCart('guardian-ring')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="noble-tie-pin" data-product-name="Noble's Tie Pin" data-product-price="198.99" data-product-image="https://via.placeholder.com/250x250/2F4F4F/FFFFFF?text=Noble+Pin">
+                        <img src="https://via.placeholder.com/250x250/2F4F4F/FFFFFF?text=Noble+Pin" alt="Noble's Tie Pin">
+                        <h3>Noble's Tie Pin</h3>
+                        <p>Elegant accessory for the distinguished gentleman.</p>
+                        <span class="price">$198.99</span>
+                        <button class="add-to-cart" onclick="addToCart('noble-tie-pin')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="starlight-brooch" data-product-name="Starlight Compass Brooch" data-product-price="198.99" data-product-image="https://via.placeholder.com/250x250/191970/FFFFFF?text=Starlight+Brooch">
+                        <img src="https://via.placeholder.com/250x250/191970/FFFFFF?text=Starlight+Brooch" alt="Starlight Compass Brooch">
+                        <h3>Starlight Compass Brooch</h3>
+                        <p>Guides travelers through the darkest nights.</p>
+                        <span class="price">$198.99</span>
+                        <button class="add-to-cart" onclick="addToCart('starlight-brooch')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

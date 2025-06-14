@@ -21,6 +21,12 @@
                 <li><a href="products.html">Products</a></li>
                 <li><a href="customized.html">Customized</a></li>
                 <li><a href="stories.html" class="active">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
             </ul>
         </div>
     </nav>
@@ -69,31 +75,34 @@
             <div class="related-products">
                 <h2>Products Featured in This Story</h2>
                 <div class="products-grid">
-                    <div class="product-card featured" onclick="location.href='products.html#dragon-ring'">
+                    <div class="product-card featured" data-product-id="dragon-ring" data-product-name="Dragon's Ember Ring" data-product-price="89.99" data-product-image="https://via.placeholder.com/200x200/8B4513/FFFFFF?text=Dragon+Ring" onclick="location.href='products.html#dragon-ring'">
                         <img src="https://via.placeholder.com/200x200/8B4513/FFFFFF?text=Dragon+Ring" alt="Dragon's Ember Ring">
                         <h3>Dragon's Ember Ring</h3>
                         <p>Forged in the flames of ancient dragons</p>
                         <span class="price">$89.99</span>
+                        <button class="add-to-cart" onclick="event.stopPropagation(); addToCart('dragon-ring');">Add to Cart</button>
                         <div class="product-story-link">
                             <span>🔥 Featured in this story</span>
                         </div>
                     </div>
 
-                    <div class="product-card featured" onclick="location.href='products.html#fire-pendant'">
+                    <div class="product-card featured" data-product-id="pyraxis-fire-pendant" data-product-name="Pyraxis Fire Pendant" data-product-price="134.99" data-product-image="https://via.placeholder.com/200x200/FF4500/FFFFFF?text=Fire+Pendant" onclick="location.href='products.html#fire-pendant'">
                         <img src="https://via.placeholder.com/200x200/FF4500/FFFFFF?text=Fire+Pendant" alt="Pyraxis Fire Pendant">
                         <h3>Pyraxis Fire Pendant</h3>
                         <p>Inspired by the eternal flame of Mount Pyrion</p>
                         <span class="price">$134.99</span>
+                        <button class="add-to-cart" onclick="event.stopPropagation(); addToCart('pyraxis-fire-pendant');">Add to Cart</button>
                         <div class="product-story-link">
                             <span>🔥 Inspired by this tale</span>
                         </div>
                     </div>
 
-                    <div class="product-card featured" onclick="location.href='products.html#volcanic-earrings'">
+                    <div class="product-card featured" data-product-id="volcanic-crystal-earrings" data-product-name="Volcanic Crystal Earrings" data-product-price="78.99" data-product-image="https://via.placeholder.com/200x200/B22222/FFFFFF?text=Volcanic+Earrings" onclick="location.href='products.html#volcanic-earrings'">
                         <img src="https://via.placeholder.com/200x200/B22222/FFFFFF?text=Volcanic+Earrings" alt="Volcanic Crystal Earrings">
                         <h3>Volcanic Crystal Earrings</h3>
                         <p>Crystalline formations from the sacred caves</p>
                         <span class="price">$78.99</span>
+                        <button class="add-to-cart" onclick="event.stopPropagation(); addToCart('volcanic-crystal-earrings');">Add to Cart</button>
                         <div class="product-story-link">
                             <span>🔥 From the same realm</span>
                         </div>
@@ -104,6 +113,28 @@
             <div class="story-navigation">
                 <button class="btn-library" onclick="location.href='popular-stories.html'">More Popular Stories</button>
                 <button class="btn-library" onclick="location.href='library.html'">Browse All Stories</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
             </div>
         </div>
     </div>

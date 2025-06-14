@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wizard's Formal Cufflinks - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="product-detail-page">
+        <div class="product-detail-container">
+            <a href="products.html" class="back-to-products">
+                ← Back to Products
+            </a>
+
+            <div class="product-detail-layout">
+                <div class="product-gallery">
+                    <img src="https://via.placeholder.com/500x500/4B0082/FFFFFF?text=Wizard+Cufflinks+Main" alt="Wizard's Formal Cufflinks" class="main-image" id="mainImage">
+                    <div class="thumbnail-gallery">
+                        <img src="https://via.placeholder.com/120x120/4B0082/FFFFFF?text=View+1" alt="Wizard Cufflinks View 1" class="thumbnail active" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/6A0DAD/FFFFFF?text=View+2" alt="Wizard Cufflinks View 2" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/8A2BE2/FFFFFF?text=Runes" alt="Arcane Runes" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/9370DB/FFFFFF?text=Glow" alt="Magical Glow" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-breadcrumb">
+                        <a href="index.html">Home</a>
+                        <span>/</span>
+                        <a href="products.html">Products</a>
+                        <span>/</span>
+                        <a href="products.html?category=cufflinks">Cufflinks</a>
+                        <span>/</span>
+                        <span>Wizard's Formal Cufflinks</span>
+                    </div>
+
+                    <h1 class="product-title">Wizard's Formal Cufflinks</h1>
+                    <div class="product-price">$267.99</div>
+
+                    <p class="product-description">
+                        Elegant formal wear for the distinguished spellcaster, these exquisite cufflinks bear the sacred symbols of the Arcane Academy. Crafted from enchanted amethyst and etched with protective runes, they provide both sophistication and magical enhancement for important ceremonies and formal occasions.
+                    </p>
+
+                    <div class="product-features">
+                        <h3>Product Details</h3>
+                        <ul>
+                            <li>
+                                <span class="feature-label">Material:</span>
+                                <span class="feature-value">Enchanted Amethyst & Mystic Silver</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Dimensions:</span>
+                                <span class="feature-value">0.8 inches (2 cm) diameter each</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Origin:</span>
+                                <span class="feature-value">Arcane Academy, Grand Hall</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Magical Properties:</span>
+                                <span class="feature-value">Spell Stability & Ceremonial Presence</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Crafted by:</span>
+                                <span class="feature-value">Master Runesmith Aldric Spellbinder</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Care Instructions:</span>
+                                <span class="feature-value">Polish with scholarly wisdom weekly</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" value="1" min="1" max="10" class="quantity-input" id="productQuantity">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <button class="add-to-cart-large" onclick="addToCartFromDetail('wizard-cufflinks')">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-story">
+                        <h3>The Arcane Academy Tradition</h3>
+                        <p>
+                            Within the hallowed halls of the Arcane Academy, where the greatest wizards of Colp Town gather to advance magical knowledge, formal ceremonies require the highest standards of both magical and sartorial excellence. Master Runesmith Aldric Spellbinder created these cufflinks for the Academy's most prestigious events.
+                        </p>
+                        <p>
+                            Each pair is inscribed with protective runes that stabilize magical energy during spellcasting, preventing embarrassing magical mishaps during formal presentations. The amethyst crystals pulse gently with the wearer's magical aura, creating an elegant display of power and refinement that befits a true master of the arcane arts.
+                        </p>
+                        <a href="stories.html" class="story-link">Enter the Academy's Archives →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-products-section">
+                <h2>You Might Also Like</h2>
+                <div class="related-products-grid">
+                    <div class="product-card" data-product-id="wizard-tower-ring" data-product-name="Wizard Tower Ring" data-product-price="134.99" data-product-image="https://via.placeholder.com/250x250/DAA520/FFFFFF?text=Tower+Ring">
+                        <img src="https://via.placeholder.com/250x250/DAA520/FFFFFF?text=Tower+Ring" alt="Wizard Tower Ring">
+                        <h3>Wizard Tower Ring</h3>
+                        <p>Miniature replica of the Great Wizard Tower.</p>
+                        <span class="price">$134.99</span>
+                        <button class="add-to-cart" onclick="addToCart('wizard-tower-ring')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="noble-tie-pin" data-product-name="Noble's Tie Pin" data-product-price="198.99" data-product-image="https://via.placeholder.com/250x250/2F4F4F/FFFFFF?text=Noble+Pin">
+                        <img src="https://via.placeholder.com/250x250/2F4F4F/FFFFFF?text=Noble+Pin" alt="Noble's Tie Pin">
+                        <h3>Noble's Tie Pin</h3>
+                        <p>Elegant accessory for the distinguished gentleman.</p>
+                        <span class="price">$198.99</span>
+                        <button class="add-to-cart" onclick="addToCart('noble-tie-pin')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="castle-cufflinks" data-product-name="Castle Monument Cufflinks" data-product-price="234.99" data-product-image="https://via.placeholder.com/250x250/696969/FFFFFF?text=Castle+Cufflinks">
+                        <img src="https://via.placeholder.com/250x250/696969/FFFFFF?text=Castle+Cufflinks" alt="Castle Monument Cufflinks">
+                        <h3>Castle Monument Cufflinks</h3>
+                        <p>Majestic cufflinks featuring Colp Town's grand castle.</p>
+                        <span class="price">$234.99</span>
+                        <button class="add-to-cart" onclick="addToCart('castle-cufflinks')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

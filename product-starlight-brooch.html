@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starlight Compass Brooch - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="product-detail-page">
+        <div class="product-detail-container">
+            <a href="products.html" class="back-to-products">
+                ← Back to Products
+            </a>
+
+            <div class="product-detail-layout">
+                <div class="product-gallery">
+                    <img src="https://via.placeholder.com/500x500/191970/FFFFFF?text=Starlight+Brooch+Main" alt="Starlight Compass Brooch" class="main-image" id="mainImage">
+                    <div class="thumbnail-gallery">
+                        <img src="https://via.placeholder.com/120x120/191970/FFFFFF?text=View+1" alt="Starlight Brooch View 1" class="thumbnail active" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/4169E1/FFFFFF?text=View+2" alt="Starlight Brooch View 2" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/1E90FF/FFFFFF?text=Compass" alt="Compass Detail" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/87CEEB/FFFFFF?text=Stars" alt="Starlight Effect" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-breadcrumb">
+                        <a href="index.html">Home</a>
+                        <span>/</span>
+                        <a href="products.html">Products</a>
+                        <span>/</span>
+                        <a href="products.html?category=brooches">Brooches</a>
+                        <span>/</span>
+                        <span>Starlight Compass Brooch</span>
+                    </div>
+
+                    <h1 class="product-title">Starlight Compass Brooch</h1>
+                    <div class="product-price">$198.99</div>
+
+                    <p class="product-description">
+                        Crafted by the legendary Navigator Astrid Starweaver, this celestial compass brooch has guided countless travelers through the darkest nights. The compass needle always points toward hope and safety, while tiny star sapphires embedded within capture and reflect starlight, creating a gentle glow that never fades.
+                    </p>
+
+                    <div class="product-features">
+                        <h3>Product Details</h3>
+                        <ul>
+                            <li>
+                                <span class="feature-label">Material:</span>
+                                <span class="feature-value">Celestial Silver & Star Sapphires</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Dimensions:</span>
+                                <span class="feature-value">3 inches (7.6 cm) diameter</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Origin:</span>
+                                <span class="feature-value">Starweaver's Observatory, High Peak</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Magical Properties:</span>
+                                <span class="feature-value">True Direction & Night Vision</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Crafted by:</span>
+                                <span class="feature-value">Navigator Astrid Starweaver</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Care Instructions:</span>
+                                <span class="feature-value">Expose to starlight nightly</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" value="1" min="1" max="10" class="quantity-input" id="productQuantity">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <button class="add-to-cart-large" onclick="addToCartFromDetail('starlight-brooch')">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-story">
+                        <h3>The Navigator's Legacy</h3>
+                        <p>
+                            High atop the Celestial Peak stands the Starweaver's Observatory, where Navigator Astrid has charted the movements of stars for over two centuries. Her mastery of celestial magic allows her to capture starlight itself within specially prepared sapphires, creating tools of incredible navigational power.
+                        </p>
+                        <p>
+                            Each compass brooch contains her life's work - the ability to find one's true path no matter how lost they may be. The needle doesn't merely point north; it points toward whatever the wearer needs most, whether that be home, safety, or their destiny. Many adventurers owe their lives to these magical compasses.
+                        </p>
+                        <a href="stories.html" class="story-link">Navigate to Astrid's Tale →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-products-section">
+                <h2>You Might Also Like</h2>
+                <div class="related-products-grid">
+                    <div class="product-card" data-product-id="moonstone-pendant" data-product-name="Elven Moonstone Pendant" data-product-price="124.99" data-product-image="https://via.placeholder.com/250x250/4169E1/FFFFFF?text=Moonstone">
+                        <img src="https://via.placeholder.com/250x250/4169E1/FFFFFF?text=Moonstone" alt="Elven Moonstone Pendant">
+                        <h3>Elven Moonstone Pendant</h3>
+                        <p>Blessed by moon elves with ethereal lunar magic.</p>
+                        <span class="price">$124.99</span>
+                        <button class="add-to-cart" onclick="addToCart('moonstone-pendant')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="geometric-phoenix-brooch" data-product-name="Geometric Phoenix Brooch" data-product-price="167.99" data-product-image="https://via.placeholder.com/250x250/FF4500/FFFFFF?text=Phoenix+Brooch">
+                        <img src="https://via.placeholder.com/250x250/FF4500/FFFFFF?text=Phoenix+Brooch" alt="Geometric Phoenix Brooch">
+                        <h3>Geometric Phoenix Brooch</h3>
+                        <p>Modern interpretation of the legendary phoenix.</p>
+                        <span class="price">$167.99</span>
+                        <button class="add-to-cart" onclick="addToCart('geometric-phoenix-brooch')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="hero-pendant" data-product-name="Hero's Legacy Pendant" data-product-price="189.99" data-product-image="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Hero+Pendant">
+                        <img src="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Hero+Pendant" alt="Hero's Legacy Pendant">
+                        <h3>Hero's Legacy Pendant</h3>
+                        <p>Worn by legendary heroes of Colp Town.</p>
+                        <span class="price">$189.99</span>
+                        <button class="add-to-cart" onclick="addToCart('hero-pendant')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

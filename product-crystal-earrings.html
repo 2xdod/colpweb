@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low Poly Crystal Earrings - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="product-detail-page">
+        <div class="product-detail-container">
+            <a href="products.html" class="back-to-products">
+                ← Back to Products
+            </a>
+
+            <div class="product-detail-layout">
+                <div class="product-gallery">
+                    <img src="https://via.placeholder.com/500x500/00CED1/FFFFFF?text=Crystal+Earrings+Main" alt="Low Poly Crystal Earrings" class="main-image" id="mainImage">
+                    <div class="thumbnail-gallery">
+                        <img src="https://via.placeholder.com/120x120/00CED1/FFFFFF?text=View+1" alt="Crystal Earrings View 1" class="thumbnail active" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/40E0D0/FFFFFF?text=View+2" alt="Crystal Earrings View 2" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/48D1CC/FFFFFF?text=Facets" alt="Crystal Facets" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/E0FFFF/FFFFFF?text=Light" alt="Light Refraction" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-breadcrumb">
+                        <a href="index.html">Home</a>
+                        <span>/</span>
+                        <a href="products.html">Products</a>
+                        <span>/</span>
+                        <a href="products.html?category=earrings">Earrings</a>
+                        <span>/</span>
+                        <span>Low Poly Crystal Earrings</span>
+                    </div>
+
+                    <h1 class="product-title">Low Poly Crystal Earrings</h1>
+                    <div class="product-price">$123.99</div>
+
+                    <p class="product-description">
+                        A contemporary interpretation of classic crystal magic, these earrings feature precisely cut geometric crystal formations that create stunning light displays. Each facet is calculated to maximize magical energy flow while maintaining a sleek, modern aesthetic that bridges ancient mysticism with cutting-edge design.
+                    </p>
+
+                    <div class="product-features">
+                        <h3>Product Details</h3>
+                        <ul>
+                            <li>
+                                <span class="feature-label">Material:</span>
+                                <span class="feature-value">Precision-Cut Aqua Crystals & Titanium</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Length:</span>
+                                <span class="feature-value">1.5 inches (3.8 cm) drop</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Origin:</span>
+                                <span class="feature-value">Neo-Mysticism Workshop, Modern Quarter</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Magical Properties:</span>
+                                <span class="feature-value">Clarity Enhancement & Focus Amplification</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Designed by:</span>
+                                <span class="feature-value">Crystal Engineer Zara Prismlight</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Care Instructions:</span>
+                                <span class="feature-value">Clean with pure moonbeam light</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" value="1" min="1" max="10" class="quantity-input" id="productQuantity">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <button class="add-to-cart-large" onclick="addToCartFromDetail('crystal-earrings')">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-story">
+                        <h3>The Art of Geometric Magic</h3>
+                        <p>
+                            In the Modern Quarter of Colp Town, Crystal Engineer Zara Prismlight revolutionized traditional crystal work by applying mathematical precision to magical design. Her workshop, "Neo-Mysticism," became famous for creating jewelry that was both aesthetically stunning and magically powerful.
+                        </p>
+                        <p>
+                            Each earring is cut using ancient geometric formulas combined with modern precision techniques. The angular facets aren't just beautiful - they're specifically designed to channel and amplify magical energy with unprecedented efficiency. The low-poly design creates a unique light show that changes based on the wearer's magical aura, making each piece truly personal.
+                        </p>
+                        <a href="stories.html" class="story-link">Enter the Neo-Mysticism Lab →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-products-section">
+                <h2>You Might Also Like</h2>
+                <div class="related-products-grid">
+                    <div class="product-card" data-product-id="crystal-brooch" data-product-name="Mystical Crystal Brooch" data-product-price="156.99" data-product-image="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch">
+                        <img src="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch" alt="Mystical Crystal Brooch">
+                        <h3>Mystical Crystal Brooch</h3>
+                        <p>A rare crystal formation that enhances magical abilities.</p>
+                        <span class="price">$156.99</span>
+                        <button class="add-to-cart" onclick="addToCart('crystal-brooch')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="geometric-phoenix-brooch" data-product-name="Geometric Phoenix Brooch" data-product-price="167.99" data-product-image="https://via.placeholder.com/250x250/FF4500/FFFFFF?text=Phoenix+Brooch">
+                        <img src="https://via.placeholder.com/250x250/FF4500/FFFFFF?text=Phoenix+Brooch" alt="Geometric Phoenix Brooch">
+                        <h3>Geometric Phoenix Brooch</h3>
+                        <p>Modern interpretation of the legendary phoenix.</p>
+                        <span class="price">$167.99</span>
+                        <button class="add-to-cart" onclick="addToCart('geometric-phoenix-brooch')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="wizard-tower-ring" data-product-name="Wizard Tower Ring" data-product-price="134.99" data-product-image="https://via.placeholder.com/250x250/DAA520/FFFFFF?text=Tower+Ring">
+                        <img src="https://via.placeholder.com/250x250/DAA520/FFFFFF?text=Tower+Ring" alt="Wizard Tower Ring">
+                        <h3>Wizard Tower Ring</h3>
+                        <p>Miniature replica of the Great Wizard Tower.</p>
+                        <span class="price">$134.99</span>
+                        <button class="add-to-cart" onclick="addToCart('wizard-tower-ring')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

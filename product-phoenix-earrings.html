@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Feather Earrings - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="product-detail-page">
+        <div class="product-detail-container">
+            <a href="products.html" class="back-to-products">
+                ← Back to Products
+            </a>
+
+            <div class="product-detail-layout">
+                <div class="product-gallery">
+                    <img src="https://via.placeholder.com/500x500/FF8C00/FFFFFF?text=Phoenix+Earrings+Main" alt="Phoenix Feather Earrings" class="main-image" id="mainImage">
+                    <div class="thumbnail-gallery">
+                        <img src="https://via.placeholder.com/120x120/FF8C00/FFFFFF?text=View+1" alt="Phoenix Earrings View 1" class="thumbnail active" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/FF4500/FFFFFF?text=View+2" alt="Phoenix Earrings View 2" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/DC143C/FFFFFF?text=Feathers" alt="Feather Detail" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/FFD700/FFFFFF?text=Glow" alt="Phoenix Glow" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-breadcrumb">
+                        <a href="index.html">Home</a>
+                        <span>/</span>
+                        <a href="products.html">Products</a>
+                        <span>/</span>
+                        <a href="products.html?category=earrings">Earrings</a>
+                        <span>/</span>
+                        <span>Phoenix Feather Earrings</span>
+                    </div>
+
+                    <h1 class="product-title">Phoenix Feather Earrings</h1>
+                    <div class="product-price">$203.99</div>
+
+                    <p class="product-description">
+                        Crafted from genuine phoenix feathers that were freely given during the Great Phoenix's molting season, these exquisite earrings capture the eternal beauty of rebirth and renewal. Each feather shimmers with inner fire, creating a mesmerizing display of gold and crimson that seems to dance with every movement.
+                    </p>
+
+                    <div class="product-features">
+                        <h3>Product Details</h3>
+                        <ul>
+                            <li>
+                                <span class="feature-label">Material:</span>
+                                <span class="feature-value">Genuine Phoenix Feathers & Flame Gold</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Length:</span>
+                                <span class="feature-value">2.5 inches (6.4 cm) drop</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Origin:</span>
+                                <span class="feature-value">Ember Peaks, Phoenix Aerie</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Magical Properties:</span>
+                                <span class="feature-value">Confidence Boost & Inner Fire</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Gifted by:</span>
+                                <span class="feature-value">Pyrion the Great Phoenix</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Care Instructions:</span>
+                                <span class="feature-value">Never extinguish, flames are eternal</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" value="1" min="1" max="10" class="quantity-input" id="productQuantity">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <button class="add-to-cart-large" onclick="addToCartFromDetail('phoenix-earrings')">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-story">
+                        <h3>The Great Phoenix's Gift</h3>
+                        <p>
+                            High above the clouds on the Ember Peaks, the Great Phoenix Pyrion has watched over Colp Town for over a millennium. Once every century, during the Molting of Renewal, she sheds her magnificent feathers, each one carrying the essence of rebirth and transformation.
+                        </p>
+                        <p>
+                            These sacred feathers are never taken by force - they are freely given to those who have shown exceptional courage in the face of adversity. Each pair of earrings contains the phoenix's blessing, igniting the wearer's inner fire and reminding them that from every ending comes a new beginning. The feathers' flame never dies, symbolizing the eternal nature of hope.
+                        </p>
+                        <a href="stories.html" class="story-link">Soar with the Phoenix →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-products-section">
+                <h2>You Might Also Like</h2>
+                <div class="related-products-grid">
+                    <div class="product-card" data-product-id="geometric-phoenix-brooch" data-product-name="Geometric Phoenix Brooch" data-product-price="167.99" data-product-image="https://via.placeholder.com/250x250/FF4500/FFFFFF?text=Phoenix+Brooch">
+                        <img src="https://via.placeholder.com/250x250/FF4500/FFFFFF?text=Phoenix+Brooch" alt="Geometric Phoenix Brooch">
+                        <h3>Geometric Phoenix Brooch</h3>
+                        <p>Modern interpretation of the legendary phoenix.</p>
+                        <span class="price">$167.99</span>
+                        <button class="add-to-cart" onclick="addToCart('geometric-phoenix-brooch')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="dragon-ring" data-product-name="Dragon's Ember Ring" data-product-price="89.99" data-product-image="https://via.placeholder.com/250x250/8B4513/FFFFFF?text=Dragon+Ring">
+                        <img src="https://via.placeholder.com/250x250/8B4513/FFFFFF?text=Dragon+Ring" alt="Dragon's Ember Ring">
+                        <h3>Dragon's Ember Ring</h3>
+                        <p>Forged in dragon flame with eternal ember crystal.</p>
+                        <span class="price">$89.99</span>
+                        <button class="add-to-cart" onclick="addToCart('dragon-ring')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="leaf-earrings" data-product-name="Enchanted Leaf Earrings" data-product-price="145.99" data-product-image="https://via.placeholder.com/250x250/6B8E23/FFFFFF?text=Leaf+Earrings">
+                        <img src="https://via.placeholder.com/250x250/6B8E23/FFFFFF?text=Leaf+Earrings" alt="Enchanted Leaf Earrings">
+                        <h3>Enchanted Leaf Earrings</h3>
+                        <p>Delicate leaves that shimmer with forest magic.</p>
+                        <span class="price">$145.99</span>
+                        <button class="add-to-cart" onclick="addToCart('leaf-earrings')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

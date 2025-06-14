@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="success-page">
+        <div class="container">
+            <div class="success-content">
+                <div class="success-icon">
+                    ✅
+                </div>
+                <h1>Order Confirmed!</h1>
+                <p class="success-message">
+                    Thank you for your order! We have received your purchase request and will contact you within 24-48 hours with payment instructions and order confirmation.
+                </p>
+                
+                <div class="next-steps">
+                    <h2>What happens next?</h2>
+                    <div class="steps-grid">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Order Review</h3>
+                            <p>We'll review your order and prepare a detailed quote with your chosen payment method.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Contact & Payment</h3>
+                            <p>You'll receive an email with payment instructions and estimated delivery timeline.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Crafting & Shipping</h3>
+                            <p>Once payment is received, we'll craft your jewelry and ship it with tracking information.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-actions">
+                    <button class="btn-primary" onclick="location.href='index.html'">Continue Shopping</button>
+                    <button class="btn-secondary" onclick="location.href='products.html'">Browse Products</button>
+                </div>
+
+                <div class="contact-info">
+                    <h3>Questions about your order?</h3>
+                    <p>Contact us at: <strong>orders@colpjewelry.com</strong></p>
+                    <p>Response time: Within 24 hours</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Clear the cart after successful order
+        document.addEventListener('DOMContentLoaded', function() {
+            // Clear cart
+            localStorage.removeItem('colp-cart');
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

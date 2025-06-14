@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wizard Tower Ring - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="product-detail-page">
+        <div class="product-detail-container">
+            <a href="products.html" class="back-to-products">
+                ← Back to Products
+            </a>
+
+            <div class="product-detail-layout">
+                <div class="product-gallery">
+                    <img src="https://via.placeholder.com/500x500/DAA520/FFFFFF?text=Tower+Ring+Main" alt="Wizard Tower Ring" class="main-image" id="mainImage">
+                    <div class="thumbnail-gallery">
+                        <img src="https://via.placeholder.com/120x120/DAA520/FFFFFF?text=View+1" alt="Tower Ring View 1" class="thumbnail active" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/B8860B/FFFFFF?text=View+2" alt="Tower Ring View 2" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/CD853F/FFFFFF?text=Detail" alt="Tower Detail" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/4169E1/FFFFFF?text=Magic" alt="Magic Glow" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-breadcrumb">
+                        <a href="index.html">Home</a>
+                        <span>/</span>
+                        <a href="products.html">Products</a>
+                        <span>/</span>
+                        <a href="products.html?category=rings">Rings</a>
+                        <span>/</span>
+                        <span>Wizard Tower Ring</span>
+                    </div>
+
+                    <h1 class="product-title">Wizard Tower Ring</h1>
+                    <div class="product-price">$134.99</div>
+
+                    <p class="product-description">
+                        A miniature masterpiece capturing the essence of the Great Wizard Tower of Colp Town. This intricate ring features a detailed replica of the legendary tower where archmages study the deepest mysteries of magic. The tower's windows glow with soft enchanted light, symbolizing the eternal pursuit of knowledge.
+                    </p>
+
+                    <div class="product-features">
+                        <h3>Product Details</h3>
+                        <ul>
+                            <li>
+                                <span class="feature-label">Material:</span>
+                                <span class="feature-value">Enchanted Bronze & Luminous Crystals</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Ring Size:</span>
+                                <span class="feature-value">Adjustable (Size 5-10)</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Origin:</span>
+                                <span class="feature-value">Great Wizard Tower, Colp Town</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Magical Properties:</span>
+                                <span class="feature-value">Wisdom Enhancement & Spell Focus</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Crafted by:</span>
+                                <span class="feature-value">Archmage Eldric the Wise</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Care Instructions:</span>
+                                <span class="feature-value">Polish with starlight essence weekly</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" value="1" min="1" max="10" class="quantity-input" id="productQuantity">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <button class="add-to-cart-large" onclick="addToCartFromDetail('wizard-tower-ring')">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-story">
+                        <h3>The Tower of Infinite Knowledge</h3>
+                        <p>
+                            Rising high above the clouds of Colp Town, the Great Wizard Tower has stood for over a thousand years as a beacon of magical learning. Archmage Eldric, keeper of the tower's secrets, crafted these rings to share the tower's wisdom with worthy scholars and adventurers.
+                        </p>
+                        <p>
+                            Each ring contains a fragment of the tower's magical essence, allowing the wearer to access deeper understanding of arcane mysteries. The glowing windows on the miniature tower pulse in rhythm with the wearer's magical potential, growing brighter as their knowledge expands.
+                        </p>
+                        <a href="stories.html" class="story-link">Discover the Tower's Secrets →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-products-section">
+                <h2>You Might Also Like</h2>
+                <div class="related-products-grid">
+                    <div class="product-card" data-product-id="wizard-cufflinks" data-product-name="Wizard's Formal Cufflinks" data-product-price="267.99" data-product-image="https://via.placeholder.com/250x250/4B0082/FFFFFF?text=Wizard+Cufflinks">
+                        <img src="https://via.placeholder.com/250x250/4B0082/FFFFFF?text=Wizard+Cufflinks" alt="Wizard's Formal Cufflinks">
+                        <h3>Wizard's Formal Cufflinks</h3>
+                        <p>Elegant cufflinks for the distinguished spellcaster.</p>
+                        <span class="price">$267.99</span>
+                        <button class="add-to-cart" onclick="addToCart('wizard-cufflinks')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="crystal-brooch" data-product-name="Mystical Crystal Brooch" data-product-price="156.99" data-product-image="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch">
+                        <img src="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch" alt="Mystical Crystal Brooch">
+                        <h3>Mystical Crystal Brooch</h3>
+                        <p>A rare crystal formation that enhances magical abilities.</p>
+                        <span class="price">$156.99</span>
+                        <button class="add-to-cart" onclick="addToCart('crystal-brooch')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="castle-cufflinks" data-product-name="Castle Monument Cufflinks" data-product-price="234.99" data-product-image="https://via.placeholder.com/250x250/696969/FFFFFF?text=Castle+Cufflinks">
+                        <img src="https://via.placeholder.com/250x250/696969/FFFFFF?text=Castle+Cufflinks" alt="Castle Monument Cufflinks">
+                        <h3>Castle Monument Cufflinks</h3>
+                        <p>Majestic cufflinks featuring Colp Town's grand castle.</p>
+                        <span class="price">$234.99</span>
+                        <button class="add-to-cart" onclick="addToCart('castle-cufflinks')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

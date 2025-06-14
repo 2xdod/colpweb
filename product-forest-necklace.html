@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Spirit Necklace - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="product-detail-page">
+        <div class="product-detail-container">
+            <a href="products.html" class="back-to-products">
+                ← Back to Products
+            </a>
+
+            <div class="product-detail-layout">
+                <div class="product-gallery">
+                    <img src="https://via.placeholder.com/500x500/228B22/FFFFFF?text=Forest+Necklace+Main" alt="Forest Spirit Necklace" class="main-image" id="mainImage">
+                    <div class="thumbnail-gallery">
+                        <img src="https://via.placeholder.com/120x120/228B22/FFFFFF?text=View+1" alt="Forest Necklace View 1" class="thumbnail active" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/32CD32/FFFFFF?text=View+2" alt="Forest Necklace View 2" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/9ACD32/FFFFFF?text=Pendant" alt="Forest Pendant Detail" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/8FBC8F/FFFFFF?text=Leaves" alt="Leaf Detail" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-breadcrumb">
+                        <a href="index.html">Home</a>
+                        <span>/</span>
+                        <a href="products.html">Products</a>
+                        <span>/</span>
+                        <a href="products.html?category=necklaces">Necklaces</a>
+                        <span>/</span>
+                        <span>Forest Spirit Necklace</span>
+                    </div>
+
+                    <h1 class="product-title">Forest Spirit Necklace</h1>
+                    <div class="product-price">$142.99</div>
+
+                    <p class="product-description">
+                        Infused with the essence of the ancient forest spirits that dwell deep within the Whispering Woods, this enchanted necklace connects the wearer to the natural world. Each pendant is carved from living wood and adorned with leaves that never wither, carrying the eternal vitality of the forest.
+                    </p>
+
+                    <div class="product-features">
+                        <h3>Product Details</h3>
+                        <ul>
+                            <li>
+                                <span class="feature-label">Material:</span>
+                                <span class="feature-value">Living Heartwood & Eternal Leaves</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Chain Length:</span>
+                                <span class="feature-value">20 inches (Adjustable)</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Origin:</span>
+                                <span class="feature-value">Whispering Woods, Ancient Grove</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Magical Properties:</span>
+                                <span class="feature-value">Nature Communion & Growth Magic</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Blessed by:</span>
+                                <span class="feature-value">Elder Dryad Sylvana Greenleaf</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Care Instructions:</span>
+                                <span class="feature-value">Water with morning dew weekly</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" value="1" min="1" max="10" class="quantity-input" id="productQuantity">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <button class="add-to-cart-large" onclick="addToCartFromDetail('forest-necklace')">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-story">
+                        <h3>Song of the Ancient Grove</h3>
+                        <p>
+                            Deep within the Whispering Woods lies the Ancient Grove, where the oldest trees have grown wise beyond mortal understanding. The dryads who guard this sacred place gifted these necklaces to those who show true respect for nature's power and beauty.
+                        </p>
+                        <p>
+                            Each necklace pulses with the heartbeat of the forest, allowing its wearer to understand the language of trees and sense the hidden paths through any woodland. The eternal leaves rustle softly even in still air, carrying whispered secrets from the spirit realm.
+                        </p>
+                        <a href="stories.html" class="story-link">Listen to the Forest's Whispers →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-products-section">
+                <h2>You Might Also Like</h2>
+                <div class="related-products-grid">
+                    <div class="product-card" data-product-id="moonstone-pendant" data-product-name="Elven Moonstone Pendant" data-product-price="124.99" data-product-image="https://via.placeholder.com/250x250/4169E1/FFFFFF?text=Moonstone">
+                        <img src="https://via.placeholder.com/250x250/4169E1/FFFFFF?text=Moonstone" alt="Elven Moonstone Pendant">
+                        <h3>Elven Moonstone Pendant</h3>
+                        <p>Blessed by moon elves with ethereal lunar magic.</p>
+                        <span class="price">$124.99</span>
+                        <button class="add-to-cart" onclick="addToCart('moonstone-pendant')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="leaf-earrings" data-product-name="Enchanted Leaf Earrings" data-product-price="145.99" data-product-image="https://via.placeholder.com/250x250/6B8E23/FFFFFF?text=Leaf+Earrings">
+                        <img src="https://via.placeholder.com/250x250/6B8E23/FFFFFF?text=Leaf+Earrings" alt="Enchanted Leaf Earrings">
+                        <h3>Enchanted Leaf Earrings</h3>
+                        <p>Delicate leaves that shimmer with forest magic.</p>
+                        <span class="price">$145.99</span>
+                        <button class="add-to-cart" onclick="addToCart('leaf-earrings')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="hero-pendant" data-product-name="Hero's Legacy Pendant" data-product-price="189.99" data-product-image="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Hero+Pendant">
+                        <img src="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Hero+Pendant" alt="Hero's Legacy Pendant">
+                        <h3>Hero's Legacy Pendant</h3>
+                        <p>Worn by legendary heroes of Colp Town.</p>
+                        <span class="price">$189.99</span>
+                        <button class="add-to-cart" onclick="addToCart('hero-pendant')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

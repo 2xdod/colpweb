@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Castle Monument Cufflinks - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="product-detail-page">
+        <div class="product-detail-container">
+            <a href="products.html" class="back-to-products">
+                ← Back to Products
+            </a>
+
+            <div class="product-detail-layout">
+                <div class="product-gallery">
+                    <img src="https://via.placeholder.com/500x500/696969/FFFFFF?text=Castle+Cufflinks+Main" alt="Castle Monument Cufflinks" class="main-image" id="mainImage">
+                    <div class="thumbnail-gallery">
+                        <img src="https://via.placeholder.com/120x120/696969/FFFFFF?text=View+1" alt="Castle Cufflinks View 1" class="thumbnail active" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/808080/FFFFFF?text=View+2" alt="Castle Cufflinks View 2" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/A9A9A9/FFFFFF?text=Castle" alt="Castle Detail" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/D3D3D3/FFFFFF?text=Tower" alt="Tower Detail" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-breadcrumb">
+                        <a href="index.html">Home</a>
+                        <span>/</span>
+                        <a href="products.html">Products</a>
+                        <span>/</span>
+                        <a href="products.html?category=cufflinks">Cufflinks</a>
+                        <span>/</span>
+                        <span>Castle Monument Cufflinks</span>
+                    </div>
+
+                    <h1 class="product-title">Castle Monument Cufflinks</h1>
+                    <div class="product-price">$234.99</div>
+
+                    <p class="product-description">
+                        Majestic cufflinks featuring an intricate miniature replica of Colp Town's grand castle, complete with towering spires and protective battlements. Carved from blessed stone taken from the castle's original foundation, these cufflinks carry the strength and permanence of the ancient fortress that has protected the realm for centuries.
+                    </p>
+
+                    <div class="product-features">
+                        <h3>Product Details</h3>
+                        <ul>
+                            <li>
+                                <span class="feature-label">Material:</span>
+                                <span class="feature-value">Blessed Foundation Stone & Platinum</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Dimensions:</span>
+                                <span class="feature-value">1 inch (2.5 cm) diameter each</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Origin:</span>
+                                <span class="feature-value">Grand Castle of Colp Town</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Magical Properties:</span>
+                                <span class="feature-value">Steadfast Resolve & Protective Aura</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Commissioned by:</span>
+                                <span class="feature-value">Castle Master Architect Cornelius Stonewright</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Care Instructions:</span>
+                                <span class="feature-value">Stand firm against all storms</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" value="1" min="1" max="10" class="quantity-input" id="productQuantity">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <button class="add-to-cart-large" onclick="addToCartFromDetail('castle-cufflinks')">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-story">
+                        <h3>The Eternal Fortress</h3>
+                        <p>
+                            For over eight centuries, the Grand Castle of Colp Town has stood as an unbreakable symbol of strength and protection. When Master Architect Cornelius Stonewright undertook the castle's restoration, he discovered that the original foundation stones contained unique magical properties - they had absorbed the hopes and dreams of generations of citizens who looked to the castle for safety.
+                        </p>
+                        <p>
+                            These cufflinks are crafted from fragments of those blessed foundation stones, each one carrying the accumulated strength of the castle's long history. The wearer gains the steadfast resolve that has made the castle invincible, providing unshakeable confidence in the face of any challenge. The miniature towers seem to glow with an inner light, reminding all who see them of the enduring power of unity and protection.
+                        </p>
+                        <a href="stories.html" class="story-link">Explore the Castle's History →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-products-section">
+                <h2>You Might Also Like</h2>
+                <div class="related-products-grid">
+                    <div class="product-card" data-product-id="guardian-ring" data-product-name="Guardian's Seal Ring" data-product-price="178.99" data-product-image="https://via.placeholder.com/250x250/DC143C/FFFFFF?text=Guardian+Ring">
+                        <img src="https://via.placeholder.com/250x250/DC143C/FFFFFF?text=Guardian+Ring" alt="Guardian's Seal Ring">
+                        <h3>Guardian's Seal Ring</h3>
+                        <p>A protective talisman worn by ancient guardians.</p>
+                        <span class="price">$178.99</span>
+                        <button class="add-to-cart" onclick="addToCart('guardian-ring')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="wizard-tower-ring" data-product-name="Wizard Tower Ring" data-product-price="134.99" data-product-image="https://via.placeholder.com/250x250/DAA520/FFFFFF?text=Tower+Ring">
+                        <img src="https://via.placeholder.com/250x250/DAA520/FFFFFF?text=Tower+Ring" alt="Wizard Tower Ring">
+                        <h3>Wizard Tower Ring</h3>
+                        <p>Miniature replica of the Great Wizard Tower.</p>
+                        <span class="price">$134.99</span>
+                        <button class="add-to-cart" onclick="addToCart('wizard-tower-ring')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="hero-pendant" data-product-name="Hero's Legacy Pendant" data-product-price="189.99" data-product-image="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Hero+Pendant">
+                        <img src="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Hero+Pendant" alt="Hero's Legacy Pendant">
+                        <h3>Hero's Legacy Pendant</h3>
+                        <p>Worn by legendary heroes of Colp Town.</p>
+                        <span class="price">$189.99</span>
+                        <button class="add-to-cart" onclick="addToCart('hero-pendant')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COLP - Fantasy Jewelry Collection</title>
+    <meta name="description" content="Handcrafted fantasy jewelry from the mystical realm of Colp Town. Dragon rings, elven necklaces, mystical brooches and more.">
+    <meta name="keywords" content="fantasy jewelry, dragon rings, elven necklaces, mystical brooches, handcrafted jewelry, magical accessories">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,6 +33,12 @@
                 <li><a href="products.html">Products</a></li>
                 <li><a href="customized.html">Customized</a></li>
                 <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
             </ul>
         </div>
     </nav>
@@ -41,53 +59,61 @@
         <div class="container">
             <h2>Popular Products</h2>
             <div class="products-grid">
-                <div class="product-card">
+                <div class="product-card" data-product-id="dragon-ring" data-product-name="Dragon's Ember Ring" data-product-price="89.99" data-product-image="https://via.placeholder.com/250x250/8B4513/FFFFFF?text=Dragon+Ring">
                     <img src="https://via.placeholder.com/250x250/8B4513/FFFFFF?text=Dragon+Ring" alt="Dragon's Ember Ring">
                     <h3>Dragon's Ember Ring</h3>
                     <p>Forged in the flames of ancient dragons, this ring channels the power of fire magic.</p>
                     <span class="price">$89.99</span>
+                    <button class="add-to-cart" onclick="addToCart('dragon-ring')">Add to Cart</button>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-product-id="moonstone-pendant" data-product-name="Elven Moonstone Pendant" data-product-price="124.99" data-product-image="https://via.placeholder.com/250x250/4169E1/FFFFFF?text=Moonstone+Necklace">
                     <img src="https://via.placeholder.com/250x250/4169E1/FFFFFF?text=Moonstone+Necklace" alt="Moonstone Pendant">
                     <h3>Elven Moonstone Pendant</h3>
                     <p>Blessed by the moon elves, this pendant glows with ethereal moonlight.</p>
                     <span class="price">$124.99</span>
+                    <button class="add-to-cart" onclick="addToCart('moonstone-pendant')">Add to Cart</button>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-product-id="crystal-brooch" data-product-name="Mystical Crystal Brooch" data-product-price="156.99" data-product-image="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch">
                     <img src="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch" alt="Mystical Crystal Brooch">
                     <h3>Mystical Crystal Brooch</h3>
                     <p>A rare crystal formation that enhances the wearer's magical abilities.</p>
                     <span class="price">$156.99</span>
+                    <button class="add-to-cart" onclick="addToCart('crystal-brooch')">Add to Cart</button>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-product-id="phoenix-earrings" data-product-name="Phoenix Feather Earrings" data-product-price="203.99" data-product-image="https://via.placeholder.com/250x250/FFD700/000000?text=Phoenix+Earrings">
                     <img src="https://via.placeholder.com/250x250/FFD700/000000?text=Phoenix+Earrings" alt="Phoenix Feather Earrings">
                     <h3>Phoenix Feather Earrings</h3>
                     <p>Crafted from genuine phoenix feathers, symbolizing rebirth and renewal.</p>
                     <span class="price">$203.99</span>
+                    <button class="add-to-cart" onclick="addToCart('phoenix-earrings')">Add to Cart</button>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-product-id="guardian-ring" data-product-name="Guardian's Seal Ring" data-product-price="178.99" data-product-image="https://via.placeholder.com/250x250/DC143C/FFFFFF?text=Guardian+Ring">
                     <img src="https://via.placeholder.com/250x250/DC143C/FFFFFF?text=Guardian+Ring" alt="Guardian's Seal Ring">
                     <h3>Guardian's Seal Ring</h3>
                     <p>A protective talisman worn by the ancient guardians of Colp Town.</p>
                     <span class="price">$178.99</span>
+                    <button class="add-to-cart" onclick="addToCart('guardian-ring')">Add to Cart</button>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-product-id="forest-necklace" data-product-name="Forest Spirit Necklace" data-product-price="142.99" data-product-image="https://via.placeholder.com/250x250/228B22/FFFFFF?text=Nature+Necklace">
                     <img src="https://via.placeholder.com/250x250/228B22/FFFFFF?text=Nature+Necklace" alt="Forest Spirit Necklace">
                     <h3>Forest Spirit Necklace</h3>
                     <p>Infused with the essence of the ancient forest spirits.</p>
                     <span class="price">$142.99</span>
+                    <button class="add-to-cart" onclick="addToCart('forest-necklace')">Add to Cart</button>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-product-id="starlight-brooch" data-product-name="Starlight Compass Brooch" data-product-price="198.99" data-product-image="https://via.placeholder.com/250x250/191970/FFFFFF?text=Starlight+Brooch">
                     <img src="https://via.placeholder.com/250x250/191970/FFFFFF?text=Starlight+Brooch" alt="Starlight Compass Brooch">
                     <h3>Starlight Compass Brooch</h3>
                     <p>Guides travelers through the darkest nights with celestial magic.</p>
                     <span class="price">$198.99</span>
+                    <button class="add-to-cart" onclick="addToCart('starlight-brooch')">Add to Cart</button>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-product-id="wizard-cufflinks" data-product-name="Wizard's Formal Cufflinks" data-product-price="267.99" data-product-image="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Wizard+Cufflinks">
                     <img src="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Wizard+Cufflinks" alt="Wizard's Formal Cufflinks">
                     <h3>Wizard's Formal Cufflinks</h3>
                     <p>Elegant formal wear for distinguished magic practitioners.</p>
                     <span class="price">$267.99</span>
+                    <button class="add-to-cart" onclick="addToCart('wizard-cufflinks')">Add to Cart</button>
                 </div>
             </div>
         </div>
@@ -154,6 +180,28 @@
             </div>
         </div>
     </section>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="container">

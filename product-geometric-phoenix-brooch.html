@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometric Phoenix Brooch - COLP Fantasy Jewelry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="product-detail-page">
+        <div class="product-detail-container">
+            <a href="products.html" class="back-to-products">
+                ← Back to Products
+            </a>
+
+            <div class="product-detail-layout">
+                <div class="product-gallery">
+                    <img src="https://via.placeholder.com/500x500/FF4500/FFFFFF?text=Phoenix+Brooch+Main" alt="Geometric Phoenix Brooch" class="main-image" id="mainImage">
+                    <div class="thumbnail-gallery">
+                        <img src="https://via.placeholder.com/120x120/FF4500/FFFFFF?text=View+1" alt="Phoenix Brooch View 1" class="thumbnail active" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/FF6347/FFFFFF?text=View+2" alt="Phoenix Brooch View 2" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/DC143C/FFFFFF?text=Wings" alt="Phoenix Wings" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                        <img src="https://via.placeholder.com/120x120/FFD700/FFFFFF?text=Fire" alt="Phoenix Fire" class="thumbnail" onclick="changeMainImage(this.src, this)">
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-breadcrumb">
+                        <a href="index.html">Home</a>
+                        <span>/</span>
+                        <a href="products.html">Products</a>
+                        <span>/</span>
+                        <a href="products.html?category=brooches">Brooches</a>
+                        <span>/</span>
+                        <span>Geometric Phoenix Brooch</span>
+                    </div>
+
+                    <h1 class="product-title">Geometric Phoenix Brooch</h1>
+                    <div class="product-price">$167.99</div>
+
+                    <p class="product-description">
+                        A stunning modern interpretation of the legendary phoenix, rendered in bold geometric patterns that capture the essence of rebirth and transformation. Each angular facet represents a different aspect of the phoenix's eternal cycle, while ember stones create a mesmerizing interplay of light and shadow that seems to flicker like living flame.
+                    </p>
+
+                    <div class="product-features">
+                        <h3>Product Details</h3>
+                        <ul>
+                            <li>
+                                <span class="feature-label">Material:</span>
+                                <span class="feature-value">Forged Flame Copper & Ember Stones</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Dimensions:</span>
+                                <span class="feature-value">3.5 inches (8.9 cm) wingspan</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Origin:</span>
+                                <span class="feature-value">Modern Artisan Guild, New Colp</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Magical Properties:</span>
+                                <span class="feature-value">Renewal Energy & Creative Inspiration</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Designed by:</span>
+                                <span class="feature-value">Artisan Vera Emberwright</span>
+                            </li>
+                            <li>
+                                <span class="feature-label">Care Instructions:</span>
+                                <span class="feature-value">Cleanse with warm sunlight</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" value="1" min="1" max="10" class="quantity-input" id="productQuantity">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                        <button class="add-to-cart-large" onclick="addToCartFromDetail('geometric-phoenix-brooch')">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-story">
+                        <h3>The New Phoenix Rising</h3>
+                        <p>
+                            In the artistic quarter of New Colp, Master Artisan Vera Emberwright revolutionized traditional phoenix imagery by breaking it down into its essential geometric forms. Her workshop, "The Ember Forge," became famous for bridging ancient magical traditions with contemporary artistic vision.
+                        </p>
+                        <p>
+                            Each brooch embodies the phoenix's core essence - transformation, resilience, and the beauty that emerges from destruction. The geometric design isn't just aesthetic; each angle and plane channels the phoenix's power in a specific way, making this brooch both a work of art and a powerful magical focus for personal renewal and creative breakthrough.
+                        </p>
+                        <a href="stories.html" class="story-link">Visit the Ember Forge →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-products-section">
+                <h2>You Might Also Like</h2>
+                <div class="related-products-grid">
+                    <div class="product-card" data-product-id="phoenix-earrings" data-product-name="Phoenix Feather Earrings" data-product-price="203.99" data-product-image="https://via.placeholder.com/250x250/FF8C00/FFFFFF?text=Phoenix+Earrings">
+                        <img src="https://via.placeholder.com/250x250/FF8C00/FFFFFF?text=Phoenix+Earrings" alt="Phoenix Feather Earrings">
+                        <h3>Phoenix Feather Earrings</h3>
+                        <p>Delicate feathers that shimmer with phoenix fire.</p>
+                        <span class="price">$203.99</span>
+                        <button class="add-to-cart" onclick="addToCart('phoenix-earrings')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="dragon-ring" data-product-name="Dragon's Ember Ring" data-product-price="89.99" data-product-image="https://via.placeholder.com/250x250/8B4513/FFFFFF?text=Dragon+Ring">
+                        <img src="https://via.placeholder.com/250x250/8B4513/FFFFFF?text=Dragon+Ring" alt="Dragon's Ember Ring">
+                        <h3>Dragon's Ember Ring</h3>
+                        <p>Forged in dragon flame with eternal ember crystal.</p>
+                        <span class="price">$89.99</span>
+                        <button class="add-to-cart" onclick="addToCart('dragon-ring')">Add to Cart</button>
+                    </div>
+
+                    <div class="product-card" data-product-id="crystal-brooch" data-product-name="Mystical Crystal Brooch" data-product-price="156.99" data-product-image="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch">
+                        <img src="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch" alt="Mystical Crystal Brooch">
+                        <h3>Mystical Crystal Brooch</h3>
+                        <p>A rare crystal formation that enhances magical abilities.</p>
+                        <span class="price">$156.99</span>
+                        <button class="add-to-cart" onclick="addToCart('crystal-brooch')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
