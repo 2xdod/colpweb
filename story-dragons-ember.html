@@ -5,146 +5,218 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Dragon's Ember - Colp Town Stories</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="story-book.css">
 </head>
 <body>
-    <div class="campaign-banner">
-        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
-    </div>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <h1 onclick="location.href='index.html'">COLP</h1>
+    <div class="story-reader">
+        <!-- Story Header -->
+        <div class="story-header">
+            <div class="story-nav">
+                <button class="btn-back" onclick="location.href='stories.html'">← Back to Stories</button>
+                <div class="story-controls">
+                    <button class="btn-bookmark" id="bookmarkBtn" onclick="toggleBookmark()">🔖</button>
+                    <button class="btn-settings" onclick="toggleReaderSettings()">⚙️</button>
+                </div>
             </div>
-            <ul class="nav-menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="customized.html">Customized</a></li>
-                <li><a href="stories.html" class="active">Colp Town Stories</a></li>
-                <li>
-                    <button class="cart-icon" onclick="toggleCart()">
-                        🛒
-                        <span class="cart-count hidden" id="cartCount">0</span>
-                    </button>
-                </li>
-            </ul>
         </div>
-    </nav>
 
-    <div class="story-page">
-        <div class="container">
-            <div class="story-header">
-                <button class="btn-secondary" onclick="history.back()">← Back to Stories</button>
-                <div class="story-meta-info">
-                    <span class="story-category">Mystical</span>
-                    <span class="story-date">Added: Jan 15, 2024</span>
-                    <span class="story-reads">1,847 reads</span>
+        <!-- Book Cover -->
+        <div class="book-cover" id="bookCover">
+            <div class="book-cover-content">
+                <div class="cover-image">
+                    <img src="https://via.placeholder.com/400x600/8B4513/FFFFFF?text=The+Dragon's+Ember" alt="The Dragon's Ember">
                 </div>
-            </div>
-
-            <article class="full-story">
-                <div class="story-hero">
-                    <img src="https://via.placeholder.com/800x400/8B4513/FFFFFF?text=Dragon+in+Volcanic+Cave+with+Glowing+Ember" alt="Dragon's Ember Story">
-                </div>
-
-                <div class="story-content-full">
+                <div class="cover-info">
                     <h1>The Dragon's Ember</h1>
-                    
-                    <p class="story-introduction">Deep in the volcanic caves of Mount Pyrion, where the earth's fire burns eternal and the air shimmers with ancient magic, a young blacksmith named Theron made a discovery that would change the fate of Colp Town forever.</p>
-
-                    <p>The journey began on a moonless night when Theron, driven by whispers of legendary dragon hoards, descended into the forbidden depths of Mount Pyrion. The caves were treacherous, filled with molten streams and crystalline formations that sang with otherworldly melodies. As he ventured deeper, the temperature rose until his very breath seemed to ignite in the sulfurous air.</p>
-
-                    <p>It was in the deepest chamber, where the mountain's heart beat strongest, that Theron encountered Pyraxis the Ancient—a dragon whose scales gleamed like molten copper and whose eyes held the wisdom of a thousand years. The great beast lay dying, not from battle or age, but from a profound sorrow that had consumed its immortal spirit.</p>
-
-                    <p>"Young smith," Pyraxis spoke, its voice like distant thunder, "I have waited long for one brave enough to witness my final gift to this world." As the dragon spoke, a single tear fell from its ancient eye—but this was no ordinary tear. As it touched the volcanic stone, it crystallized instantly into the most beautiful amber-red gem Theron had ever seen.</p>
-
-                    <p>The dragon's ember pulsed with inner fire, warm to the touch yet never burning. Pyraxis explained that this crystallized tear contained not just the dragon's sorrow, but also its hope, its love for the mortal realm, and a fragment of its eternal flame. "Forge this into a ring," the dragon whispered as its form began to fade into golden light, "and let it protect those who understand that true strength comes from compassion."</p>
-
-                    <p>Theron spent seven days and seven nights in his forge, working the mystical ember into the most exquisite ring ever created. The band was crafted from metal found only in the dragon's lair—a golden alloy that seemed to pulse with life itself. When the work was complete, the Dragon's Ember Ring possessed the power to shield its wearer from harm, but only when worn by someone whose heart was pure and whose intentions were noble.</p>
-
-                    <p>Legend says that the ring still exists, passed down through generations of worthy guardians. It appears when Colp Town faces its darkest hours, finding its way to those who need its protection most. The ember within continues to glow with Pyraxis's eternal flame, a reminder that even in the depths of sorrow, hope and love can crystallize into something beautiful and powerful.</p>
-
-                    <p>Many have sought to replicate the Dragon's Ember, but none have succeeded. For it was not just the mystical properties of the dragon's tear that made it special—it was the love and sacrifice that created it, the bond between dragon and mortal that transcended the boundaries between their worlds.</p>
-
-                    <div class="story-conclusion">
-                        <p><em>To this day, visitors to Mount Pyrion claim to see flashes of golden light in the deepest caves, as if Pyraxis's spirit still watches over the mountain, waiting for the next worthy soul to discover the treasures that lie hidden in the earth's heart.</em></p>
+                    <p class="story-author">From the Chronicles of Colp Town</p>
+                    <p class="story-category">Mystical Fantasy</p>
+                    <div class="story-stats">
+                        <span>📖 Medium Length Story</span>
+                        <span>⏱️ ~15 min read</span>
+                        <span>❤️ 1,847 readers</span>
                     </div>
-                </div>
-            </article>
-
-            <div class="related-products">
-                <h2>Products Featured in This Story</h2>
-                <div class="products-grid">
-                    <div class="product-card featured" data-product-id="dragon-ring" data-product-name="Dragon's Ember Ring" data-product-price="89.99" data-product-image="https://via.placeholder.com/200x200/8B4513/FFFFFF?text=Dragon+Ring" onclick="location.href='products.html#dragon-ring'">
-                        <img src="https://via.placeholder.com/200x200/8B4513/FFFFFF?text=Dragon+Ring" alt="Dragon's Ember Ring">
-                        <h3>Dragon's Ember Ring</h3>
-                        <p>Forged in the flames of ancient dragons</p>
-                        <span class="price">$89.99</span>
-                        <button class="add-to-cart" onclick="event.stopPropagation(); addToCart('dragon-ring');">Add to Cart</button>
-                        <div class="product-story-link">
-                            <span>🔥 Featured in this story</span>
-                        </div>
-                    </div>
-
-                    <div class="product-card featured" data-product-id="pyraxis-fire-pendant" data-product-name="Pyraxis Fire Pendant" data-product-price="134.99" data-product-image="https://via.placeholder.com/200x200/FF4500/FFFFFF?text=Fire+Pendant" onclick="location.href='products.html#fire-pendant'">
-                        <img src="https://via.placeholder.com/200x200/FF4500/FFFFFF?text=Fire+Pendant" alt="Pyraxis Fire Pendant">
-                        <h3>Pyraxis Fire Pendant</h3>
-                        <p>Inspired by the eternal flame of Mount Pyrion</p>
-                        <span class="price">$134.99</span>
-                        <button class="add-to-cart" onclick="event.stopPropagation(); addToCart('pyraxis-fire-pendant');">Add to Cart</button>
-                        <div class="product-story-link">
-                            <span>🔥 Inspired by this tale</span>
-                        </div>
-                    </div>
-
-                    <div class="product-card featured" data-product-id="volcanic-crystal-earrings" data-product-name="Volcanic Crystal Earrings" data-product-price="78.99" data-product-image="https://via.placeholder.com/200x200/B22222/FFFFFF?text=Volcanic+Earrings" onclick="location.href='products.html#volcanic-earrings'">
-                        <img src="https://via.placeholder.com/200x200/B22222/FFFFFF?text=Volcanic+Earrings" alt="Volcanic Crystal Earrings">
-                        <h3>Volcanic Crystal Earrings</h3>
-                        <p>Crystalline formations from the sacred caves</p>
-                        <span class="price">$78.99</span>
-                        <button class="add-to-cart" onclick="event.stopPropagation(); addToCart('volcanic-crystal-earrings');">Add to Cart</button>
-                        <div class="product-story-link">
-                            <span>🔥 From the same realm</span>
-                        </div>
-                    </div>
+                    <button class="btn-start-reading" onclick="startReading()">Start Reading</button>
                 </div>
             </div>
+        </div>
 
-            <div class="story-navigation">
-                <button class="btn-library" onclick="location.href='popular-stories.html'">More Popular Stories</button>
-                <button class="btn-library" onclick="location.href='library.html'">Browse All Stories</button>
+        <!-- Reader Settings Panel -->
+        <div class="reader-settings" id="readerSettings">
+            <div class="settings-panel">
+                <h3>Reading Settings</h3>
+                <div class="setting-group">
+                    <label>Font Size:</label>
+                    <div class="font-size-controls">
+                        <button onclick="changeFontSize(-1)">A-</button>
+                        <span id="fontSize">16px</span>
+                        <button onclick="changeFontSize(1)">A+</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>Theme:</label>
+                    <div class="theme-controls">
+                        <button onclick="changeTheme('light')" class="theme-btn light">Light</button>
+                        <button onclick="changeTheme('dark')" class="theme-btn dark active">Dark</button>
+                        <button onclick="changeTheme('sepia')" class="theme-btn sepia">Sepia</button>
+                    </div>
+                </div>
+                <div class="settings-actions">
+                    <button class="btn-apply" onclick="applySettings()">Apply Changes</button>
+                    <button class="btn-close" onclick="closeSettings()">Cancel</button>
+                </div>
             </div>
+        </div>
+
+        <!-- Book Pages -->
+        <div class="book-container" id="bookContainer" style="display: none;">
+            <div class="book-wrapper">
+                <div class="page-indicator">
+                    <span id="currentPage">1</span> / <span id="totalPages">7</span>
+                </div>
+                
+                <div class="book-pages" id="bookPages">
+                    <!-- Page 1 -->
+                    <div class="page active" data-page="1">
+                        <div class="page-content">
+                            <h2>Chapter 1: The Discovery</h2>
+                            <p>Deep beneath the volcanic peaks of Mount Pyrion, where the earth's heart beats with molten fury, young Kael worked the ancient forges. His hammer rang against the anvil in steady rhythm, each strike echoing through the caverns like a metallic heartbeat.</p>
+                            
+                            <p>The air shimmered with heat, and droplets of sweat rolled down his soot-covered face as he shaped the glowing metal. But tonight was different. Tonight, the mountain itself seemed to whisper secrets only he could hear.</p>
+                            
+                            <p>As his hammer descended for what should have been the final blow, a tremor shook the cavern. Not the familiar rumble of the mountain's breathing, but something deeper, more ancient. The forge fire flickered, casting dancing shadows on the rough-hewn walls.</p>
+                            
+                            <p>That's when he saw it.</p>
+                            
+                            <p>In the deepest corner of the forge chamber, where no light should reach, a crimson glow pulsed like a beating heart. Kael set down his hammer and approached cautiously, his footsteps echoing in the sudden silence.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 2 -->
+                    <div class="page" data-page="2">
+                        <div class="page-content">
+                            <p>There, embedded in the cavern wall, was a crystal unlike any he had ever seen. It was no larger than his fist, but it radiated warmth that had nothing to do with the forge fires. The crystal pulsed with inner light, shifting from deep amber to brilliant gold with each heartbeat.</p>
+                            
+                            <p>As Kael reached out to touch it, the crystal's glow intensified. The moment his fingers made contact with its surface, visions flooded his mind. He saw great dragons soaring through skies painted with sunset, their scales glittering like living jewels. He witnessed the last dragon of Mount Pyrion, ancient and wise, weeping a single tear as it prepared for eternal slumber.</p>
+                            
+                            <p>The tear had crystallized upon touching the mountain's heart, preserving within it all the dragon's memories, its wisdom, and its power. For a thousand years it had waited, hidden in the depths, for one worthy to claim it.</p>
+                            
+                            <p>"You have found me at last, young smith," a voice whispered in his mind, neither male nor female, but ancient beyond measure. "I have watched you work, seen your passion for the craft, felt your respect for the old ways."</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 3 -->
+                    <div class="page" data-page="3">
+                        <div class="page-content">
+                            <h2>Chapter 2: The Awakening</h2>
+                            <p>Kael stumbled backward, his heart racing. The voice seemed to come from everywhere and nowhere, reverberating through his very bones.</p>
+                            
+                            <p>"Do not fear," the voice continued, gentler now. "I am Pyraxis, last of the Fire Drakes, keeper of the ancient flames. My physical form has long since turned to stone and ash, but my essence lives on in this tear I shed at my passing."</p>
+                            
+                            <p>The crystal pulsed brighter, and suddenly Kael could see the dragon as it once was: magnificent scales that shifted between copper and gold, eyes like molten amber, and wings that could blot out the sun. The creature was beautiful and terrible in equal measure.</p>
+                            
+                            <p>"The art of dragonfire smithing was lost when my kind departed this realm," Pyraxis explained. "But you, young Kael, have the gift. I can sense it in the way metal sings beneath your hammer, in the respect you show the flames."</p>
+                            
+                            <p>Kael found his voice at last. "What... what do you want from me?"</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 4 -->
+                    <div class="page" data-page="4">
+                        <div class="page-content">
+                            <p>"I offer you a choice," the dragon's spirit replied. "Take my tear and forge it into a ring, and you will gain the power to create jewelry that holds real magic. Your works will heal the wounded, protect the innocent, and bring hope to the hopeless. But know this - such power comes with great responsibility."</p>
+                            
+                            <p>Kael stared at the crystal, its warm glow reflecting in his eyes. All his life, he had dreamed of creating something truly extraordinary, something that would outlast his mortal years and bring joy to others. But he had also heard the stories of power corrupting those who wielded it.</p>
+                            
+                            <p>"The choice must be yours alone," Pyraxis whispered. "I cannot compel you, only offer. But consider this - the world grows darker with each passing day. Ancient evils stir in the deep places, and humanity will need every advantage it can find."</p>
+                            
+                            <p>The young blacksmith closed his eyes and felt the weight of destiny settling on his shoulders. When he opened them again, his decision was made.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 5 -->
+                    <div class="page" data-page="5">
+                        <div class="page-content">
+                            <h2>Chapter 3: The Forging</h2>
+                            <p>With trembling hands, Kael carefully extracted the dragon's tear from the cavern wall. The moment it came free, the crystal's glow dimmed to a soft ember, as if conserving its power for what was to come.</p>
+                            
+                            <p>He returned to his forge, but this time, everything was different. The flames burned hotter, responding to his will with an almost sentient intelligence. The very air around him shimmered with magic as he began the most important work of his life.</p>
+                            
+                            <p>For three days and three nights, Kael worked without rest. He sang to the flames in the old tongue his grandfather had taught him, words of power that had been nearly forgotten. The dragon's tear sat in the heart of the fire, slowly transforming.</p>
+                            
+                            <p>On the first day, the crystal became molten, flowing like liquid starlight. On the second day, it began to take shape, guided by Kael's skilled hands and Pyraxis's ancient wisdom. On the third day, as dawn broke over Mount Pyrion, the work was complete.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 6 -->
+                    <div class="page" data-page="6">
+                        <div class="page-content">
+                            <p>The ring that emerged from the forge was unlike anything ever created. The band was forged from the purest gold, but it was the stone that took one's breath away. The dragon's tear had become a living flame trapped in crystal, forever burning but never consuming.</p>
+                            
+                            <p>"It is beautiful," Kael whispered, holding the ring up to catch the morning light.</p>
+                            
+                            <p>"And powerful," Pyraxis added, his voice now seeming to come from the ring itself. "This is the Dragon's Ember, first of the new age of magical jewelry. It will grant its wearer protection from fire and flame, strength in times of need, and the courage to face even the darkest evils."</p>
+                            
+                            <p>As if testing the claim, Kael slipped the ring onto his finger. Immediately, he felt a surge of warmth and strength flow through his body. His tired muscles refreshed, his bleary eyes cleared, and for the first time in three days, he felt truly alive.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 7 -->
+                    <div class="page" data-page="7">
+                        <div class="page-content">
+                            <h2>Epilogue: The Legend Begins</h2>
+                            <p>Word of Kael's masterwork spread quickly through Colp Town and beyond. Travelers came from distant lands, drawn by tales of the young blacksmith who could forge magic itself into metal and stone.</p>
+                            
+                            <p>But Kael was careful with his gift. He created each piece with love and purpose, ensuring that his magical jewelry found its way to those who truly needed it. The sick were healed, the weak were strengthened, and the frightened found courage.</p>
+                            
+                            <p>And always, in his workshop deep beneath Mount Pyrion, the spirit of Pyraxis watched and guided, ensuring that the ancient art of dragonfire smithing would continue to protect the innocent for generations to come.</p>
+                            
+                            <p>To this day, the descendants of Kael continue his work in Colp Town, each piece of jewelry they create carrying a spark of the Dragon's Ember within it. And sometimes, in the quiet hours before dawn, visitors to the town swear they can hear the distant sound of hammers ringing against anvils, echoing up from the deep places where legends are born.</p>
+                            
+                            <div class="story-end">
+                                <p><em>~ End of The Dragon's Ember ~</em></p>
+                                <button class="btn-primary" onclick="showStoryComplete()">Story Complete!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="page-navigation">
+                    <button class="nav-btn prev" onclick="previousPage()" id="prevBtn" disabled>‹ Previous</button>
+                    <div class="page-dots" id="pageDots"></div>
+                    <button class="nav-btn next" onclick="nextPage()" id="nextBtn">Next ›</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading Progress -->
+        <div class="reading-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-text" id="progressText">0% completed</span>
         </div>
     </div>
 
-    <!-- Shopping Cart Modal -->
-    <div class="cart-modal" id="cartModal">
-        <div class="cart-content">
-            <div class="cart-header">
-                <h2>Shopping Cart</h2>
-                <button class="cart-close" onclick="toggleCart()">&times;</button>
+    <!-- Table of Contents Modal -->
+    <div class="modal" id="tocModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Table of Contents</h2>
+                <button class="modal-close" onclick="closeTOC()">&times;</button>
             </div>
-            <div class="cart-items" id="cartItems">
-                <div class="cart-empty">
-                    <div class="cart-empty-icon">🛒</div>
-                    <p>Your cart is empty</p>
+            <div class="modal-body">
+                <div class="toc-list">
+                    <a href="#" onclick="goToPage(1)">Chapter 1: The Discovery</a>
+                    <a href="#" onclick="goToPage(3)">Chapter 2: The Awakening</a>
+                    <a href="#" onclick="goToPage(5)">Chapter 3: The Forging</a>
+                    <a href="#" onclick="goToPage(7)">Epilogue: The Legend Begins</a>
                 </div>
-            </div>
-            <div class="cart-total" id="cartTotal" style="display: none;">
-                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
-            </div>
-            <div class="cart-actions" id="cartActions" style="display: none;">
-                <button class="cart-checkout" onclick="checkout()">Proceed to Checkout</button>
             </div>
         </div>
     </div>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
-        </div>
-    </footer>
 
     <script src="script.js"></script>
+    <script src="story-reader.js"></script>
 </body>
 </html>

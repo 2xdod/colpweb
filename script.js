@@ -1,5 +1,8 @@
 // Product filtering functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Close user dropdown on page load
+    setTimeout(closeUserDropdown, 100);
+    
     // Product page filters
     if (document.getElementById('productsGrid')) {
         const filterButtons = document.querySelectorAll('.filter-btn');
@@ -80,15 +83,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Stories page functionality
+    // Stories page functionality - click tracking only
     const storyCards = document.querySelectorAll('.story-card');
     storyCards.forEach(card => {
         const readMoreBtn = card.querySelector('.read-more');
         if (readMoreBtn) {
             readMoreBtn.addEventListener('click', function() {
-                // Simulate reading a story
-                alert('This would open the full story. In a real implementation, this would navigate to a detailed story page.');
-                
                 // Update click count for popular stories
                 const clicksElement = card.querySelector('.story-clicks');
                 if (clicksElement) {
@@ -112,43 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add to cart functionality
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Simulate adding to cart
-            const productCard = this.closest('.product-card');
-            const productName = productCard.querySelector('h3').textContent;
-            
-            // Create a temporary notification
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(45deg, #DAA520, #FFD700);
-                color: #1a1a2e;
-                padding: 1rem 2rem;
-                border-radius: 10px;
-                font-weight: bold;
-                z-index: 10000;
-                animation: slideIn 0.5s ease-out;
-            `;
-            notification.textContent = `${productName} added to cart!`;
-            
-            document.body.appendChild(notification);
-            
-            // Remove notification after 3 seconds
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.5s ease-in';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 500);
-            }, 3000);
-        });
-    });
+    // Note: Add to cart functionality moved to proper cart system below
 
     // File upload preview for custom orders
     const imageUpload = document.getElementById('image-upload');
@@ -615,15 +579,26 @@ window.addEventListener('resize', function() {
 let cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
 
 function updateCartCount() {
+    // Always reload cart from localStorage to ensure consistency
+    cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    
     const cartCount = document.getElementById('cartCount');
     if (cartCount) {
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         cartCount.textContent = totalItems;
-        cartCount.classList.toggle('hidden', totalItems === 0);
+        
+        if (totalItems === 0) {
+            cartCount.classList.add('hidden');
+        } else {
+            cartCount.classList.remove('hidden');
+        }
     }
 }
 
 function updateCartDisplay() {
+    // Always reload cart from localStorage to ensure consistency
+    cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    
     const cartItems = document.getElementById('cartItems');
     const cartTotal = document.getElementById('cartTotal');
     const cartActions = document.getElementById('cartActions');
@@ -636,21 +611,28 @@ function updateCartDisplay() {
             <div class="cart-empty">
                 <div class="cart-empty-icon">🛒</div>
                 <p>Your cart is empty</p>
+                <button class="cart-continue" onclick="continueShopping()" style="margin-top: 1rem;">Start Shopping</button>
             </div>
         `;
         cartTotal.style.display = 'none';
         cartActions.style.display = 'none';
     } else {
         cartItems.innerHTML = cart.map(item => `
-            <div class="cart-item" onclick="openProductPage('${item.id}')" style="cursor: pointer;">
-                <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item">
+                <img src="${item.image}" alt="${item.name}" onclick="openProductPage('${item.id}')" style="cursor: pointer;" title="View product details">
                 <div class="cart-item-details">
-                    <h4>${item.name}</h4>
-                    <p>Quantity: ${item.quantity}</p>
-                    <small style="color: #8B4513; font-style: italic;">Click to view product</small>
+                    <h4 onclick="openProductPage('${item.id}')" style="cursor: pointer; color: #8B4513;" title="View product details">${item.name}</h4>
+                    <p class="item-price">$${item.price.toFixed(2)} each</p>
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="updateCartQuantity('${item.id}', ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                        <span class="quantity-display">${item.quantity}</span>
+                        <button class="qty-btn" onclick="updateCartQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                    </div>
                 </div>
-                <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
-                <button class="cart-item-remove" onclick="event.stopPropagation(); removeFromCart('${item.id}')">Remove</button>
+                <div class="cart-item-actions">
+                    <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                    <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" title="Remove from cart">🗑️</button>
+                </div>
             </div>
         `).join('');
         
@@ -757,11 +739,8 @@ const inventoryManager = {
 
 function addToCart(productId) {
     const productCard = document.querySelector(`[data-product-id="${productId}"]`);
-    if (!productCard) return;
-
-    // Check stock availability
-    if (!inventoryManager.isInStock(productId, 1)) {
-        showCartNotification(`Sorry, ${productCard.dataset.productName} is out of stock!`, 'error');
+    if (!productCard) {
+        showCartNotification('Product not found', 'error');
         return;
     }
     
@@ -772,6 +751,9 @@ function addToCart(productId) {
         image: productCard.dataset.productImage
     };
     
+    // Reload cart from localStorage to ensure consistency
+    cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    
     const existingItem = cart.find(item => item.id === productId);
     
     if (existingItem) {
@@ -780,15 +762,47 @@ function addToCart(productId) {
         cart.push({ ...product, quantity: 1 });
     }
     
-    // Reduce stock
-    inventoryManager.reduceStock(productId, 1);
-    
+    // Save to localStorage
     localStorage.setItem('colp-cart', JSON.stringify(cart));
+    
+    // Update UI
     updateCartCount();
     updateCartDisplay();
     
     // Show notification
-    showCartNotification(`${product.name} added to cart!`);
+    showCartNotification(`${product.name} added to cart!`, 'success');
+}
+
+function updateCartQuantity(productId, newQuantity) {
+    if (newQuantity < 1) {
+        removeFromCart(productId);
+        return;
+    }
+    
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        const quantityDiff = newQuantity - item.quantity;
+        
+        // Check stock availability
+        if (quantityDiff > 0) {
+            const availableStock = inventoryManager.getStock(productId);
+            if (availableStock < quantityDiff) {
+                showCartNotification(`Only ${availableStock} more items available in stock`, 'error');
+                return;
+            }
+            // Reduce stock
+            inventoryManager.reduceStock(productId, quantityDiff);
+        } else {
+            // Increase stock
+            inventoryManager.increaseStock(productId, Math.abs(quantityDiff));
+        }
+        
+        item.quantity = newQuantity;
+        localStorage.setItem('colp-cart', JSON.stringify(cart));
+        updateCartCount();
+        updateCartDisplay();
+        showCartNotification(`Quantity updated to ${newQuantity}`, 'success');
+    }
 }
 
 function removeFromCart(productId) {
@@ -802,6 +816,7 @@ function removeFromCart(productId) {
     localStorage.setItem('colp-cart', JSON.stringify(cart));
     updateCartCount();
     updateCartDisplay();
+    showCartNotification('Item removed from cart', 'info');
 }
 
 function toggleCart() {
@@ -813,6 +828,19 @@ function toggleCart() {
         if (!isVisible) {
             updateCartDisplay();
         }
+    }
+}
+
+function continueShopping() {
+    // Close cart modal
+    const cartModal = document.getElementById('cartModal');
+    if (cartModal) {
+        cartModal.style.display = 'none';
+    }
+    
+    // Redirect to products page if not already there
+    if (!window.location.pathname.includes('products.html')) {
+        window.location.href = 'products.html';
     }
 }
 
@@ -859,9 +887,8 @@ function showCartNotification(message, type = 'success') {
     
     notification.style.cssText = `
         position: fixed;
-        top: 50%;
+        top: 120px;
         right: 20px;
-        transform: translateY(-50%);
         background: ${bgColor};
         color: ${textColor};
         padding: 1rem 2rem;
@@ -999,10 +1026,14 @@ function populateCheckoutSummary() {
         
         const summaryItem = document.createElement('div');
         summaryItem.className = 'summary-item';
+        summaryItem.style.cursor = 'pointer';
+        summaryItem.onclick = () => openProductPage(item.id);
         summaryItem.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" class="summary-item-image">
             <div class="item-details">
                 <div class="item-name">${item.name}</div>
                 <div class="item-quantity">Quantity: ${item.quantity}</div>
+                <small style="color: #8B4513; font-style: italic;">Click to view product</small>
             </div>
             <div class="item-price">$${itemTotal.toFixed(2)}</div>
         `;
@@ -1313,6 +1344,9 @@ const userManager = {
         const user = this.getCurrentUser();
         if (user) {
             this.trackUserActivity('logout');
+            // Clear welcome message session storage for this user
+            const sessionKey = `welcomeShown_${user.email}`;
+            sessionStorage.removeItem(sessionKey);
         }
         localStorage.removeItem('colp-current-user');
         this.updateUIForLoggedOutUser();
@@ -1323,8 +1357,14 @@ const userManager = {
         // Update navigation with user info
         this.updateUserNavigation(user);
         
-        // Show welcome message
-        showCartNotification(`Welcome back, ${user.firstName}!`, 'success');
+        // Show welcome message only once per session
+        const sessionKey = `welcomeShown_${user.email}`;
+        const welcomeShown = sessionStorage.getItem(sessionKey);
+        
+        if (!welcomeShown) {
+            showCartNotification(`Welcome back, ${user.firstName}!`, 'success');
+            sessionStorage.setItem(sessionKey, 'true');
+        }
     },
 
     // Update UI for logged out user
@@ -1522,8 +1562,112 @@ function forgotPassword() {
 function toggleUserDropdown() {
     const dropdown = document.getElementById('userDropdown');
     if (dropdown) {
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        const isCurrentlyVisible = dropdown.style.display === 'block';
+        dropdown.style.display = isCurrentlyVisible ? 'none' : 'block';
     }
+}
+
+// Close user dropdown on page load
+function closeUserDropdown() {
+    const dropdown = document.getElementById('userDropdown');
+    if (dropdown) {
+        dropdown.style.display = 'none';
+    }
+}
+
+// Show bookmarks function
+function showBookmarks() {
+    // Hide profile sections
+    const profileSections = document.querySelectorAll('.profile-section:not(#bookmarksSection)');
+    profileSections.forEach(section => {
+        section.style.display = 'none';
+    });
+    
+    // Show bookmarks section
+    const bookmarksSection = document.getElementById('bookmarksSection');
+    if (bookmarksSection) {
+        bookmarksSection.style.display = 'block';
+        loadBookmarks();
+    }
+    
+    // Update nav active state
+    document.querySelectorAll('.profile-nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+}
+
+// Hide bookmarks function
+function hideBookmarks() {
+    // Show profile sections
+    const profileSections = document.querySelectorAll('.profile-section:not(#bookmarksSection)');
+    profileSections.forEach(section => {
+        section.style.display = 'block';
+    });
+    
+    // Hide bookmarks section
+    const bookmarksSection = document.getElementById('bookmarksSection');
+    if (bookmarksSection) {
+        bookmarksSection.style.display = 'none';
+    }
+    
+    // Update nav active state
+    document.querySelectorAll('.profile-nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.querySelector('.profile-nav-item[href="profile.html"]').classList.add('active');
+}
+
+// Load bookmarks function
+function loadBookmarks() {
+    const bookmarksList = document.getElementById('bookmarksList');
+    const bookmarks = JSON.parse(localStorage.getItem('story-bookmarks')) || {};
+    
+    if (Object.keys(bookmarks).length === 0) {
+        bookmarksList.innerHTML = `
+            <div class="empty-bookmarks">
+                <div class="empty-icon">🔖</div>
+                <h3>No bookmarks yet</h3>
+                <p>Start reading stories and bookmark your favorites!</p>
+                <button class="btn-primary" onclick="location.href='stories.html'">Browse Stories</button>
+            </div>
+        `;
+        return;
+    }
+    
+    let bookmarksHTML = '<div class="bookmarks-grid">';
+    
+    Object.entries(bookmarks).forEach(([storyId, bookmark]) => {
+        const storyFileName = storyId.includes('dragons-ember') ? 'story-dragons-ember.html' :
+                             storyId.includes('elven-moonstone') ? 'story-elven-moonstone.html' :
+                             storyId.includes('guardians-seal') ? 'story-guardians-seal.html' :
+                             `story-${storyId}.html`;
+        
+        bookmarksHTML += `
+            <div class="bookmark-card">
+                <div class="bookmark-info">
+                    <h3>${bookmark.storyTitle || 'Unknown Story'}</h3>
+                    <p>📖 Bookmarked on page ${bookmark.page}</p>
+                    <p class="bookmark-date">⏰ ${new Date(bookmark.timestamp).toLocaleDateString()}</p>
+                </div>
+                <div class="bookmark-actions">
+                    <button class="btn-primary" onclick="location.href='${storyFileName}'">Continue Reading</button>
+                    <button class="btn-danger" onclick="removeBookmark('${storyId}')">Remove</button>
+                </div>
+            </div>
+        `;
+    });
+    
+    bookmarksHTML += '</div>';
+    bookmarksList.innerHTML = bookmarksHTML;
+}
+
+// Remove bookmark function
+function removeBookmark(storyId) {
+    const bookmarks = JSON.parse(localStorage.getItem('story-bookmarks')) || {};
+    delete bookmarks[storyId];
+    localStorage.setItem('story-bookmarks', JSON.stringify(bookmarks));
+    loadBookmarks();
+    showCartNotification('Bookmark removed', 'info');
 }
 
 function openUserProfile() {
@@ -1668,6 +1812,9 @@ toggleWishlist = function(productId) {
 
 // Initialize cart, inventory, wishlist and user system on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Ensure cart is loaded from localStorage
+    cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    
     updateCartCount();
     
     // Initialize inventory management
@@ -1712,6 +1859,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const checkoutForm = document.getElementById('checkoutForm');
         if (checkoutForm) {
             checkoutForm.addEventListener('submit', function(e) {
+                // Validate all steps before final submission
+                if (!validateStep2()) {
+                    e.preventDefault();
+                    return false;
+                }
+                
                 // The form will submit to Netlify automatically
                 // Show a loading state
                 const submitBtn = document.querySelector('.place-order-btn');
@@ -1955,25 +2108,78 @@ function handlePaymentMethodSwitch() {
 
 function showPaymentSection(method) {
     // Hide all payment sections
-    document.getElementById('stripe-card-section').classList.remove('active');
-    document.getElementById('paypal-section').classList.remove('active');
-    document.getElementById('bank-transfer-section').classList.remove('active');
+    document.getElementById('stripe-card-section').style.display = 'none';
+    document.getElementById('bank-transfer-section').style.display = 'none';
     
     // Show selected payment section
     switch(method) {
         case 'stripe':
-            document.getElementById('stripe-card-section').classList.add('active');
-            break;
-        case 'paypal':
-            document.getElementById('paypal-section').classList.add('active');
-            // Render PayPal buttons if not already rendered
-            if (paypalButtons && !document.querySelector('#paypal-button-container .paypal-buttons')) {
-                paypalButtons.render('#paypal-button-container');
-            }
+            document.getElementById('stripe-card-section').style.display = 'block';
             break;
         case 'bank-transfer':
-            document.getElementById('bank-transfer-section').classList.add('active');
+            document.getElementById('bank-transfer-section').style.display = 'block';
             break;
+    }
+}
+
+// External payment redirects
+function redirectToStripe() {
+    // In a real implementation, this would redirect to a Stripe Checkout session
+    const cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    if (cart.length === 0) {
+        showCartNotification('Your cart is empty!', 'error');
+        return;
+    }
+    
+    showCartNotification('Redirecting to Stripe checkout...', 'info');
+    // Simulate redirect
+    setTimeout(() => {
+        window.open('https://checkout.stripe.com/demo', '_blank');
+    }, 1000);
+}
+
+function redirectToEtsy() {
+    showCartNotification('Redirecting to our Etsy store...', 'info');
+    setTimeout(() => {
+        window.open('https://etsy.com/shop/colpjewelry', '_blank');
+    }, 1000);
+}
+
+function redirectToAmazon() {
+    showCartNotification('Redirecting to Amazon Handmade...', 'info');
+    setTimeout(() => {
+        window.open('https://amazon.com/handmade/colp', '_blank');
+    }, 1000);
+}
+
+// Card input formatting
+function initializeCardInputs() {
+    const cardNumber = document.getElementById('cardNumber');
+    const cardExpiry = document.getElementById('cardExpiry');
+    const cardCvc = document.getElementById('cardCvc');
+    
+    if (cardNumber) {
+        cardNumber.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || '';
+            e.target.value = formattedValue;
+        });
+    }
+    
+    if (cardExpiry) {
+        cardExpiry.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+    }
+    
+    if (cardCvc) {
+        cardCvc.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
     }
 }
 
@@ -2146,14 +2352,296 @@ function showPaymentProcessing(show) {
     }
 }
 
-// Checkout Page Initialization
-function initializeCheckoutPage() {
+// Checkout Page Step Navigation
+function goToStep(stepNumber) {
+    // Hide all steps
+    document.querySelectorAll('.checkout-step').forEach(step => {
+        step.style.display = 'none';
+    });
+    
+    // Show the requested step
+    const targetStep = document.getElementById(`step${stepNumber}`);
+    if (targetStep) {
+        targetStep.style.display = 'block';
+        
+        // Update progress indicator
+        updateProgressIndicator(stepNumber);
+        
+        // Scroll to top of the page for better UX
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Update checkout title based on step
+        const checkoutTitle = document.querySelector('.checkout-title');
+        if (checkoutTitle) {
+            switch(stepNumber) {
+                case 1:
+                    checkoutTitle.textContent = 'Checkout - Review Order';
+                    break;
+                case 2:
+                    checkoutTitle.textContent = 'Checkout - Information';
+                    break;
+                case 3:
+                    checkoutTitle.textContent = 'Checkout - Payment';
+                    break;
+            }
+        }
+        
+        // Initialize step-specific functionality
+        if (stepNumber === 2) {
+            initializeUserInformation();
+        } else if (stepNumber === 3) {
+            initializePaymentMethods();
+        }
+    }
+}
+
+// Update progress indicator
+function updateProgressIndicator(currentStep) {
+    const progressSteps = document.querySelectorAll('.progress-step');
+    const progressLines = document.querySelectorAll('.progress-line');
+    
+    progressSteps.forEach((step, index) => {
+        const stepNum = index + 1;
+        step.classList.remove('active', 'completed', 'clickable');
+        
+        if (stepNum < currentStep) {
+            step.classList.add('completed', 'clickable');
+        } else if (stepNum === currentStep) {
+            step.classList.add('active');
+        }
+        
+        // Allow going back to step 1 from any step
+        if (stepNum === 1) {
+            step.classList.add('clickable');
+        }
+    });
+    
+    progressLines.forEach((line, index) => {
+        line.classList.remove('completed');
+        if (index + 1 < currentStep) {
+            line.classList.add('completed');
+        }
+    });
+}
+
+// Navigate to step with validation
+function goToStepIfValid(targetStep) {
+    const currentStepElement = document.querySelector('.progress-step.active');
+    if (!currentStepElement) return;
+    
+    const currentStep = parseInt(currentStepElement.dataset.step);
+    
+    // Always allow going back to previous steps or step 1
+    if (targetStep <= currentStep || targetStep === 1) {
+        goToStep(targetStep);
+        return;
+    }
+    
+    // Validate before moving forward
+    if (targetStep === 3 && currentStep === 2) {
+        if (!validateStep2()) {
+            return; // Stop navigation if validation fails
+        }
+    }
+    
+    goToStep(targetStep);
+}
+
+// Validate Step 2 (Information & Address)
+function validateStep2() {
+    // Check required fields
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const state = document.getElementById('state').value.trim();
+    const zipCode = document.getElementById('zipCode').value.trim();
+    const country = document.getElementById('country').value;
+    
+    // Check if required fields are filled
+    if (!firstName) {
+        showValidationError('Please enter your first name');
+        document.getElementById('firstName').focus();
+        return false;
+    }
+    
+    if (!lastName) {
+        showValidationError('Please enter your last name');
+        document.getElementById('lastName').focus();
+        return false;
+    }
+    
+    if (!email) {
+        showValidationError('Please enter your email address');
+        document.getElementById('email').focus();
+        return false;
+    }
+    
+    if (!address) {
+        showValidationError('Please enter your address (Adres seçmediniz)');
+        document.getElementById('address').focus();
+        return false;
+    }
+    
+    if (!city) {
+        showValidationError('Please enter your city');
+        document.getElementById('city').focus();
+        return false;
+    }
+    
+    if (!state) {
+        showValidationError('Please enter your state/province');
+        document.getElementById('state').focus();
+        return false;
+    }
+    
+    if (!zipCode) {
+        showValidationError('Please enter your zip/postal code');
+        document.getElementById('zipCode').focus();
+        return false;
+    }
+    
+    if (!country) {
+        showValidationError('Please select your country');
+        document.getElementById('country').focus();
+        return false;
+    }
+    
+    return true;
+}
+
+// Show validation error popup
+function showValidationError(message) {
+    // Create modal overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.3s ease;
+    `;
+    
+    // Create popup
+    const popup = document.createElement('div');
+    popup.style.cssText = `
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        max-width: 400px;
+        margin: 1rem;
+        text-align: center;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    popup.innerHTML = `
+        <div style="color: #dc3545; font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+        <h3 style="color: #8B4513; margin-bottom: 1rem; font-size: 1.2rem;">Validation Error</h3>
+        <p style="color: #666; margin-bottom: 2rem; line-height: 1.5;">${message}</p>
+        <button onclick="closeValidationError()" style="
+            background: linear-gradient(45deg, #d4af37, #ffd700);
+            color: #1a1a2e;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        ">OK, Got it</button>
+    `;
+    
+    overlay.appendChild(popup);
+    document.body.appendChild(overlay);
+    
+    // Store reference for closing
+    window.currentValidationError = overlay;
+    
+    // Add keyboard support (ESC to close)
+    const keyHandler = (e) => {
+        if (e.key === 'Escape') {
+            closeValidationError();
+            document.removeEventListener('keydown', keyHandler);
+        }
+    };
+    document.addEventListener('keydown', keyHandler);
+    
+    // Close when clicking on overlay
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closeValidationError();
+        }
+    });
+    
+    // Auto close after 5 seconds
+    setTimeout(() => {
+        if (window.currentValidationError) {
+            closeValidationError();
+        }
+    }, 5000);
+}
+
+// Close validation error popup
+function closeValidationError() {
+    if (window.currentValidationError) {
+        window.currentValidationError.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+            if (window.currentValidationError && window.currentValidationError.parentNode) {
+                window.currentValidationError.parentNode.removeChild(window.currentValidationError);
+            }
+            window.currentValidationError = null;
+        }, 300);
+    }
+}
+
+// Simple Address Manager for Checkout
+const checkoutAddressManager = {
+    // Get user addresses
+    getUserAddresses(userId) {
+        const addresses = JSON.parse(localStorage.getItem('colp-user-addresses')) || {};
+        return addresses[userId] || [];
+    },
+    
+    // Save user address
+    saveUserAddress(userId, address) {
+        const addresses = JSON.parse(localStorage.getItem('colp-user-addresses')) || {};
+        if (!addresses[userId]) addresses[userId] = [];
+        
+        address.id = 'addr_' + Date.now();
+        address.createdAt = new Date().toISOString();
+        addresses[userId].push(address);
+        
+        localStorage.setItem('colp-user-addresses', JSON.stringify(addresses));
+        return address;
+    },
+    
+    // Set default address
+    setDefaultAddress(userId, addressId) {
+        const addresses = JSON.parse(localStorage.getItem('colp-user-addresses')) || {};
+        if (addresses[userId]) {
+            addresses[userId].forEach(addr => {
+                addr.isDefault = addr.id === addressId;
+            });
+            localStorage.setItem('colp-user-addresses', JSON.stringify(addresses));
+        }
+    }
+};
+
+// Initialize user information section (Step 2)
+function initializeUserInformation() {
     const currentUser = userManager.getCurrentUser();
     const userStatusSection = document.getElementById('userStatusSection');
-    const savedAddressesSection = document.getElementById('savedAddressesSection');
     
     if (currentUser) {
-        // User is logged in
+        // User is logged in - NO continue as guest option
         userStatusSection.innerHTML = `
             <div class="user-logged-in">
                 <div class="user-info">
@@ -2161,10 +2649,8 @@ function initializeCheckoutPage() {
                     <div class="user-details">
                         <h3>Welcome back, ${currentUser.firstName}!</h3>
                         <p>Logged in as ${currentUser.email}</p>
+                        <small style="color: #8b7355; font-style: italic;">You're checked out as a registered user</small>
                     </div>
-                </div>
-                <div class="user-actions">
-                    <button type="button" class="btn-secondary" onclick="logoutAndContinueAsGuest()">Continue as Guest</button>
                 </div>
             </div>
         `;
@@ -2174,9 +2660,8 @@ function initializeCheckoutPage() {
         document.getElementById('lastName').value = currentUser.lastName || '';
         document.getElementById('email').value = currentUser.email || '';
         
-        // Load saved addresses
-        loadSavedAddressesForCheckout(currentUser.id);
-        savedAddressesSection.style.display = 'block';
+        // Load saved addresses for checkout
+        loadCheckoutAddresses(currentUser.id);
         
     } else {
         // User is not logged in
@@ -2197,77 +2682,232 @@ function initializeCheckoutPage() {
                 </div>
             </div>
         `;
-        savedAddressesSection.style.display = 'none';
+        
+        // For guest users, show the "Add Address" button but hide form initially
+        const savedAddressesDisplay = document.getElementById('savedAddressesDisplay');
+        savedAddressesDisplay.innerHTML = `
+            <div class="no-addresses">
+                <p>📍 Please add your shipping address</p>
+                <button type="button" class="btn-primary add-address-btn" onclick="showAddressForm()">
+                    <span>+</span> Add New Address
+                </button>
+            </div>
+        `;
+        hideAddressForm();
     }
 }
 
-// Load saved addresses for checkout
-function loadSavedAddressesForCheckout(userId) {
-    if (typeof addressManager === 'undefined') {
-        return; // addressManager is defined in profile.js, might not be loaded
-    }
-    
-    const addresses = addressManager.getUserAddresses(userId);
-    const savedAddressesSelect = document.getElementById('savedAddresses');
+// Load checkout addresses for logged-in users
+function loadCheckoutAddresses(userId) {
+    const addresses = checkoutAddressManager.getUserAddresses(userId);
+    const savedAddressesDisplay = document.getElementById('savedAddressesDisplay');
+    const addressForm = document.getElementById('addressForm');
     
     if (addresses.length === 0) {
-        document.getElementById('savedAddressesSection').style.display = 'none';
-        return;
-    }
-    
-    // Clear existing options
-    savedAddressesSelect.innerHTML = '<option value="">Choose a saved address or enter new one</option>';
-    
-    // Add address options
-    addresses.forEach(address => {
-        const option = document.createElement('option');
-        option.value = address.id;
-        option.textContent = `${address.title} - ${address.firstName} ${address.lastName}, ${address.city}, ${address.state}`;
-        if (address.isDefault) {
-            option.textContent += ' (Default)';
-            option.selected = true;
-        }
-        savedAddressesSelect.appendChild(option);
-    });
-    
-    // If there's a default address, auto-fill the form
-    const defaultAddress = addresses.find(addr => addr.isDefault);
-    if (defaultAddress) {
+        // No saved addresses - show "Add Address" button
+        savedAddressesDisplay.innerHTML = `
+            <div class="no-addresses">
+                <p>📍 No saved addresses found</p>
+                <button type="button" class="btn-primary add-address-btn" onclick="showAddressForm()">
+                    <span>+</span> Add New Address
+                </button>
+            </div>
+        `;
+        hideAddressForm(); // Hide form initially
+    } else {
+        // Show saved addresses
+        const defaultAddress = addresses.find(addr => addr.isDefault) || addresses[0];
+        
+        savedAddressesDisplay.innerHTML = `
+            <div class="saved-addresses-list">
+                <div class="selected-address" onclick="showAddressOptions()">
+                    <div class="address-info">
+                        <h4>${defaultAddress.title || 'Address'}</h4>
+                        <p>${defaultAddress.street}</p>
+                        <p>${defaultAddress.city}, ${defaultAddress.state} ${defaultAddress.zip}</p>
+                        <p>${defaultAddress.country}</p>
+                    </div>
+                    <div class="address-actions">
+                        <span class="address-change-text">Click to change</span>
+                        <span class="address-arrow">▼</span>
+                    </div>
+                </div>
+                <div class="address-options" id="addressOptions" style="display: none;">
+                    ${addresses.map(addr => `
+                        <div class="address-option ${addr.id === defaultAddress.id ? 'selected' : ''}" onclick="selectAddress('${addr.id}')">
+                            <div class="address-option-info">
+                                <strong>${addr.title}</strong>
+                                <p>${addr.street}, ${addr.city}, ${addr.state}</p>
+                            </div>
+                            ${addr.id === defaultAddress.id ? '<span class="selected-badge">✓</span>' : ''}
+                        </div>
+                    `).join('')}
+                    <div class="address-option add-new" onclick="showAddressForm()">
+                        <span class="add-icon">+</span>
+                        <strong>Add New Address</strong>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Fill form with default address but keep it hidden
         fillAddressForm(defaultAddress);
+        hideAddressForm();
     }
 }
 
-// Handle saved address selection change
-function handleSavedAddressChange() {
-    const savedAddressesSelect = document.getElementById('savedAddresses');
-    const selectedAddressId = savedAddressesSelect.value;
+// Show address form
+function showAddressForm() {
+    const addressForm = document.getElementById('addressForm');
+    const addressFormActions = document.getElementById('addressFormActions');
     
-    if (!selectedAddressId) {
-        clearAddressForm();
+    addressForm.style.display = 'block';
+    addressFormActions.style.display = 'block';
+    
+    // Clear form when showing
+    clearAddressForm();
+    
+    // Hide address options if they're open
+    const addressOptions = document.getElementById('addressOptions');
+    if (addressOptions) {
+        addressOptions.style.display = 'none';
+    }
+}
+
+// Hide address form
+function hideAddressForm() {
+    const addressForm = document.getElementById('addressForm');
+    const addressFormActions = document.getElementById('addressFormActions');
+    
+    addressForm.style.display = 'none';
+    addressFormActions.style.display = 'none';
+}
+
+// Show/hide address options
+function showAddressOptions() {
+    const addressOptions = document.getElementById('addressOptions');
+    const isVisible = addressOptions.style.display === 'block';
+    addressOptions.style.display = isVisible ? 'none' : 'block';
+}
+
+// Select an address
+function selectAddress(addressId) {
+    const currentUser = userManager.getCurrentUser();
+    if (!currentUser) return;
+    
+    const addresses = checkoutAddressManager.getUserAddresses(currentUser.id);
+    const selectedAddress = addresses.find(addr => addr.id === addressId);
+    
+    if (selectedAddress) {
+        // Set as default
+        checkoutAddressManager.setDefaultAddress(currentUser.id, addressId);
+        
+        // Fill form (but keep it hidden)
+        fillAddressForm(selectedAddress);
+        
+        // Hide address form when selecting existing address
+        hideAddressForm();
+        
+        // Reload display
+        loadCheckoutAddresses(currentUser.id);
+    }
+}
+
+// Save new address
+function saveNewAddress() {
+    const currentUser = userManager.getCurrentUser();
+    if (!currentUser) return;
+    
+    const title = document.getElementById('addressTitle').value.trim();
+    const street = document.getElementById('address').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const state = document.getElementById('state').value.trim();
+    const zip = document.getElementById('zipCode').value.trim();
+    const country = document.getElementById('country').value;
+    
+    if (!title || !street || !city || !state || !zip || !country) {
+        showValidationError('Please fill in all address fields');
         return;
     }
     
-    const currentUser = userManager.getCurrentUser();
-    if (!currentUser || typeof addressManager === 'undefined') return;
+    const newAddress = {
+        title,
+        street,
+        city,
+        state,
+        zip,
+        country,
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        phone: document.getElementById('phone').value
+    };
     
-    const addresses = addressManager.getUserAddresses(currentUser.id);
-    const selectedAddress = addresses.find(addr => addr.id === selectedAddressId);
+    // Save address
+    const savedAddress = checkoutAddressManager.saveUserAddress(currentUser.id, newAddress);
     
-    if (selectedAddress) {
-        fillAddressForm(selectedAddress);
+    // Set as default if it's the first address
+    const addresses = checkoutAddressManager.getUserAddresses(currentUser.id);
+    if (addresses.length === 1) {
+        checkoutAddressManager.setDefaultAddress(currentUser.id, savedAddress.id);
     }
+    
+    // Reload display (this will hide the form)
+    loadCheckoutAddresses(currentUser.id);
+    
+    showCartNotification('Address saved successfully!', 'success');
+}
+
+// Cancel address form
+function cancelAddressForm() {
+    const currentUser = userManager.getCurrentUser();
+    
+    // Always hide the form when canceling
+    hideAddressForm();
+    
+    if (currentUser) {
+        const addresses = checkoutAddressManager.getUserAddresses(currentUser.id);
+        if (addresses.length > 0) {
+            const defaultAddress = addresses.find(addr => addr.isDefault) || addresses[0];
+            fillAddressForm(defaultAddress);
+        } else {
+            clearAddressForm();
+        }
+    } else {
+        // For guest users, just clear the form
+        clearAddressForm();
+    }
+}
+
+// Initialize payment methods (Step 3)
+function initializePaymentMethods() {
+    // Initialize card input formatting
+    initializeCardInputs();
+    
+    // Re-initialize payment systems if needed
+    if (typeof initializePaymentSystems === 'function') {
+        initializePaymentSystems();
+    }
+    
+    // Set default payment section to be visible
+    showPaymentSection('stripe');
+}
+
+// Checkout Page Initialization
+function initializeCheckoutPage() {
+    // Start with step 1
+    goToStep(1);
 }
 
 // Fill address form with saved address data
 function fillAddressForm(address) {
-    document.getElementById('firstName').value = address.firstName;
-    document.getElementById('lastName').value = address.lastName;
+    document.getElementById('firstName').value = address.firstName || '';
+    document.getElementById('lastName').value = address.lastName || '';
     document.getElementById('phone').value = address.phone || '';
-    document.getElementById('address').value = address.street;
-    document.getElementById('city').value = address.city;
-    document.getElementById('state').value = address.state;
-    document.getElementById('zipCode').value = address.zip;
-    document.getElementById('country').value = address.country;
+    document.getElementById('address').value = address.street || '';
+    document.getElementById('city').value = address.city || '';
+    document.getElementById('state').value = address.state || '';
+    document.getElementById('zipCode').value = address.zip || '';
+    document.getElementById('country').value = address.country || '';
 }
 
 // Clear address form
@@ -2277,19 +2917,8 @@ function clearAddressForm() {
     document.getElementById('state').value = '';
     document.getElementById('zipCode').value = '';
     document.getElementById('country').value = '';
+    document.getElementById('addressTitle').value = '';
 }
 
-// Use new address (clear selection)
-function useNewAddress() {
-    document.getElementById('savedAddresses').value = '';
-    clearAddressForm();
-}
-
-// Logout and continue as guest
-function logoutAndContinueAsGuest() {
-    if (confirm('Are you sure you want to continue as guest? You will lose access to saved addresses and order tracking.')) {
-        userManager.logoutUser();
-        initializeCheckoutPage();
-        showCartNotification('Continuing as guest checkout', 'info');
-    }
-}
+// Note: logoutAndContinueAsGuest function removed as per user request
+// Users who are logged in cannot switch to guest checkout

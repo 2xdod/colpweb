@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Guardian's Seal - Colp Town Stories</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="story-book.css">
+</head>
+<body>
+    <div class="story-reader">
+        <!-- Story Header -->
+        <div class="story-header">
+            <div class="story-nav">
+                <button class="btn-back" onclick="location.href='stories.html'">← Back to Stories</button>
+                <div class="story-controls">
+                    <button class="btn-bookmark" id="bookmarkBtn" onclick="toggleBookmark()">🔖</button>
+                    <button class="btn-settings" onclick="toggleReaderSettings()">⚙️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Cover -->
+        <div class="book-cover" id="bookCover">
+            <div class="book-cover-content">
+                <div class="cover-image">
+                    <img src="https://via.placeholder.com/400x600/DC143C/FFFFFF?text=The+Guardian's+Seal" alt="The Guardian's Seal">
+                </div>
+                <div class="cover-info">
+                    <h1>The Guardian's Seal</h1>
+                    <p class="story-author">From the Chronicles of Colp Town</p>
+                    <p class="story-category">Historical Legend</p>
+                    <div class="story-stats">
+                        <span>📖 Long Story</span>
+                        <span>⏱️ ~18 min read</span>
+                        <span>❤️ 1,523 readers</span>
+                    </div>
+                    <button class="btn-start-reading" onclick="startReading()">Start Reading</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reader Settings Panel -->
+        <div class="reader-settings" id="readerSettings">
+            <div class="settings-panel">
+                <h3>Reading Settings</h3>
+                <div class="setting-group">
+                    <label>Font Size:</label>
+                    <div class="font-size-controls">
+                        <button onclick="changeFontSize(-1)">A-</button>
+                        <span id="fontSize">16px</span>
+                        <button onclick="changeFontSize(1)">A+</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>Theme:</label>
+                    <div class="theme-controls">
+                        <button onclick="changeTheme('light')" class="theme-btn light">Light</button>
+                        <button onclick="changeTheme('dark')" class="theme-btn dark active">Dark</button>
+                        <button onclick="changeTheme('sepia')" class="theme-btn sepia">Sepia</button>
+                    </div>
+                </div>
+                <div class="settings-actions">
+                    <button class="btn-apply" onclick="applySettings()">Apply Changes</button>
+                    <button class="btn-close" onclick="closeSettings()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Pages -->
+        <div class="book-container" id="bookContainer" style="display: none;">
+            <div class="book-wrapper">
+                <div class="page-indicator">
+                    <span id="currentPage">1</span> / <span id="totalPages">8</span>
+                </div>
+                
+                <div class="book-pages" id="bookPages">
+                    <!-- Page 1 -->
+                    <div class="page active" data-page="1">
+                        <div class="page-content">
+                            <h2>Chapter 1: The Last Stand</h2>
+                            <p>The year was 1387, and darkness had descended upon the peaceful town of Colp like a plague. From the Shadowlands beyond the eastern mountains came an army unlike any the realm had ever faced - creatures of pure malice, beings of shadow and nightmare that devoured light itself.</p>
+                            
+                            <p>Commander Thane Ironguard stood atop the town's walls, his weathered hands gripping the ancient stone as he watched the approaching horde. Behind him, the seven Guardian Knights prepared for what they all knew would be their final battle. Each wore a ring bearing the seal of their order - a crimson ruby set in silver, inscribed with protective runes that had been passed down through generations.</p>
+                            
+                            <p>"The evacuation is complete," reported Knight-Captain Sera Dawnbreaker, her voice steady despite the fear that gripped them all. "The townspeople have reached the sanctuary caves. We are all that stands between them and annihilation."</p>
+                            
+                            <p>Thane nodded grimly. The Guardian Knights had sworn an oath to protect Colp Town with their lives, and today that oath would be tested to its ultimate extreme. As the shadow army drew closer, the protective wards around the town began to flicker and fail.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 2 -->
+                    <div class="page" data-page="2">
+                        <div class="page-content">
+                            <p>"There is one way," whispered the eldest of their order, Knight-Sage Aldric the Wise. His ancient voice carried the weight of centuries of knowledge. "The Seal of Unity. If we combine our rings and offer our life force willingly, we can create a protective barrier that will last for generations."</p>
+                            
+                            <p>The other knights turned to face him, understanding immediately the magnitude of what he proposed. The Seal of Unity was a legendary ritual, spoken of only in the most sacred texts. It required the ultimate sacrifice - the complete merging of seven souls into a single protective force.</p>
+                            
+                            <p>"Our bodies will perish," Aldric continued, "but our spirits will remain, bound to the rings, watching over Colp Town for all eternity. No shadow creature will be able to pass through our protection."</p>
+                            
+                            <p>One by one, the knights placed their hands over their hearts, where their Guardian rings rested against their armor. The weight of the decision was immense, but as they looked toward the town they had sworn to protect, their resolve hardened like tempered steel.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 3 -->
+                    <div class="page" data-page="3">
+                        <div class="page-content">
+                            <h2>Chapter 2: The Ritual</h2>
+                            <p>As the shadow army crashed against the town's outer defenses like a black tide, the seven Guardian Knights formed a circle in the town square. Each removed their ring and placed it in the center, the rubies beginning to glow with an inner fire that pushed back the encroaching darkness.</p>
+                            
+                            <p>Thane spoke the ancient words first: "I, Thane Ironguard, Guardian of the Western Gate, offer my strength to the eternal watch." His ring flared brightly, and his body began to shimmer with ethereal light.</p>
+                            
+                            <p>One by one, his companions followed. Sera offered her courage, Marcus his wisdom, Elena her compassion, Gareth his determination, Diana her hope, and finally, Aldric his knowledge. As each Guardian spoke their offering, their physical forms grew translucent, their life essence flowing into the rings.</p>
+                            
+                            <p>The seven rings began to spin in the air above the circle, merging and separating in an intricate dance of light and power. The shadow creatures that had breached the walls recoiled in terror as the divine light grew stronger, their forms dissolving like mist before the dawn.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 4 -->
+                    <div class="page" data-page="4">
+                        <div class="page-content">
+                            <p>When the ritual reached its crescendo, a dome of brilliant crimson light erupted from the rings, expanding outward to encompass the entire town. The shadow army, caught within its reach, shrieked in agony as they were purified and banished back to the void from which they came.</p>
+                            
+                            <p>As the light faded, the seven rings descended slowly to the ground, their appearance transformed. Each now bore not just the Guardian seal, but the essence of the knight who had sacrificed themselves. They pulsed with a warm, steady glow that spoke of watchful protection and unwavering vigilance.</p>
+                            
+                            <p>The townspeople emerged from their hiding places to find Colp Town saved, but at a terrible cost. The seven Guardian Knights were gone, their physical forms dissolved into the protective magic that now surrounded their home. In the town square stood seven small monuments, each bearing a ring and the name of a fallen hero.</p>
+                            
+                            <p>But those with the sight could see that the knights were not truly gone. They could glimpse shadowy figures walking the walls at night, hear the whisper of armor in empty halls, and feel the warm presence of protectors who had transcended death itself.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 5 -->
+                    <div class="page" data-page="5">
+                        <div class="page-content">
+                            <h2>Chapter 3: The Legacy</h2>
+                            <p>Years passed, and Colp Town flourished under the protection of the Guardian's Seal. The rings became the town's most precious treasures, housed in a special shrine where citizens could come to pray for protection and guidance.</p>
+                            
+                            <p>It was during the Harvest Festival of 1395 that young apprentice jeweler Mira Goldleaf first heard the whispers. As she polished the shrine's silver fixtures, she became aware of voices that seemed to come from the very air around the rings.</p>
+                            
+                            <p>"Child," came a gentle voice that seemed to belong to the ring marked with Sera's name. "You have the gift. We can sense it in your hands, in the way you work with precious metals and stones."</p>
+                            
+                            <p>Mira gasped and stepped back, but the voice continued, kind but urgent. "Our protection grows stronger when our essence is shared. If you can craft seven new rings, each containing a fragment of our power, we can extend our watch beyond the town's borders."</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 6 -->
+                    <div class="page" data-page="6">
+                        <div class="page-content">
+                            <p>Working in secret, guided by the spirits of the Guardian Knights, Mira spent months crafting seven perfect replica rings. Each was made from silver mined from the sacred mountains and set with rubies that had been blessed in the shrine's eternal flame.</p>
+                            
+                            <p>As she completed each ring, she felt a presence enter it - not the full spirit of a Guardian Knight, but a fragment of their essence, enough to provide protection and guidance to whoever wore it. The original rings remained in the shrine, their power undiminished, while these new rings carried their blessing out into the world.</p>
+                            
+                            <p>The first ring went to a traveling merchant who had been plagued by bandits. The second to a young mother whose child suffered from mysterious nightmares. The third to a soldier departing for distant wars. One by one, the Guardian's Seals found their way to those who needed protection most.</p>
+                            
+                            <p>And with each ring that was given freely and worn with pure intent, the power of the original Guardian's Seal grew stronger, the protective dome around Colp Town expanded, and the eternal watch of the seven heroes continued.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 7 -->
+                    <div class="page" data-page="7">
+                        <div class="page-content">
+                            <h2>Chapter 4: The Modern Era</h2>
+                            <p>Centuries have passed since that dark day when seven heroes gave their lives for love of their town. The shadow armies have not returned, but other evils have threatened the peace - plagues, wars, natural disasters, and the simple corruption that can grow in men's hearts.</p>
+                            
+                            <p>Through it all, the Guardian's Seals have endured. The original seven rings still rest in their shrine, tended by a succession of guardians who have kept the flame of remembrance burning bright. But it is the replica rings, now numbering in the hundreds, that have truly fulfilled the Knights' promise.</p>
+                            
+                            <p>They are worn by protectors of all kinds - town guards and city watchmen, healers and teachers, parents and leaders. Each ring connects its wearer to the eternal vigil of the seven Guardian Knights, providing strength in times of trial and wisdom in moments of doubt.</p>
+                            
+                            <p>The jewelers of Colp Town continue Mira's work, though few possess the gift to create true Guardian's Seals. Those who do are marked by a special calling, chosen by the spirits themselves to carry on the sacred craft.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 8 -->
+                    <div class="page" data-page="8">
+                        <div class="page-content">
+                            <h2>Epilogue: The Eternal Watch</h2>
+                            <p>Today, visitors to Colp Town can still visit the Shrine of the Seven, where the original Guardian's Seals rest in places of honor. The crimson rubies still glow with inner fire, and those with sensitive hearts can feel the presence of the knights who sacrificed everything for love.</p>
+                            
+                            <p>Local folklore tells of a night watchman who walks the walls during the darkest hours, his armor gleaming despite the shadows. Children speak of dreams where a kind knight with gentle eyes watches over them while they sleep. And more than one visitor has reported feeling a warm hand on their shoulder during moments of fear or doubt.</p>
+                            
+                            <p>The Guardian's Seal rings that bear the blessing of the seven continue to find their way to those who need them most. They cannot be bought or stolen - only given freely to those deemed worthy by the spirits that inhabit them.</p>
+                            
+                            <p>For in the end, the greatest magic is not in the rings themselves, but in the love and sacrifice that created them. The seven Guardian Knights may have given their lives centuries ago, but their protection lives on, an eternal reminder that some bonds are stronger than death, and some promises endure forever.</p>
+                            
+                            <div class="story-end">
+                                <p><em>~ End of The Guardian's Seal ~</em></p>
+                                <button class="btn-primary" onclick="showStoryComplete()">Story Complete!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="page-navigation">
+                    <button class="nav-btn prev" onclick="previousPage()" id="prevBtn" disabled>‹ Previous</button>
+                    <div class="page-dots" id="pageDots"></div>
+                    <button class="nav-btn next" onclick="nextPage()" id="nextBtn">Next ›</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading Progress -->
+        <div class="reading-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-text" id="progressText">0% completed</span>
+        </div>
+    </div>
+
+    <!-- Table of Contents Modal -->
+    <div class="modal" id="tocModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Table of Contents</h2>
+                <button class="modal-close" onclick="closeTOC()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="toc-list">
+                    <a href="#" onclick="goToPage(1)">Chapter 1: The Last Stand</a>
+                    <a href="#" onclick="goToPage(3)">Chapter 2: The Ritual</a>
+                    <a href="#" onclick="goToPage(5)">Chapter 3: The Legacy</a>
+                    <a href="#" onclick="goToPage(7)">Chapter 4: The Modern Era</a>
+                    <a href="#" onclick="goToPage(8)">Epilogue: The Eternal Watch</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="story-reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Elven Moonstone - Colp Town Stories</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="story-book.css">
+</head>
+<body>
+    <div class="story-reader">
+        <!-- Story Header -->
+        <div class="story-header">
+            <div class="story-nav">
+                <button class="btn-back" onclick="location.href='stories.html'">← Back to Stories</button>
+                <div class="story-controls">
+                    <button class="btn-bookmark" id="bookmarkBtn" onclick="toggleBookmark()">🔖</button>
+                    <button class="btn-settings" onclick="toggleReaderSettings()">⚙️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Cover -->
+        <div class="book-cover" id="bookCover">
+            <div class="book-cover-content">
+                <div class="cover-image">
+                    <img src="https://via.placeholder.com/400x600/4169E1/FFFFFF?text=The+Elven+Moonstone" alt="The Elven Moonstone">
+                </div>
+                <div class="cover-info">
+                    <h1>The Elven Moonstone</h1>
+                    <p class="story-author">From the Chronicles of Colp Town</p>
+                    <p class="story-category">Elven Magic</p>
+                    <div class="story-stats">
+                        <span>📖 Medium Length Story</span>
+                        <span>⏱️ ~12 min read</span>
+                        <span>❤️ 1,634 readers</span>
+                    </div>
+                    <button class="btn-start-reading" onclick="startReading()">Start Reading</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reader Settings Panel -->
+        <div class="reader-settings" id="readerSettings">
+            <div class="settings-panel">
+                <h3>Reading Settings</h3>
+                <div class="setting-group">
+                    <label>Font Size:</label>
+                    <div class="font-size-controls">
+                        <button onclick="changeFontSize(-1)">A-</button>
+                        <span id="fontSize">16px</span>
+                        <button onclick="changeFontSize(1)">A+</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>Theme:</label>
+                    <div class="theme-controls">
+                        <button onclick="changeTheme('light')" class="theme-btn light">Light</button>
+                        <button onclick="changeTheme('dark')" class="theme-btn dark active">Dark</button>
+                        <button onclick="changeTheme('sepia')" class="theme-btn sepia">Sepia</button>
+                    </div>
+                </div>
+                <div class="settings-actions">
+                    <button class="btn-apply" onclick="applySettings()">Apply Changes</button>
+                    <button class="btn-close" onclick="closeSettings()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Pages -->
+        <div class="book-container" id="bookContainer" style="display: none;">
+            <div class="book-wrapper">
+                <div class="page-indicator">
+                    <span id="currentPage">1</span> / <span id="totalPages">5</span>
+                </div>
+                
+                <div class="book-pages" id="bookPages">
+                    <!-- Page 1 -->
+                    <div class="page active" data-page="1">
+                        <div class="page-content">
+                            <h2>Chapter 1: The Midnight Forest</h2>
+                            <p>In the heart of the Silverleaf Forest, where ancient trees stretched toward the heavens and their leaves caught starlight like silver nets, lived the moon elves of the Luminari clan. For centuries, they had been the guardians of celestial magic, drawing power from the phases of the moon that hung eternally above their sacred grove.</p>
+                            
+                            <p>Lyralei was different from her kin. While other moon elves possessed the traditional silver hair that shimmered like moonbeams, hers was touched with streaks of midnight blue, as if the night sky itself had claimed her. The elders whispered that she was born during a rare eclipse, when both sun and moon shared the sky in perfect harmony.</p>
+                            
+                            <p>On this particular night, as the full moon reached its zenith, Lyralei felt a calling unlike any she had experienced before. The ancient Moonwell, a sacred pool that reflected not the forest around it but the celestial realm above, began to glow with an ethereal light.</p>
+                            
+                            <p>She approached the well cautiously, her bare feet silent on the moss-covered stones. The water's surface rippled without any wind, and in its depths, she saw not her own reflection, but the face of an ancient elven queen she had only heard of in legends.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 2 -->
+                    <div class="page" data-page="2">
+                        <div class="page-content">
+                            <p>"Lyralei, child of two realms," the vision spoke, her voice like silver bells carried on night wind. "I am Queen Selenea, last of the Celestial Elves. I have waited three hundred years for one worthy to receive my gift."</p>
+                            
+                            <p>The young elf gasped as the queen's image became clearer. Her ethereal beauty was otherworldly, and around her neck hung a pendant that seemed to capture the very essence of moonlight within its crystalline depths.</p>
+                            
+                            <p>"This pendant was crafted from a fragment of the moon itself, blessed by the ancient magic that predates even our eldest trees. It has the power to bridge the gap between the mortal realm and the celestial plane, to heal hearts broken by darkness, and to bring peace to troubled souls."</p>
+                            
+                            <p>As the queen spoke, the Moonwell began to bubble gently, and from its depths rose the very pendant she wore. It floated above the water, glowing with soft silver light that pulsed in rhythm with Lyralei's heartbeat.</p>
+                            
+                            <p>"But why me?" Lyralei whispered, her voice barely audible above the forest's night song.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 3 -->
+                    <div class="page" data-page="3">
+                        <div class="page-content">
+                            <h2>Chapter 2: The Choice</h2>
+                            <p>"Because, dear child, you alone among your people possess the rare gift of eclipse magic - the ability to unite opposing forces in harmony. The pendant requires someone who understands that true power comes not from light or darkness alone, but from the balance between them."</p>
+                            
+                            <p>Lyralei reached out tentatively, her fingers trembling as they approached the floating pendant. The moment her skin made contact with the moonstone, visions flooded her mind. She saw the great wars between light and shadow, witnessed the sacrifice of the Celestial Elves who gave their lives to protect the mortal realm, and felt the weight of destiny settling upon her shoulders.</p>
+                            
+                            <p>The pendant was more beautiful than any earthly jewel. The moonstone seemed to contain actual moonbeams trapped within its crystalline structure, and the silver setting was worked with intricate patterns that seemed to shift and dance in the pale light.</p>
+                            
+                            <p>"With this pendant," Queen Selenea continued, "you will become the bridge between your people and the humans of Colp Town. Your jewelry will carry blessings of peace, healing, and protection. But remember - such gifts come with great responsibility."</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 4 -->
+                    <div class="page" data-page="4">
+                        <div class="page-content">
+                            <p>As Lyralei placed the pendant around her neck, she felt a surge of power unlike anything she had ever experienced. The forest around her seemed to come alive with new magic, and she could sense the emotions and needs of every living creature within miles.</p>
+                            
+                            <p>A wounded deer limped into the clearing, its leg caught in a hunter's trap. Without thinking, Lyralei approached and placed her hand on the animal's injury. The moonstone pendant glowed brighter, and the deer's wound healed instantly, leaving not even a scar.</p>
+                            
+                            <p>"This is just the beginning," the queen's voice whispered, though her image was beginning to fade. "Go now to Colp Town. There you will find others who share your gift for crafting magical jewelry. Together, you will create pieces that will protect the innocent and bring hope to those in despair."</p>
+                            
+                            <p>As the vision faded completely, Lyralei stood alone by the Moonwell, the pendant warm against her heart. She knew her life had changed forever, and that her destiny lay beyond the borders of the Silverleaf Forest.</p>
+                        </div>
+                    </div>
+
+                    <!-- Page 5 -->
+                    <div class="page" data-page="5">
+                        <div class="page-content">
+                            <h2>Epilogue: The Moonlight Jeweler</h2>
+                            <p>Lyralei's journey to Colp Town marked the beginning of a new era. Working alongside the town's skilled craftspeople, she established the Moonlight Atelier, where elven magic and human craftsmanship merged to create jewelry of unprecedented beauty and power.</p>
+                            
+                            <p>Her moonstone-enhanced pieces became legendary throughout the land. Lovers exchanged rings that would glow when their hearts beat in unison. Travelers wore amulets that would light their way through the darkest nights. And those who suffered from nightmares found peace in pendants that brought prophetic dreams.</p>
+                            
+                            <p>The Elven Moonstone remained her most prized possession, but its magic had grown stronger through her generous heart. Each piece she created carried a fragment of its power, spreading celestial blessings to all who wore them.</p>
+                            
+                            <p>To this day, visitors to Colp Town speak of the mysterious Moonlight Atelier, where an elven jeweler with midnight-blue hair works by the light of captured moonbeams, creating treasures that bridge the gap between the mortal world and the realm of dreams.</p>
+                            
+                            <div class="story-end">
+                                <p><em>~ End of The Elven Moonstone ~</em></p>
+                                <button class="btn-primary" onclick="showStoryComplete()">Story Complete!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="page-navigation">
+                    <button class="nav-btn prev" onclick="previousPage()" id="prevBtn" disabled>‹ Previous</button>
+                    <div class="page-dots" id="pageDots"></div>
+                    <button class="nav-btn next" onclick="nextPage()" id="nextBtn">Next ›</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading Progress -->
+        <div class="reading-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-text" id="progressText">0% completed</span>
+        </div>
+    </div>
+
+    <!-- Table of Contents Modal -->
+    <div class="modal" id="tocModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Table of Contents</h2>
+                <button class="modal-close" onclick="closeTOC()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="toc-list">
+                    <a href="#" onclick="goToPage(1)">Chapter 1: The Midnight Forest</a>
+                    <a href="#" onclick="goToPage(3)">Chapter 2: The Choice</a>
+                    <a href="#" onclick="goToPage(5)">Epilogue: The Moonlight Jeweler</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="story-reader.js"></script>
+</body>
+</html>

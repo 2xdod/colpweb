@@ -44,6 +44,24 @@
         <div class="container">
             <h1 class="checkout-title">Checkout</h1>
             
+            <!-- Step Progress Indicator -->
+            <div class="step-progress">
+                <div class="progress-step active" data-step="1" onclick="goToStepIfValid(1)">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Review</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="2" onclick="goToStepIfValid(2)">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Information</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3" onclick="goToStepIfValid(3)">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Payment</div>
+                </div>
+            </div>
+            
             <div class="checkout-layout">
                 <div class="checkout-form-section">
                     <!-- Netlify Forms - Bu otomatik olarak form gönderimlerini yakalar -->
@@ -56,146 +74,230 @@
                         <input type="hidden" name="cart-items" id="cartItemsHidden">
                         <input type="hidden" name="total-amount" id="totalAmountHidden">
                         
-                        <!-- User Status Section -->
-                        <div class="form-section" id="userStatusSection">
-                            <div class="user-status" id="userStatus">
-                                <!-- User status will be populated here -->
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h2>Contact Information</h2>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="firstName">First Name *</label>
-                                    <input type="text" id="firstName" name="first-name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastName">Last Name *</label>
-                                    <input type="text" id="lastName" name="last-name" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email Address *</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" name="phone">
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h2>Shipping Address</h2>
-                            <!-- Saved Addresses Section (for logged-in users) -->
-                            <div class="saved-addresses-section" id="savedAddressesSection" style="display: none;">
-                                <div class="form-group">
-                                    <label for="savedAddresses">Select Saved Address</label>
-                                    <select id="savedAddresses" onchange="handleSavedAddressChange()">
-                                        <option value="">Choose a saved address or enter new one</option>
-                                    </select>
-                                </div>
-                                <div class="address-options">
-                                    <button type="button" class="btn-secondary" onclick="useNewAddress()">Use New Address</button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Street Address *</label>
-                                <input type="text" id="address" name="address" required>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="city">City *</label>
-                                    <input type="text" id="city" name="city" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="state">State/Province *</label>
-                                    <input type="text" id="state" name="state" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="zipCode">Zip/Postal Code *</label>
-                                    <input type="text" id="zipCode" name="zip-code" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="country">Country *</label>
-                                    <select id="country" name="country" required>
-                                        <option value="">Select Country</option>
-                                        <option value="US">United States</option>
-                                        <option value="CA">Canada</option>
-                                        <option value="UK">United Kingdom</option>
-                                        <option value="AU">Australia</option>
-                                        <option value="DE">Germany</option>
-                                        <option value="FR">France</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h2>Payment Method</h2>
-                            <div class="payment-options">
-                                <label class="payment-option">
-                                    <input type="radio" name="payment-method" value="stripe" checked>
-                                    <span class="payment-label">
-                                        💳 Credit/Debit Card
-                                        <small>Secure payment with Stripe</small>
-                                    </span>
-                                </label>
-                                <label class="payment-option">
-                                    <input type="radio" name="payment-method" value="paypal">
-                                    <span class="payment-label">
-                                        💰 PayPal
-                                        <small>Pay with your PayPal account</small>
-                                    </span>
-                                </label>
-                                <label class="payment-option">
-                                    <input type="radio" name="payment-method" value="bank-transfer">
-                                    <span class="payment-label">
-                                        🏦 Bank Transfer
-                                        <small>We will send you bank details via email</small>
-                                    </span>
-                                </label>
+                        <!-- Step 1: Order Review -->
+                        <div class="checkout-step" id="step1" data-step="1">
+                            <div class="step-header">
+                                <h2>📋 Review Your Order</h2>
+                                <p>Check your items and add any special instructions</p>
                             </div>
                             
-                            <!-- Stripe Card Element -->
-                            <div id="stripe-card-section" class="stripe-payment-section">
+                            <div class="form-section">
+                                <h3>Special Instructions</h3>
                                 <div class="form-group">
-                                    <label for="card-element">Card Information</label>
-                                    <div id="card-element" class="stripe-card-element">
-                                        <!-- Stripe Elements will mount here -->
+                                    <label for="notes">Order Notes (Optional)</label>
+                                    <textarea id="notes" name="order-notes" rows="4" placeholder="Any special requests, gift messages, or delivery instructions..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="step-actions">
+                                <button type="button" class="continue-btn" onclick="goToStep(2)">
+                                    Continue to Information
+                                    <span class="btn-arrow">→</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: User Information & Address -->
+                        <div class="checkout-step" id="step2" data-step="2" style="display: none;">
+                            <div class="step-header">
+                                <h2>📍 Information & Shipping</h2>
+                                <p>Enter your contact and shipping details</p>
+                            </div>
+
+                            <!-- User Status Section -->
+                            <div class="form-section" id="userStatusSection">
+                                <div class="user-status" id="userStatus">
+                                    <!-- User status will be populated here -->
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h3>Contact Information</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name *</label>
+                                        <input type="text" id="firstName" name="first-name" required>
                                     </div>
-                                    <div id="card-errors" role="alert" class="stripe-error"></div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name *</label>
+                                        <input type="text" id="lastName" name="last-name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone">
                                 </div>
                             </div>
 
-                            <!-- PayPal Section -->
-                            <div id="paypal-section" class="paypal-payment-section" style="display: none;">
-                                <div id="paypal-button-container"></div>
-                            </div>
-
-                            <!-- Bank Transfer Section -->
-                            <div id="bank-transfer-section" class="bank-transfer-section" style="display: none;">
-                                <div class="bank-transfer-info">
-                                    <h4>🏦 Bank Transfer Instructions</h4>
-                                    <p>After placing your order, we'll send detailed bank transfer instructions to your email address. Your order will be processed once payment is received.</p>
+                            <div class="form-section">
+                                <h3>Shipping Address</h3>
+                                
+                                <!-- Saved Addresses Display -->
+                                <div id="savedAddressesDisplay">
+                                    <!-- Content will be populated by JavaScript -->
+                                </div>
+                                
+                                <!-- Address Form (hidden by default) -->
+                                <div id="addressForm" class="address-form" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="address">Street Address *</label>
+                                        <input type="text" id="address" name="address" required>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="city">City *</label>
+                                            <input type="text" id="city" name="city" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="state">State/Province *</label>
+                                            <input type="text" id="state" name="state" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="zipCode">Zip/Postal Code *</label>
+                                            <input type="text" id="zipCode" name="zip-code" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="country">Country *</label>
+                                            <select id="country" name="country" required>
+                                                <option value="">Select Country</option>
+                                                <option value="US">United States</option>
+                                                <option value="CA">Canada</option>
+                                                <option value="UK">United Kingdom</option>
+                                                <option value="AU">Australia</option>
+                                                <option value="DE">Germany</option>
+                                                <option value="FR">France</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Address Form Actions -->
+                                    <div class="address-form-actions" id="addressFormActions" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="addressTitle">Address Title *</label>
+                                            <input type="text" id="addressTitle" placeholder="e.g., Home, Office, etc.">
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="button" class="btn-secondary" onclick="cancelAddressForm()">Cancel</button>
+                                            <button type="button" class="btn-primary" onclick="saveNewAddress()">Save Address</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-section">
-                            <h2>Special Instructions</h2>
-                            <div class="form-group">
-                                <label for="notes">Order Notes (Optional)</label>
-                                <textarea id="notes" name="order-notes" rows="4" placeholder="Any special requests, gift messages, or delivery instructions..."></textarea>
+                            <div class="step-actions">
+                                <button type="button" class="back-btn" onclick="goToStep(1)">
+                                    <span class="btn-arrow">←</span>
+                                    Back to Order
+                                </button>
+                                <button type="button" class="continue-btn" onclick="goToStepIfValid(3)">
+                                    Continue to Payment
+                                    <span class="btn-arrow">→</span>
+                                </button>
                             </div>
                         </div>
 
-                        <button type="submit" class="place-order-btn">
-                            Place Order
-                        </button>
+                        <!-- Step 3: Payment Method -->
+                        <div class="checkout-step" id="step3" data-step="3" style="display: none;">
+                            <div class="step-header">
+                                <h2>💳 Payment Method</h2>
+                                <p>Choose your preferred payment method</p>
+                            </div>
+
+                            <div class="form-section">
+                                <div class="payment-options">
+                                    <label class="payment-option">
+                                        <input type="radio" name="payment-method" value="stripe" checked onchange="showPaymentSection('stripe')">
+                                        <span class="payment-label">
+                                            💳 Credit/Debit Card
+                                            <small>Secure payment with Stripe</small>
+                                        </span>
+                                    </label>
+                                    <label class="payment-option">
+                                        <input type="radio" name="payment-method" value="bank-transfer" onchange="showPaymentSection('bank-transfer')">
+                                        <span class="payment-label">
+                                            🏦 Bank Transfer
+                                            <small>We will send you bank details via email</small>
+                                        </span>
+                                    </label>
+                                </div>
+                                
+                                <!-- Stripe Card Element -->
+                                <div id="stripe-card-section" class="stripe-payment-section active">
+                                    <div class="form-group">
+                                        <label for="card-element">Card Information</label>
+                                        <div class="card-input-container">
+                                            <div class="card-input-row">
+                                                <div class="card-input-wrapper">
+                                                    <span class="card-icon">💳</span>
+                                                    <input type="text" placeholder="1234 1234 1234 1234" class="card-input" id="cardNumber" maxlength="19">
+                                                </div>
+                                                <div class="card-input-wrapper">
+                                                    <span class="card-icon">📅</span>
+                                                    <input type="text" placeholder="MM/YY" class="card-input" id="cardExpiry" maxlength="5">
+                                                </div>
+                                                <div class="card-input-wrapper">
+                                                    <span class="card-icon">🔒</span>
+                                                    <input type="text" placeholder="CVC" class="card-input" id="cardCvc" maxlength="4">
+                                                </div>
+                                            </div>
+                                            <div class="card-input-wrapper">
+                                                <span class="card-icon">👤</span>
+                                                <input type="text" placeholder="Cardholder Name" class="card-input" id="cardName">
+                                            </div>
+                                        </div>
+                                        <div id="card-errors" role="alert" class="stripe-error"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Bank Transfer Section -->
+                                <div id="bank-transfer-section" class="bank-transfer-section" style="display: none;">
+                                    <div class="bank-transfer-info">
+                                        <h4>🏦 Bank Transfer Instructions</h4>
+                                        <p>After placing your order, we'll send detailed bank transfer instructions to your email address. Your order will be processed once payment is received.</p>
+                                    </div>
+                                </div>
+
+                                <!-- External Payment Options -->
+                                <div class="external-payment-options">
+                                    <h4>Or pay through our trusted partners:</h4>
+                                    <div class="external-buttons">
+                                        <button type="button" class="external-payment-btn stripe-btn" onclick="redirectToStripe()">
+                                            <span class="btn-icon">💳</span>
+                                            Pay with Stripe
+                                            <small>Secure checkout</small>
+                                        </button>
+                                        <button type="button" class="external-payment-btn etsy-btn" onclick="redirectToEtsy()">
+                                            <span class="btn-icon">🛍️</span>
+                                            Buy on Etsy
+                                            <small>Marketplace</small>
+                                        </button>
+                                        <button type="button" class="external-payment-btn amazon-btn" onclick="redirectToAmazon()">
+                                            <span class="btn-icon">📦</span>
+                                            Buy on Amazon Handmade
+                                            <small>Prime eligible</small>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-actions">
+                                <button type="button" class="back-btn" onclick="goToStep(2)">
+                                    <span class="btn-arrow">←</span>
+                                    Back to Information
+                                </button>
+                                <button type="submit" class="place-order-btn">
+                                    Place Order
+                                    <span class="btn-icon">🛒</span>
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
 
