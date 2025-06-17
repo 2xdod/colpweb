@@ -71,7 +71,7 @@
             <h2>Popular Products</h2>
             <div class="products-grid">
                 <div class="product-card" data-product-id="dragon-ring" data-product-name="Dragon's Ember Ring" data-product-price="89.99" data-product-image="https://via.placeholder.com/250x250/8B4513/FFFFFF?text=Dragon+Ring" data-stock="15">
-                    <div class="product-stock-badge">15 in stock</div>
+                    <div class="product-stock-badge status-available">✅ In Stock</div>
                     <button class="wishlist-btn" onclick="toggleWishlist('dragon-ring')" aria-label="Add to wishlist">
                         <span class="heart-icon">🤍</span>
                     </button>
@@ -82,7 +82,7 @@
                     <button class="add-to-cart" onclick="addToCart('dragon-ring')">Add to Cart</button>
                 </div>
                 <div class="product-card" data-product-id="moonstone-pendant" data-product-name="Elven Moonstone Pendant" data-product-price="124.99" data-product-image="https://via.placeholder.com/250x250/4169E1/FFFFFF?text=Moonstone+Necklace" data-stock="8">
-                    <div class="product-stock-badge">8 in stock</div>
+                    <div class="product-stock-badge status-available">✅ In Stock</div>
                     <button class="wishlist-btn" onclick="toggleWishlist('moonstone-pendant')" aria-label="Add to wishlist">
                         <span class="heart-icon">🤍</span>
                     </button>
@@ -93,23 +93,15 @@
                     <button class="add-to-cart" onclick="addToCart('moonstone-pendant')">Add to Cart</button>
                 </div>
                 <div class="product-card" data-product-id="crystal-brooch" data-product-name="Mystical Crystal Brooch" data-product-price="156.99" data-product-image="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch" data-stock="3">
-                    <div class="product-stock-badge stock-low">Only 3 left!</div>
+                    <div class="product-stock-badge status-low-stock">⚠️ Low Stock</div>
                     <img src="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch" alt="Mystical Crystal Brooch">
                     <h3>Mystical Crystal Brooch</h3>
                     <p>A rare crystal formation that enhances the wearer's magical abilities.</p>
                     <span class="price">$156.99</span>
                     <button class="add-to-cart" onclick="addToCart('crystal-brooch')">Add to Cart</button>
                 </div>
-                <div class="product-card" data-product-id="phoenix-earrings" data-product-name="Phoenix Feather Earrings" data-product-price="203.99" data-product-image="https://via.placeholder.com/250x250/FFD700/000000?text=Phoenix+Earrings" data-stock="0">
-                    <div class="product-stock-badge stock-out">Out of Stock</div>
-                    <img src="https://via.placeholder.com/250x250/FFD700/000000?text=Phoenix+Earrings" alt="Phoenix Feather Earrings">
-                    <h3>Phoenix Feather Earrings</h3>
-                    <p>Crafted from genuine phoenix feathers, symbolizing rebirth and renewal.</p>
-                    <span class="price">$203.99</span>
-                    <button class="add-to-cart out-of-stock" onclick="addToCart('phoenix-earrings')" disabled>Out of Stock</button>
-                </div>
                 <div class="product-card" data-product-id="guardian-ring" data-product-name="Guardian's Seal Ring" data-product-price="178.99" data-product-image="https://via.placeholder.com/250x250/DC143C/FFFFFF?text=Guardian+Ring" data-stock="12">
-                    <div class="product-stock-badge">12 in stock</div>
+                    <div class="product-stock-badge status-available">✅ In Stock</div>
                     <img src="https://via.placeholder.com/250x250/DC143C/FFFFFF?text=Guardian+Ring" alt="Guardian's Seal Ring">
                     <h3>Guardian's Seal Ring</h3>
                     <p>A protective talisman worn by the ancient guardians of Colp Town.</p>
@@ -117,7 +109,7 @@
                     <button class="add-to-cart" onclick="addToCart('guardian-ring')">Add to Cart</button>
                 </div>
                 <div class="product-card" data-product-id="forest-necklace" data-product-name="Forest Spirit Necklace" data-product-price="142.99" data-product-image="https://via.placeholder.com/250x250/228B22/FFFFFF?text=Nature+Necklace" data-stock="6">
-                    <div class="product-stock-badge">6 in stock</div>
+                    <div class="product-stock-badge status-available">✅ In Stock</div>
                     <img src="https://via.placeholder.com/250x250/228B22/FFFFFF?text=Nature+Necklace" alt="Forest Spirit Necklace">
                     <h3>Forest Spirit Necklace</h3>
                     <p>Infused with the essence of the ancient forest spirits.</p>
@@ -125,7 +117,7 @@
                     <button class="add-to-cart" onclick="addToCart('forest-necklace')">Add to Cart</button>
                 </div>
                 <div class="product-card" data-product-id="starlight-brooch" data-product-name="Starlight Compass Brooch" data-product-price="198.99" data-product-image="https://via.placeholder.com/250x250/191970/FFFFFF?text=Starlight+Brooch" data-stock="20">
-                    <div class="product-stock-badge">20 in stock</div>
+                    <div class="product-stock-badge status-available">✅ In Stock</div>
                     <img src="https://via.placeholder.com/250x250/191970/FFFFFF?text=Starlight+Brooch" alt="Starlight Compass Brooch">
                     <h3>Starlight Compass Brooch</h3>
                     <p>Guides travelers through the darkest nights with celestial magic.</p>
@@ -133,7 +125,7 @@
                     <button class="add-to-cart" onclick="addToCart('starlight-brooch')">Add to Cart</button>
                 </div>
                 <div class="product-card" data-product-id="wizard-cufflinks" data-product-name="Wizard's Formal Cufflinks" data-product-price="267.99" data-product-image="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Wizard+Cufflinks" data-stock="4">
-                    <div class="product-stock-badge stock-low">Only 4 left!</div>
+                    <div class="product-stock-badge status-low-stock">⚠️ Low Stock</div>
                     <img src="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Wizard+Cufflinks" alt="Wizard's Formal Cufflinks">
                     <h3>Wizard's Formal Cufflinks</h3>
                     <p>Elegant formal wear for distinguished magic practitioners.</p>

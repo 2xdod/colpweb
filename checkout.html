@@ -62,7 +62,7 @@
                 </div>
             </div>
             
-            <div class="checkout-layout">
+            <div class="checkout-layout" id="checkoutLayout">
                 <div class="checkout-form-section">
                     <!-- Netlify Forms - Bu otomatik olarak form gönderimlerini yakalar -->
                     <form name="order" method="POST" netlify-honeypot="bot-field" data-netlify="true" action="order-success.html" class="checkout-form" id="checkoutForm">
@@ -75,25 +75,32 @@
                         <input type="hidden" name="total-amount" id="totalAmountHidden">
                         
                         <!-- Step 1: Order Review -->
-                        <div class="checkout-step" id="step1" data-step="1">
-                            <div class="step-header">
-                                <h2>📋 Review Your Order</h2>
-                                <p>Check your items and add any special instructions</p>
+                        <div class="checkout-step step-review" id="step1" data-step="1">
+                            <!-- Order Summary will be moved here by JavaScript -->
+                            <div id="reviewOrderSummary" class="review-order-summary">
+                                <!-- Order summary content will be moved here -->
                             </div>
                             
-                            <div class="form-section">
-                                <h3>Special Instructions</h3>
-                                <div class="form-group">
-                                    <label for="notes">Order Notes (Optional)</label>
-                                    <textarea id="notes" name="order-notes" rows="4" placeholder="Any special requests, gift messages, or delivery instructions..."></textarea>
+                            <div class="review-section">
+                                <div class="step-header">
+                                    <h2>📋 Review Your Order</h2>
+                                    <p>Check your items and add any special instructions</p>
                                 </div>
-                            </div>
+                                
+                                <div class="form-section">
+                                    <h3>Special Instructions</h3>
+                                    <div class="form-group">
+                                        <label for="notes">Order Notes (Optional)</label>
+                                        <textarea id="notes" name="order-notes" rows="4" placeholder="Any special requests, gift messages, or delivery instructions..."></textarea>
+                                    </div>
+                                </div>
 
-                            <div class="step-actions">
-                                <button type="button" class="continue-btn" onclick="goToStep(2)">
-                                    Continue to Information
-                                    <span class="btn-arrow">→</span>
-                                </button>
+                                <div class="step-actions">
+                                    <button type="button" class="continue-btn" onclick="goToStep(2)">
+                                        Continue to Information
+                                        <span class="btn-arrow">→</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 

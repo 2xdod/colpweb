@@ -21,8 +21,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 productCards.forEach(card => {
                     const cardCategory = card.dataset.category;
                     const cardStyle = card.dataset.style;
+                    const stock = parseInt(card.dataset.stock) || 0;
+                    const inStockOnlyCheckbox = document.getElementById('inStockOnly');
+                    const showInStockOnly = inStockOnlyCheckbox && inStockOnlyCheckbox.checked;
 
-                    if (category === 'all' || cardCategory === category || cardStyle === style) {
+                    // Check if item matches category/style filter
+                    const matchesFilter = category === 'all' || cardCategory === category || cardStyle === style;
+                    
+                    // Check if item should be shown based on stock filter
+                    const matchesStockFilter = !showInStockOnly || stock > 0;
+
+                    if (matchesFilter && matchesStockFilter) {
                         card.style.display = 'block';
                         card.style.animation = 'fadeIn 0.5s ease-in';
                     } else {
@@ -1839,6 +1848,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     wishlistManager.updateWishlistButtons();
     
+    // Highlight product if coming from checkout
+    highlightProductFromCheckout();
+    
     // Initialize user system
     const currentUser = userManager.getCurrentUser();
     if (currentUser) {
@@ -2191,8 +2203,232 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             handleCheckoutSubmission();
         });
+        
+        // Initialize checkout page
+        if (window.location.pathname.includes('checkout.html')) {
+            initializeCheckoutPage();
+        }
     }
 });
+
+function initializeCheckoutPage() {
+    // Move order summary to review section for step 1
+    moveOrderSummaryToReview();
+    
+    // Populate checkout summary
+    updateCheckoutSummary();
+    
+    // Load user information if logged in
+    loadCheckoutUserInfo();
+    
+    // Load saved addresses
+    loadCheckoutAddresses();
+}
+
+function moveOrderSummaryToReview() {
+    const checkoutLayout = document.getElementById('checkoutLayout');
+    const currentStep = document.querySelector('.checkout-step:not([style*="display: none"])');
+    
+    if (currentStep && currentStep.id === 'step1') {
+        // Change layout to single column for step 1
+        checkoutLayout.style.gridTemplateColumns = '1fr';
+        
+        // Move order summary to review section
+        const orderSummary = document.querySelector('.order-summary');
+        const reviewOrderSummary = document.getElementById('reviewOrderSummary');
+        
+        if (orderSummary && reviewOrderSummary) {
+            // Clone the order summary content
+            reviewOrderSummary.innerHTML = orderSummary.innerHTML;
+            // Hide the original order summary
+            orderSummary.style.display = 'none';
+        }
+    }
+}
+
+function restoreOrderSummaryLayout() {
+    const checkoutLayout = document.getElementById('checkoutLayout');
+    const orderSummary = document.querySelector('.order-summary');
+    
+    // Restore two-column layout
+    checkoutLayout.style.gridTemplateColumns = '1fr 350px';
+    
+    // Show original order summary
+    if (orderSummary) {
+        orderSummary.style.display = 'block';
+    }
+    
+    // Clear review order summary
+    const reviewOrderSummary = document.getElementById('reviewOrderSummary');
+    if (reviewOrderSummary) {
+        reviewOrderSummary.innerHTML = '';
+    }
+}
+
+function updateCheckoutSummary() {
+    const cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    const summaryItems = document.getElementById('summaryItems');
+    const reviewSummaryItems = document.querySelector('#reviewOrderSummary #summaryItems');
+    
+    if (!summaryItems && !reviewSummaryItems) return;
+    
+    if (cart.length === 0) {
+        const emptyMessage = `
+            <div class="empty-cart-checkout">
+                <p>Your cart is empty!</p>
+                <button class="btn-primary" onclick="location.href='products.html'">Browse Products</button>
+            </div>
+        `;
+        if (summaryItems) summaryItems.innerHTML = emptyMessage;
+        if (reviewSummaryItems) reviewSummaryItems.innerHTML = emptyMessage;
+        return;
+    }
+    
+    const itemsHTML = cart.map(item => `
+        <div class="summary-item" data-product-id="${item.id}">
+            <div class="summary-item-image" onclick="goToProductPage('${item.id}')" style="cursor: pointer;" title="View product details">
+                <img src="${item.image}" alt="${item.name}">
+            </div>
+            <div class="summary-item-details">
+                <h4 onclick="goToProductPage('${item.id}')" style="cursor: pointer; color: #8a2be2;" title="View product details">${item.name}</h4>
+                <p class="summary-item-price">$${item.price} each</p>
+                <div class="quantity-controls">
+                    <button type="button" class="quantity-btn" onclick="updateCheckoutQuantity('${item.id}', ${item.quantity - 1})" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                    <span class="quantity-display">${item.quantity}</span>
+                    <button type="button" class="quantity-btn" onclick="updateCheckoutQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                </div>
+            </div>
+            <div class="summary-item-total">
+                $${(item.price * item.quantity).toFixed(2)}
+                <button type="button" class="remove-item-btn" onclick="removeFromCheckout('${item.id}')" title="Remove item">
+                    ×
+                </button>
+            </div>
+        </div>
+    `).join('');
+    
+    if (summaryItems) summaryItems.innerHTML = itemsHTML;
+    if (reviewSummaryItems) reviewSummaryItems.innerHTML = itemsHTML;
+    
+    // Update totals
+    updateCheckoutTotals();
+}
+
+function updateCheckoutQuantity(productId, newQuantity) {
+    if (newQuantity < 1) {
+        // Remove item from cart
+        removeFromCart(productId);
+    } else {
+        // Update quantity in cart
+        let cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+        const itemIndex = cart.findIndex(item => item.id === productId);
+        
+        if (itemIndex !== -1) {
+            // Check stock availability
+            const stockData = adminManager ? adminManager.getStockData() : {};
+            const productStock = stockData[productId] ? stockData[productId].stock : 999;
+            
+            if (newQuantity > productStock) {
+                showCartNotification(`Only ${productStock} items available in stock`, 'error');
+                return;
+            }
+            
+            cart[itemIndex].quantity = newQuantity;
+            localStorage.setItem('colp-cart', JSON.stringify(cart));
+            
+            // Update displays
+            updateCheckoutSummary();
+            updateCartDisplay();
+            updateCartCount();
+            
+            showCartNotification('Quantity updated', 'success');
+        }
+    }
+}
+
+function updateCheckoutTotals() {
+    const cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const shipping = subtotal >= 100 ? 0 : 15;
+    const total = subtotal + shipping;
+    
+    // Update all summary sections
+    const updateSummaryTotals = (containerSelector) => {
+        const container = document.querySelector(containerSelector);
+        if (!container) return;
+        
+        const subtotalElement = container.querySelector('#summarySubtotal');
+        const shippingElement = container.querySelector('#summaryShipping');
+        const totalElement = container.querySelector('#summaryTotal');
+        
+        if (subtotalElement) subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+        if (shippingElement) shippingElement.textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+        if (totalElement) totalElement.textContent = `$${total.toFixed(2)}`;
+    };
+    
+    // Update both regular and review summaries
+    updateSummaryTotals('.order-summary');
+    updateSummaryTotals('#reviewOrderSummary');
+    
+    // Update hidden form fields
+    const cartItemsHidden = document.getElementById('cartItemsHidden');
+    const totalAmountHidden = document.getElementById('totalAmountHidden');
+    
+    if (cartItemsHidden) {
+        cartItemsHidden.value = JSON.stringify(cart);
+    }
+    if (totalAmountHidden) {
+        totalAmountHidden.value = total.toFixed(2);
+    }
+}
+
+// Navigate to product page
+function goToProductPage(productId) {
+    // Store the product ID for reference and navigate to products page
+    // In a real application, you would have individual product detail pages
+    localStorage.setItem('highlighted-product', productId);
+    window.location.href = 'products.html';
+}
+
+// Remove item from checkout
+function removeFromCheckout(productId) {
+    if (confirm('Are you sure you want to remove this item from your cart?')) {
+        removeFromCart(productId);
+        updateCheckoutSummary();
+        updateCartDisplay();
+        updateCartCount();
+        showCartNotification('Item removed from cart', 'info');
+    }
+}
+
+// Highlight product when coming from checkout
+function highlightProductFromCheckout() {
+    const highlightedProductId = localStorage.getItem('highlighted-product');
+    if (highlightedProductId && window.location.pathname.includes('products.html')) {
+        // Find and highlight the product card
+        const productCard = document.querySelector(`[data-product-id="${highlightedProductId}"]`);
+        if (productCard) {
+            // Add highlight class
+            productCard.classList.add('product-highlighted');
+            
+            // Scroll to the product
+            setTimeout(() => {
+                productCard.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 500);
+            
+            // Remove highlight after 3 seconds
+            setTimeout(() => {
+                productCard.classList.remove('product-highlighted');
+            }, 3000);
+            
+            // Clear the highlight reference
+            localStorage.removeItem('highlighted-product');
+        }
+    }
+}
 
 async function handleCheckoutSubmission() {
     const selectedPaymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
@@ -2363,6 +2599,13 @@ function goToStep(stepNumber) {
     const targetStep = document.getElementById(`step${stepNumber}`);
     if (targetStep) {
         targetStep.style.display = 'block';
+        
+        // Handle layout changes based on step
+        if (stepNumber === 1) {
+            moveOrderSummaryToReview();
+        } else {
+            restoreOrderSummaryLayout();
+        }
         
         // Update progress indicator
         updateProgressIndicator(stepNumber);
@@ -2922,3 +3165,39 @@ function clearAddressForm() {
 
 // Note: logoutAndContinueAsGuest function removed as per user request
 // Users who are logged in cannot switch to guest checkout
+
+// Stock filter functionality for products page
+function applyStockFilter() {
+    const inStockOnlyCheckbox = document.getElementById('inStockOnly');
+    const productCards = document.querySelectorAll('.product-card');
+    
+    if (!inStockOnlyCheckbox || !productCards.length) return;
+    
+    const showInStockOnly = inStockOnlyCheckbox.checked;
+    
+    productCards.forEach(card => {
+        const stock = parseInt(card.dataset.stock) || 0;
+        
+        if (showInStockOnly) {
+            // Show only items with stock > 0
+            if (stock > 0) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeIn 0.5s ease-in';
+            } else {
+                card.style.display = 'none';
+            }
+        } else {
+            // Show all items (unless hidden by other filters)
+            // Check if the card was hidden by category/style filters
+            const isHiddenByOtherFilters = card.style.display === 'none' && !card.dataset.hiddenByStock;
+            
+            if (!isHiddenByOtherFilters) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeIn 0.5s ease-in';
+            }
+        }
+        
+        // Mark cards as hidden by stock filter for other filter functions
+        card.dataset.hiddenByStock = (showInStockOnly && stock <= 0) ? 'true' : 'false';
+    });
+}

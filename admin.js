@@ -49,7 +49,140 @@ const adminManager = {
     // Get active orders count
     getActiveOrdersCount() {
         const orders = JSON.parse(localStorage.getItem('colp-orders')) || [];
-        return orders.filter(order => order.status !== 'completed').length;
+        return orders.filter(order => order.status === 'active' || order.status === 'pending').length;
+    },
+
+    // Stock management functions
+    getStockData() {
+        // Get stock data from localStorage or initialize default stock
+        let stockData = JSON.parse(localStorage.getItem('colp-stock-data')) || {};
+        
+        // If no stock data exists, initialize with default product data
+        if (Object.keys(stockData).length === 0) {
+            stockData = this.initializeDefaultStock();
+            localStorage.setItem('colp-stock-data', JSON.stringify(stockData));
+        }
+        
+        return stockData;
+    },
+
+    initializeDefaultStock() {
+        const defaultProducts = {
+            'dragon-ring': { name: 'Dragon\'s Ember Ring', stock: 15, price: 89.99, status: 'available', category: 'rings' },
+            'moonstone-pendant': { name: 'Elven Moonstone Pendant', stock: 8, price: 124.99, status: 'available', category: 'necklaces' },
+            'crystal-brooch': { name: 'Mystical Crystal Brooch', stock: 3, price: 156.99, status: 'available', category: 'brooches' },
+            'guardian-ring': { name: 'Guardian\'s Seal Ring', stock: 12, price: 178.99, status: 'available', category: 'rings' },
+            'forest-necklace': { name: 'Forest Spirit Necklace', stock: 6, price: 142.99, status: 'available', category: 'necklaces' },
+            'starlight-brooch': { name: 'Starlight Compass Brooch', stock: 20, price: 198.99, status: 'available', category: 'brooches' },
+            'wizard-cufflinks': { name: 'Wizard\'s Formal Cufflinks', stock: 4, price: 267.99, status: 'available', category: 'formal' },
+            'wizard-tower-ring': { name: 'Wizard Tower Ring', stock: 12, price: 134.99, status: 'available', category: 'rings' },
+            'hero-pendant': { name: 'Hero\'s Legacy Pendant', stock: 6, price: 189.99, status: 'available', category: 'necklaces' },
+            'geometric-phoenix-brooch': { name: 'Geometric Phoenix Brooch', stock: 13, price: 167.99, status: 'available', category: 'brooches' },
+            'phoenix-earrings': { name: 'Phoenix Feather Earrings', stock: 5, price: 203.99, status: 'available', category: 'earrings' },
+            'leaf-earrings': { name: 'Enchanted Leaf Earrings', stock: 15, price: 94.99, status: 'available', category: 'earrings' },
+            'crystal-earrings': { name: 'Low Poly Crystal Earrings', stock: 8, price: 112.99, status: 'available', category: 'earrings' },
+            'noble-tie-pin': { name: 'Noble\'s Tie Pin', stock: 10, price: 156.99, status: 'available', category: 'formal' },
+            'castle-cufflinks': { name: 'Castle Monument Cufflinks', stock: 7, price: 234.99, status: 'available', category: 'formal' }
+        };
+        return defaultProducts;
+    },
+
+    updateProductStock(productId, newStock, status = 'available', notes = '') {
+        const stockData = this.getStockData();
+        if (stockData[productId]) {
+            stockData[productId].stock = parseInt(newStock);
+            stockData[productId].status = status;
+            stockData[productId].lastUpdated = new Date().toISOString();
+            if (notes) stockData[productId].notes = notes;
+            
+            localStorage.setItem('colp-stock-data', JSON.stringify(stockData));
+            
+            // Update product cards in the DOM if they exist
+            this.updateProductCardsStock(productId, newStock, status);
+            
+            return true;
+        }
+        return false;
+    },
+
+    updateProductCardsStock(productId, newStock, status) {
+        // Update all product cards with this product ID
+        const productCards = document.querySelectorAll(`[data-product-id="${productId}"]`);
+        productCards.forEach(card => {
+            card.setAttribute('data-stock', newStock);
+            
+            // Update stock badge
+            const stockBadge = card.querySelector('.product-stock-badge');
+            if (stockBadge) {
+                if (newStock <= 0) {
+                    stockBadge.textContent = 'Out of Stock';
+                    stockBadge.className = 'product-stock-badge stock-out';
+                } else if (newStock <= 5) {
+                    stockBadge.textContent = `Only ${newStock} left!`;
+                    stockBadge.className = 'product-stock-badge stock-low';
+                } else {
+                    stockBadge.textContent = `${newStock} in stock`;
+                    stockBadge.className = 'product-stock-badge';
+                }
+            }
+
+            // Update add to cart button
+            const addToCartBtn = card.querySelector('.add-to-cart');
+            if (addToCartBtn) {
+                if (newStock <= 0 || status !== 'available') {
+                    addToCartBtn.disabled = true;
+                    if (status === 'coming-soon') {
+                        addToCartBtn.textContent = 'Coming Soon';
+                        addToCartBtn.className = 'add-to-cart coming-soon';
+                    } else {
+                        addToCartBtn.textContent = 'Out of Stock';
+                        addToCartBtn.className = 'add-to-cart out-of-stock';
+                    }
+                } else {
+                    addToCartBtn.disabled = false;
+                    addToCartBtn.textContent = 'Add to Cart';
+                    addToCartBtn.className = 'add-to-cart';
+                }
+            }
+        });
+        
+        // Broadcast stock update to other windows/tabs using localStorage
+        this.broadcastStockUpdate(productId, newStock, status);
+    },
+    
+    // New function to broadcast stock updates across browser tabs
+    broadcastStockUpdate(productId, newStock, status) {
+        const updateEvent = {
+            type: 'stock-update',
+            productId: productId,
+            stock: newStock,
+            status: status,
+            timestamp: new Date().toISOString()
+        };
+        
+        // Use localStorage to communicate between tabs
+        localStorage.setItem('colp-stock-update', JSON.stringify(updateEvent));
+        
+        // Remove the event after a short delay to trigger change event
+        setTimeout(() => {
+            localStorage.removeItem('colp-stock-update');
+        }, 100);
+    },
+
+    getStockStatus(stock, status) {
+        if (status === 'coming-soon') return 'Coming Soon';
+        if (status === 'discontinued') return 'Discontinued';
+        if (stock <= 0) return 'Out of Stock';
+        if (stock <= 5) return 'Low Stock';
+        return 'In Stock';
+    },
+
+    getStockStatusClass(stock, status) {
+        if (status === 'coming-soon') return 'status-coming-soon';
+        if (status === 'discontinued') return 'status-discontinued';
+        if (stock <= 0) return 'status-out-of-stock';
+        if (stock <= 5) return 'status-low-stock';
+        return 'status-in-stock';
     }
 };
 
@@ -67,6 +200,32 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update data every 30 seconds
         setInterval(loadDashboard, 30000);
     }
+    
+    // Listen for stock updates from admin panel (cross-tab communication)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'colp-stock-update' && e.newValue) {
+            try {
+                const updateEvent = JSON.parse(e.newValue);
+                if (updateEvent.type === 'stock-update') {
+                    // Update product cards if they exist on current page
+                    if (typeof adminManager !== 'undefined') {
+                        adminManager.updateProductCardsStock(
+                            updateEvent.productId, 
+                            updateEvent.stock, 
+                            updateEvent.status
+                        );
+                    }
+                    
+                    // Update homepage and products page displays if functions exist
+                    if (typeof updateProductDisplay === 'function') {
+                        updateProductDisplay(updateEvent.productId, updateEvent.stock, updateEvent.status);
+                    }
+                }
+            } catch (error) {
+                console.log('Error processing stock update:', error);
+            }
+        }
+    });
 });
 
 // Load dashboard data
@@ -81,6 +240,12 @@ function loadDashboard() {
     
     // Load activities
     loadActivitiesTable(data.activities);
+    
+    // Load admins table
+    loadAdminsTable();
+    
+    // Load newsletter data
+    loadNewsletterTable();
     
     // Load analytics
     loadAnalytics(data);
@@ -270,8 +435,8 @@ function loadPopularProducts() {
 
     // Count add to cart activities
     activities.forEach(activity => {
-        if (activity.action === 'add_to_cart' && activity.data.productId) {
-            const productId = activity.data.productId;
+        if (activity.action === 'add_to_cart' && activity.details && activity.details.productId) {
+            const productId = activity.details.productId;
             productStats[productId] = (productStats[productId] || 0) + 1;
         }
     });
@@ -421,30 +586,6 @@ function loadUserDemographics(users) {
     `;
 }
 
-// Tab switching
-function switchAdminTab(tabName) {
-    // Remove active class from all tabs and content
-    document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
-    document.querySelectorAll('.admin-tab-content').forEach(content => content.classList.remove('active'));
-    
-    // Add active class to selected tab and content
-    document.querySelector(`[onclick="switchAdminTab('${tabName}')"]`).classList.add('active');
-    document.getElementById(`${tabName}-tab`).classList.add('active');
-    
-    // Load specific data for the tab
-    if (tabName === 'analytics') {
-        loadAnalytics(adminManager.getDashboardData());
-    } else if (tabName === 'admins') {
-        loadAdminsTable();
-        // Show/hide add admin button based on permissions
-        const addAdminBtn = document.getElementById('addAdminBtn');
-        if (addAdminBtn) {
-            addAdminBtn.style.display = adminManager.isSuperAdmin() ? 'block' : 'none';
-        }
-    } else if (tabName === 'newsletter') {
-        loadNewsletterTable();
-    }
-}
 
 // User filtering and sorting
 function filterUsers() {
@@ -586,10 +727,999 @@ function viewUserDetails(userId) {
 
         <div class="user-detail-section">
             <h3>🛒 Current Cart (${cartItems.length} items)</h3>
-            <div class="cart-items-detail">
-                ${cartItems.length > 0 ? cartItems.map(item => `
+            <div class="cart-items-list">
+                ${cartItems.map(item => `
                     <div class="cart-item-detail">
-                        <span>${item.name}</span>
+                        <span>${item.name} - $${item.price} (Qty: ${item.quantity})</span>
+                    </div>
+                `).join('') || '<p>No items in cart</p>'}
+            </div>
+        </div>
+
+        <div class="user-detail-section">
+            <h3>❤️ Wishlist (${wishlistItems.length} items)</h3>
+            <div class="wishlist-items-list">
+                ${wishlistItems.map(item => `
+                    <div class="wishlist-item-detail">
+                        <span>${item.name} - $${item.price}</span>
+                    </div>
+                `).join('') || '<p>No items in wishlist</p>'}
+            </div>
+        </div>
+
+        <div class="user-detail-section">
+            <h3>📊 Recent Activities (${activities.length} total)</h3>
+            <div class="activities-list">
+                ${activities.slice(0, 10).map(activity => `
+                    <div class="activity-item">
+                        <span class="activity-action">${activity.action}</span>
+                        <span class="activity-details">${activity.details || ''}</span>
+                        <span class="activity-time">${formatDate(activity.timestamp)}</span>
+                    </div>
+                `).join('') || '<p>No recent activities</p>'}
+            </div>
+        </div>
+    `;
+    
+    modal.style.display = 'block';
+}
+
+// Admin Tab Management Functions
+function switchAdminTab(tabName) {
+    // Hide all tab contents
+    document.querySelectorAll('.admin-tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Remove active class from all tabs
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Show selected tab content
+    const selectedTab = document.getElementById(`${tabName}-tab`);
+    if (selectedTab) {
+        selectedTab.classList.add('active');
+    }
+    
+    // Add active class to clicked tab
+    if (event && event.target) {
+        event.target.classList.add('active');
+    } else {
+        // Fallback for programmatic calls
+        document.querySelector(`[onclick="switchAdminTab('${tabName}')"]`)?.classList.add('active');
+    }
+    
+    // Load data for specific tabs
+    switch(tabName) {
+        case 'users':
+            loadUsersTable();
+            break;
+        case 'activities':
+            const activities = userManager.getUserActivities();
+            loadActivitiesTable(activities);
+            break;
+        case 'analytics':
+            loadAnalytics(adminManager.getDashboardData());
+            break;
+        case 'admins':
+            loadAdminsTable();
+            // Show/hide add admin button based on permissions
+            const addAdminBtn = document.getElementById('addAdminBtn');
+            if (addAdminBtn) {
+                addAdminBtn.style.display = adminManager.isSuperAdmin() ? 'block' : 'none';
+            }
+            break;
+        case 'stock':
+            loadStockTable();
+            break;
+        case 'newsletter':
+            loadNewsletterTable();
+            break;
+        case 'settings':
+            loadSettingsData();
+            break;
+    }
+}
+
+function loadStockTable() {
+    const stockData = adminManager.getStockData();
+    const tbody = document.getElementById('stockTableBody');
+    
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    Object.entries(stockData).forEach(([productId, product]) => {
+        const row = document.createElement('tr');
+        const statusClass = adminManager.getStockStatusClass(product.stock, product.status);
+        const statusText = adminManager.getStockStatus(product.stock, product.status);
+        
+        row.innerHTML = `
+            <td>
+                <div class="product-info">
+                    <strong>${product.name}</strong>
+                    <small>ID: ${productId}</small>
+                </div>
+            </td>
+            <td class="stock-amount">${product.stock}</td>
+            <td>
+                <span class="stock-status ${statusClass}">${statusText}</span>
+            </td>
+            <td class="product-price">$${product.price}</td>
+            <td class="stock-actions">
+                <button class="btn-small btn-primary" onclick="openStockUpdateModal('${productId}')">
+                    ✏️ Edit
+                </button>
+                <button class="btn-small btn-secondary" onclick="quickStockAdjust('${productId}', 'add')">
+                    ➕ Add
+                </button>
+                <button class="btn-small btn-secondary" onclick="quickStockAdjust('${productId}', 'subtract')">
+                    ➖ Remove
+                </button>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+}
+
+function filterStockItems() {
+    const searchTerm = document.getElementById('stockSearch').value.toLowerCase();
+    const filterSelect = document.getElementById('stockFilter').value;
+    const stockData = adminManager.getStockData();
+    
+    let filteredData = Object.entries(stockData);
+    
+    // Filter by search term
+    if (searchTerm) {
+        filteredData = filteredData.filter(([id, product]) => 
+            product.name.toLowerCase().includes(searchTerm) ||
+            id.toLowerCase().includes(searchTerm)
+        );
+    }
+    
+    // Filter by stock status
+    if (filterSelect !== 'all') {
+        filteredData = filteredData.filter(([id, product]) => {
+            switch (filterSelect) {
+                case 'in-stock':
+                    return product.stock > 5 && product.status === 'available';
+                case 'low-stock':
+                    return product.stock <= 5 && product.stock > 0 && product.status === 'available';
+                case 'out-of-stock':
+                    return product.stock <= 0 || product.status !== 'available';
+                default:
+                    return true;
+            }
+        });
+    }
+    
+    // Rebuild table with filtered data
+    const tbody = document.getElementById('stockTableBody');
+    tbody.innerHTML = '';
+    
+    filteredData.forEach(([productId, product]) => {
+        const row = document.createElement('tr');
+        const statusClass = adminManager.getStockStatusClass(product.stock, product.status);
+        const statusText = adminManager.getStockStatus(product.stock, product.status);
+        
+        row.innerHTML = `
+            <td>
+                <div class="product-info">
+                    <strong>${product.name}</strong>
+                    <small>ID: ${productId}</small>
+                </div>
+            </td>
+            <td class="stock-amount">${product.stock}</td>
+            <td>
+                <span class="stock-status ${statusClass}">${statusText}</span>
+            </td>
+            <td class="product-price">$${product.price}</td>
+            <td class="stock-actions">
+                <button class="btn-small btn-primary" onclick="openStockUpdateModal('${productId}')">
+                    ✏️ Edit
+                </button>
+                <button class="btn-small btn-secondary" onclick="quickStockAdjust('${productId}', 'add')">
+                    ➕ Add
+                </button>
+                <button class="btn-small btn-secondary" onclick="quickStockAdjust('${productId}', 'subtract')">
+                    ➖ Remove
+                </button>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+}
+
+function filterStockByStatus() {
+    filterStockItems();
+}
+
+function openStockUpdateModal(productId) {
+    const stockData = adminManager.getStockData();
+    const product = stockData[productId];
+    
+    if (!product) return;
+    
+    document.getElementById('stockProductName').value = product.name;
+    document.getElementById('stockProductId').value = productId;
+    document.getElementById('stockCurrentAmount').value = product.stock;
+    document.getElementById('stockNewAmount').value = product.stock;
+    document.getElementById('stockStatus').value = product.status || 'available';
+    document.getElementById('stockNotes').value = product.notes || '';
+    
+    document.getElementById('stockUpdateModal').style.display = 'block';
+}
+
+function closeStockUpdateModal() {
+    document.getElementById('stockUpdateModal').style.display = 'none';
+}
+
+function handleStockUpdate(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const productId = formData.get('productId');
+    const newStock = parseInt(formData.get('newStock'));
+    const status = formData.get('status');
+    const notes = formData.get('notes');
+    
+    if (adminManager.updateProductStock(productId, newStock, status, notes)) {
+        showNotification('Stock updated successfully!', 'success');
+        loadStockTable();
+        closeStockUpdateModal();
+    } else {
+        showNotification('Failed to update stock', 'error');
+    }
+}
+
+function quickStockAdjust(productId, action) {
+    const stockData = adminManager.getStockData();
+    const product = stockData[productId];
+    
+    if (!product) return;
+    
+    let newStock = product.stock;
+    if (action === 'add') {
+        newStock += 1;
+    } else if (action === 'subtract' && newStock > 0) {
+        newStock -= 1;
+    }
+    
+    if (adminManager.updateProductStock(productId, newStock, product.status)) {
+        loadStockTable();
+        showNotification(`Stock ${action === 'add' ? 'increased' : 'decreased'} for ${product.name}`, 'success');
+    }
+}
+
+function openBulkUpdateModal() {
+    document.getElementById('bulkUpdateModal').style.display = 'block';
+    updateBulkAffectedCount();
+}
+
+function closeBulkUpdateModal() {
+    document.getElementById('bulkUpdateModal').style.display = 'none';
+}
+
+function toggleBulkUpdateFields() {
+    const updateType = document.getElementById('bulkUpdateType').value;
+    const amountGroup = document.getElementById('bulkAmountGroup');
+    const statusGroup = document.getElementById('bulkStatusGroup');
+    
+    if (updateType === 'status') {
+        amountGroup.style.display = 'none';
+        statusGroup.style.display = 'block';
+    } else {
+        amountGroup.style.display = 'block';
+        statusGroup.style.display = 'none';
+    }
+    
+    updateBulkAffectedCount();
+}
+
+function updateBulkAffectedCount() {
+    const checkboxes = document.querySelectorAll('input[name="categories"]:checked');
+    const selectedCategories = Array.from(checkboxes).map(cb => cb.value);
+    
+    const stockData = adminManager.getStockData();
+    const affectedProducts = Object.values(stockData).filter(product => 
+        selectedCategories.length === 0 || selectedCategories.includes(product.category)
+    );
+    
+    document.getElementById('bulkAffectedCount').textContent = affectedProducts.length;
+}
+
+function handleBulkUpdate(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const updateType = formData.get('updateType');
+    const amount = parseInt(formData.get('amount')) || 0;
+    const status = formData.get('status');
+    
+    const checkboxes = document.querySelectorAll('input[name="categories"]:checked');
+    const selectedCategories = Array.from(checkboxes).map(cb => cb.value);
+    
+    const stockData = adminManager.getStockData();
+    let updatedCount = 0;
+    
+    Object.entries(stockData).forEach(([productId, product]) => {
+        if (selectedCategories.length === 0 || selectedCategories.includes(product.category)) {
+            let newStock = product.stock;
+            let newStatus = product.status;
+            
+            switch (updateType) {
+                case 'add':
+                    newStock += amount;
+                    break;
+                case 'subtract':
+                    newStock = Math.max(0, newStock - amount);
+                    break;
+                case 'set':
+                    newStock = amount;
+                    break;
+                case 'status':
+                    newStatus = status;
+                    break;
+            }
+            
+            if (adminManager.updateProductStock(productId, newStock, newStatus)) {
+                updatedCount++;
+            }
+        }
+    });
+    
+    showNotification(`Bulk update applied to ${updatedCount} products`, 'success');
+    loadStockTable();
+    closeBulkUpdateModal();
+}
+
+// Load additional tab data functions
+function loadAdminsTable() {
+    const tbody = document.getElementById('adminsTableBody');
+    if (!tbody) return;
+    
+    const users = userManager.getAllUsers();
+    const admins = users.filter(user => userManager.isAdmin(user));
+    
+    tbody.innerHTML = '';
+    
+    if (admins.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="no-data">No admin users found</td>
+            </tr>
+        `;
+        return;
+    }
+    
+    admins.forEach(admin => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>
+                <div class="admin-info">
+                    <strong>${admin.firstName} ${admin.lastName}</strong>
+                    <small>${admin.role || 'admin'}</small>
+                </div>
+            </td>
+            <td>${admin.email}</td>
+            <td>
+                <span class="role-badge ${admin.role === 'super_admin' ? 'super-admin' : 'admin'}">
+                    ${admin.role === 'super_admin' ? 'Super Admin' : 'Admin'}
+                </span>
+            </td>
+            <td>${formatDate(admin.createdAt)}</td>
+            <td>${formatDate(admin.lastLogin)}</td>
+            <td class="admin-actions">
+                <button class="btn-small btn-secondary" onclick="viewUserDetails('${admin.id}')">
+                    👁️ View
+                </button>
+                ${adminManager.isSuperAdmin() && admin.role !== 'super_admin' ? 
+                    `<button class="btn-small btn-danger" onclick="removeAdmin('${admin.id}')">
+                        🗑️ Remove
+                    </button>` : ''}
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function loadNewsletterTable() {
+    const tbody = document.getElementById('newsletterTableBody');
+    if (!tbody) return;
+    
+    const subscribers = newsletterManager.getSubscribers();
+    const totalSubscribersElement = document.getElementById('totalSubscribers');
+    const activeSubscribersElement = document.getElementById('activeSubscribers');
+    
+    if (totalSubscribersElement) totalSubscribersElement.textContent = subscribers.length;
+    if (activeSubscribersElement) activeSubscribersElement.textContent = subscribers.filter(s => s.active).length;
+    
+    tbody.innerHTML = '';
+    
+    if (subscribers.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" class="no-data">No newsletter subscribers found</td>
+            </tr>
+        `;
+        return;
+    }
+    
+    subscribers.forEach(subscriber => {
+        const users = userManager.getAllUsers();
+        const matchingUser = users.find(user => user.email === subscriber.email);
+        const userStatus = matchingUser ? 'Registered User' : 'Newsletter Only';
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${subscriber.email}</td>
+            <td>${formatDate(subscriber.subscribedAt)}</td>
+            <td>
+                <span class="user-status ${matchingUser ? 'registered' : 'newsletter-only'}">
+                    ${userStatus}
+                </span>
+            </td>
+            <td class="admin-actions">
+                ${matchingUser ? 
+                    `<button class="btn-small btn-secondary" onclick="viewUserDetails('${matchingUser.id}')">
+                        👁️ View User
+                    </button>` : ''}
+                <button class="btn-small btn-danger" onclick="unsubscribeUser('${subscriber.email}')">
+                    📧 Unsubscribe
+                </button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+function loadAnalytics() {
+    const popularProductsElement = document.getElementById('popularProducts');
+    const activityTimelineElement = document.getElementById('activityTimeline');
+    const cartAnalyticsElement = document.getElementById('cartAnalytics');
+    const userDemographicsElement = document.getElementById('userDemographics');
+    
+    if (popularProductsElement) {
+        const activities = userManager.getUserActivities();
+        const productCounts = {};
+        
+        activities.filter(a => a.action === 'add_to_cart').forEach(activity => {
+            const productId = activity.details?.productId;
+            if (productId) {
+                productCounts[productId] = (productCounts[productId] || 0) + 1;
+            }
+        });
+        
+        const sortedProducts = Object.entries(productCounts)
+            .sort(([,a], [,b]) => b - a)
+            .slice(0, 5);
+            
+        popularProductsElement.innerHTML = sortedProducts.length > 0 ? 
+            sortedProducts.map(([productId, count]) => 
+                `<div class="analytics-item">
+                    <span>${productId}</span>
+                    <span>${count} times added</span>
+                </div>`
+            ).join('') : '<p>No product data available</p>';
+    }
+    
+    if (activityTimelineElement) {
+        const activities = userManager.getUserActivities().slice(-10);
+        activityTimelineElement.innerHTML = activities.length > 0 ?
+            activities.map(activity => 
+                `<div class="activity-timeline-item">
+                    <span class="activity-time">${formatDate(activity.timestamp)}</span>
+                    <span class="activity-desc">${activity.action} - ${activity.details?.productId || 'N/A'}</span>
+                </div>`
+            ).join('') : '<p>No recent activity</p>';
+    }
+    
+    if (cartAnalyticsElement) {
+        const users = userManager.getAllUsers();
+        const usersWithCartItems = users.filter(user => {
+            const cart = JSON.parse(localStorage.getItem(`colp-cart-${user.id}`)) || [];
+            return cart.length > 0;
+        }).length;
+        
+        cartAnalyticsElement.innerHTML = `
+            <div class="analytics-stat">
+                <span>Users with items in cart:</span>
+                <span>${usersWithCartItems}</span>
+            </div>
+            <div class="analytics-stat">
+                <span>Cart abandonment rate:</span>
+                <span>${users.length > 0 ? Math.round((usersWithCartItems / users.length) * 100) : 0}%</span>
+            </div>
+        `;
+    }
+    
+    if (userDemographicsElement) {
+        const users = userManager.getAllUsers();
+        const newsletterSubscribers = newsletterManager.getSubscribers().filter(s => s.active);
+        
+        userDemographicsElement.innerHTML = `
+            <div class="analytics-stat">
+                <span>Total registered users:</span>
+                <span>${users.length}</span>
+            </div>
+            <div class="analytics-stat">
+                <span>Newsletter subscribers:</span>
+                <span>${newsletterSubscribers.length}</span>
+            </div>
+            <div class="analytics-stat">
+                <span>Conversion rate:</span>
+                <span>${newsletterSubscribers.length > 0 ? Math.round((users.length / newsletterSubscribers.length) * 100) : 0}%</span>
+            </div>
+        `;
+    }
+}
+
+function loadSettingsData() {
+    // Settings data is static, no loading needed
+    console.log('Settings tab loaded');
+}
+
+// Newsletter Management Functions
+const newsletterManager = {
+    getSubscribers() {
+        return JSON.parse(localStorage.getItem('colp-newsletter-subscribers')) || [];
+    },
+    
+    saveSubscribers(subscribers) {
+        localStorage.setItem('colp-newsletter-subscribers', JSON.stringify(subscribers));
+    },
+    
+    addSubscriber(email) {
+        const subscribers = this.getSubscribers();
+        const existing = subscribers.find(s => s.email === email);
+        
+        if (!existing) {
+            subscribers.push({
+                id: 'sub_' + Date.now(),
+                email: email,
+                subscribedAt: new Date().toISOString(),
+                active: true
+            });
+            this.saveSubscribers(subscribers);
+        }
+    },
+    
+    unsubscribe(email) {
+        const subscribers = this.getSubscribers();
+        const index = subscribers.findIndex(s => s.email === email);
+        
+        if (index !== -1) {
+            subscribers[index].active = false;
+            this.saveSubscribers(subscribers);
+        }
+    },
+    
+    removeSubscriber(email) {
+        const subscribers = this.getSubscribers();
+        const filteredSubscribers = subscribers.filter(s => s.email !== email);
+        this.saveSubscribers(filteredSubscribers);
+    }
+};
+
+// Admin action functions
+function removeAdmin(userId) {
+    if (!adminManager.isSuperAdmin()) {
+        alert('Only super admins can remove admin privileges');
+        return;
+    }
+    
+    if (confirm('Are you sure you want to remove admin privileges from this user?')) {
+        const users = userManager.getAllUsers();
+        const userIndex = users.findIndex(u => u.id === userId);
+        
+        if (userIndex !== -1) {
+            users[userIndex].role = 'customer';
+            localStorage.setItem('colp-users', JSON.stringify(users));
+            loadAdminsTable();
+            showNotification('Admin privileges removed successfully', 'success');
+        }
+    }
+}
+
+function unsubscribeUser(email) {
+    if (confirm(`Are you sure you want to unsubscribe ${email} from the newsletter?`)) {
+        newsletterManager.unsubscribe(email);
+        loadNewsletterTable();
+        showNotification('User unsubscribed successfully', 'success');
+    }
+}
+
+function sendNewsletterToAll() {
+    const subscribers = newsletterManager.getSubscribers().filter(s => s.active);
+    if (subscribers.length === 0) {
+        alert('No active subscribers found');
+        return;
+    }
+    
+    if (confirm(`Send newsletter to ${subscribers.length} subscribers?`)) {
+        // In a real app, this would send emails
+        showNotification(`Newsletter would be sent to ${subscribers.length} subscribers`, 'info');
+    }
+}
+
+// Settings functions
+function exportUserData() {
+    const users = userManager.getAllUsers();
+    const dataStr = JSON.stringify(users, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    const exportFileDefaultName = `user-data-${new Date().toISOString().split('T')[0]}.json`;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+    
+    showNotification('User data exported successfully', 'success');
+}
+
+function exportNewsletterData() {
+    const subscribers = newsletterManager.getSubscribers();
+    const dataStr = JSON.stringify(subscribers, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    const exportFileDefaultName = `newsletter-data-${new Date().toISOString().split('T')[0]}.json`;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+    
+    showNotification('Newsletter data exported successfully', 'success');
+}
+
+function clearOldActivities() {
+    if (confirm('Are you sure you want to clear activities older than 30 days? This cannot be undone.')) {
+        const activities = userManager.getUserActivities();
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        
+        const filteredActivities = activities.filter(activity => 
+            new Date(activity.timestamp) > thirtyDaysAgo
+        );
+        
+        localStorage.setItem('colp-user-activities', JSON.stringify(filteredActivities));
+        loadActivitiesTable();
+        showNotification(`Cleared ${activities.length - filteredActivities.length} old activities`, 'success');
+    }
+}
+
+function optimizeStorage() {
+    // Simulate storage optimization
+    showNotification('Storage optimization completed', 'success');
+}
+
+// Modal Functions
+function showAddAdminModal() {
+    const modal = document.getElementById('addAdminModal');
+    if (modal) {
+        modal.style.display = 'block';
+    }
+}
+
+function closeAddAdminModal() {
+    const modal = document.getElementById('addAdminModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.getElementById('addAdminForm').reset();
+    }
+}
+
+function closeUserModal() {
+    const modal = document.getElementById('userDetailModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function handleAddAdmin(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    
+    const adminData = {
+        email: formData.get('email'),
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        role: formData.get('role'),
+        password: formData.get('password')
+    };
+    
+    // Register the new admin
+    const result = userManager.registerUser(adminData);
+    
+    if (result.success) {
+        // Update user role to admin
+        const users = userManager.getAllUsers();
+        const userIndex = users.findIndex(u => u.email === adminData.email);
+        if (userIndex !== -1) {
+            users[userIndex].role = adminData.role;
+            localStorage.setItem('colp-users', JSON.stringify(users));
+        }
+        
+        showNotification('Admin added successfully', 'success');
+        loadAdminsTable();
+        closeAddAdminModal();
+    } else {
+        showNotification(result.message, 'error');
+    }
+}
+
+// Notification system for admin
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#f44336' : '#2196F3'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        z-index: 10000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        font-weight: 500;
+        animation: slideInRight 0.3s ease;
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+    
+    // Add CSS animation if not exists
+    if (!document.getElementById('notification-styles')) {
+        const style = document.createElement('style');
+        style.id = 'notification-styles';
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Helper functions for cart and wishlist data
+function getCartItemsForUser(userId) {
+    // In a real application, this would track individual user carts
+    // For now, return current cart if user is logged in
+    const currentUser = userManager.getCurrentUser();
+    if (currentUser && currentUser.id === userId) {
+        return JSON.parse(localStorage.getItem('colp-cart')) || [];
+    }
+    return [];
+}
+
+function getWishlistItemsForUser(userId) {
+    // In a real application, this would track individual user wishlists
+    // For now, return current wishlist if user is logged in
+    const currentUser = userManager.getCurrentUser();
+    if (currentUser && currentUser.id === userId) {
+        const wishlist = wishlistManager.getWishlist();
+        return wishlistManager.getWishlistProducts();
+    }
+    return [];
+}
+
+// Date formatting helper
+function formatDate(dateString) {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+}
+
+// Activity helper functions
+function getActivityIcon(action) {
+    const icons = {
+        'login': '🔐',
+        'register': '✅',
+        'logout': '🚪',
+        'add_to_cart': '🛒',
+        'remove_from_cart': '❌',
+        'add_to_wishlist': '❤️',
+        'remove_from_wishlist': '💔',
+        'page_view': '👁️',
+        'purchase': '💳',
+        'newsletter_subscribe': '📧'
+    };
+    return icons[action] || '📝';
+}
+
+function formatActivityAction(action) {
+    const actions = {
+        'login': 'Logged In',
+        'register': 'Registered',
+        'logout': 'Logged Out',
+        'add_to_cart': 'Added to Cart',
+        'remove_from_cart': 'Removed from Cart',
+        'add_to_wishlist': 'Added to Wishlist',
+        'remove_from_wishlist': 'Removed from Wishlist',
+        'page_view': 'Viewed Page',
+        'purchase': 'Made Purchase',
+        'newsletter_subscribe': 'Subscribed to Newsletter'
+    };
+    return actions[action] || action;
+}
+
+function formatActivityDetails(activity) {
+    if (!activity.details) return '';
+    
+    if (activity.details.productId) {
+        return `Product: ${activity.details.productId}`;
+    }
+    
+    if (activity.details.page) {
+        return `Page: ${activity.details.page}`;
+    }
+    
+    if (activity.details.email) {
+        return `Email: ${activity.details.email}`;
+    }
+    
+    return JSON.stringify(activity.details);
+}
+
+function formatTimeAgo(timestamp) {
+    const now = new Date();
+    const time = new Date(timestamp);
+    const diffMs = now - time;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return time.toLocaleDateString();
+}
+
+// Filter functions
+function filterUsers() {
+    const searchTerm = document.getElementById('userSearch').value.toLowerCase();
+    const rows = document.querySelectorAll('#usersTableBody tr');
+    
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+}
+
+function filterUsersByType() {
+    const filterType = document.getElementById('userFilter').value;
+    const rows = document.querySelectorAll('#usersTableBody tr');
+    
+    rows.forEach(row => {
+        const typeCell = row.querySelector('.type-badge');
+        if (!typeCell) return;
+        
+        const type = typeCell.textContent.toLowerCase();
+        let show = false;
+        
+        switch (filterType) {
+            case 'all':
+                show = true;
+                break;
+            case 'registered':
+                show = type.includes('registered') || type.includes('admin');
+                break;
+            case 'newsletter':
+                show = type.includes('newsletter');
+                break;
+            case 'both':
+                show = type.includes('both');
+                break;
+        }
+        
+        row.style.display = show ? '' : 'none';
+    });
+}
+
+function sortUsers() {
+    showNotification('Sorting functionality implemented', 'info');
+    loadUsersTable();
+}
+
+function filterActivities() {
+    const actionFilter = document.getElementById('activityFilter').value;
+    const dateFilter = document.getElementById('dateFilter').value;
+    
+    let activities = userManager.getUserActivities();
+    
+    if (actionFilter !== 'all') {
+        activities = activities.filter(a => a.action === actionFilter);
+    }
+    
+    if (dateFilter) {
+        const filterDate = new Date(dateFilter);
+        activities = activities.filter(a => {
+            const activityDate = new Date(a.timestamp);
+            return activityDate.toDateString() === filterDate.toDateString();
+        });
+    }
+    
+    loadActivitiesTable(activities);
+}
+
+function filterNewsletterSubscribers() {
+    const searchTerm = document.getElementById('newsletterSearch').value.toLowerCase();
+    const rows = document.querySelectorAll('#newsletterTableBody tr');
+    
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? '' : 'none';
+    });
+}
+
+// Message user function
+function messageUser(userId) {
+    const user = userManager.getAllUsers().find(u => u.id === userId);
+    if (!user) return;
+    
+    const message = prompt(`Send message to ${user.firstName} ${user.lastName}:`);
+    if (message) {
+        showNotification(`Message would be sent to ${user.email}`, 'info');
+    }
+}
+
+// Settings functions
+function sendPromotionModal() {
+    const message = prompt('Enter promotion message:');
+    if (message) {
+        const subscribers = newsletterManager.getSubscribers().filter(s => s.active);
+        showNotification(`Promotion would be sent to ${subscribers.length} subscribers`, 'info');
+    }
+}
+
+// Newsletter modal functions
+function closeNewsletterModal() {
+    const modal = document.getElementById('newsletterModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function handleSendNewsletter(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const subject = formData.get('subject');
+    const content = formData.get('content');
+    
+    const subscribers = newsletterManager.getSubscribers().filter(s => s.active);
+    
+    showNotification(`Newsletter "${subject}" would be sent to ${subscribers.length} subscribers`, 'success');
+    closeNewsletterModal();
+}
+
+// Add event listeners for bulk update
+document.addEventListener('DOMContentLoaded', function() {
+    // Update bulk affected count when categories change
+    const categoryCheckboxes = document.querySelectorAll('input[name="categories"]');
+    categoryCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateBulkAffectedCount);
+    });
+});
                         <span>Qty: ${item.quantity}</span>
                         <span>$${(item.price * item.quantity).toFixed(2)}</span>
                     </div>
@@ -662,7 +1792,7 @@ function exportUserData() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    showCartNotification('User data exported successfully!', 'success');
+    showNotification('User data exported successfully!', 'success');
 }
 
 function clearOldActivities() {
@@ -675,7 +1805,7 @@ function clearOldActivities() {
         );
         
         localStorage.setItem('colp-user-activities', JSON.stringify(recentActivities));
-        showCartNotification('Old activities cleared successfully!', 'success');
+        showNotification('Old activities cleared successfully!', 'success');
         loadDashboard();
     }
 }
@@ -693,7 +1823,7 @@ function optimizeStorage() {
     
     localStorage.setItem('colp-user-activities', JSON.stringify(uniqueActivities));
     
-    showCartNotification(`Storage optimized! Removed ${activities.length - uniqueActivities.length} duplicate entries.`, 'success');
+    showNotification(`Storage optimized! Removed ${activities.length - uniqueActivities.length} duplicate entries.`, 'success');
     loadDashboard();
 }
 
@@ -723,7 +1853,7 @@ function generateReport() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    showCartNotification('Analytics report generated!', 'success');
+    showNotification('Analytics report generated!', 'success');
 }
 
 // Admin Management Functions
@@ -778,7 +1908,7 @@ function loadAdminsTable() {
 
 function showAddAdminModal() {
     if (!adminManager.isSuperAdmin()) {
-        showCartNotification('Only super admins can add new admins.', 'error');
+        showNotification('Only super admins can add new admins.', 'error');
         return;
     }
     document.getElementById('addAdminModal').style.display = 'flex';
@@ -805,17 +1935,17 @@ function handleAddAdmin(event) {
     const result = userManager.registerUser(adminData);
     
     if (result.success) {
-        showCartNotification('Admin added successfully!', 'success');
+        showNotification('Admin added successfully!', 'success');
         closeAddAdminModal();
         loadAdminsTable();
     } else {
-        showCartNotification(result.message, 'error');
+        showNotification(result.message, 'error');
     }
 }
 
 function removeAdmin(adminId) {
     if (!adminManager.isSuperAdmin()) {
-        showCartNotification('Only super admins can remove admins.', 'error');
+        showNotification('Only super admins can remove admins.', 'error');
         return;
     }
     
@@ -825,7 +1955,7 @@ function removeAdmin(adminId) {
     if (!admin) return;
     
     if (admin.email === 'admin@colp.co') {
-        showCartNotification('Cannot remove the main super admin.', 'error');
+        showNotification('Cannot remove the main super admin.', 'error');
         return;
     }
     
@@ -833,7 +1963,7 @@ function removeAdmin(adminId) {
         const updatedUsers = users.filter(u => u.id !== adminId);
         localStorage.setItem('colp-users', JSON.stringify(updatedUsers));
         
-        showCartNotification('Admin removed successfully!', 'success');
+        showNotification('Admin removed successfully!', 'success');
         loadAdminsTable();
     }
 }
@@ -961,7 +2091,7 @@ function removeNewsletterSubscriber(email) {
     if (confirm(`Are you sure you want to remove ${email} from the newsletter?`)) {
         newsletterManager.removeSubscriber(email);
         loadNewsletterTable();
-        showCartNotification('Subscriber removed successfully!', 'success');
+        showNotification('Subscriber removed successfully!', 'success');
     }
 }
 
@@ -1008,7 +2138,7 @@ function handleSendNewsletter(event) {
     });
     localStorage.setItem('colp-newsletters', JSON.stringify(newsletters));
     
-    showCartNotification(`Newsletter sent to ${activeSubscribers.length} subscribers!`, 'success');
+    showNotification(`Newsletter sent to ${activeSubscribers.length} subscribers!`, 'success');
     closeNewsletterModal();
 }
 
@@ -1033,7 +2163,7 @@ function exportNewsletterData() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    showCartNotification('Newsletter data exported successfully!', 'success');
+    showNotification('Newsletter data exported successfully!', 'success');
 }
 
 // Helper functions
@@ -1183,17 +2313,29 @@ function getPopularProductsData() {
 
 // Newsletter and promotion functions
 function sendNewsletterModal() {
-    const message = prompt('Enter newsletter content:');
-    if (message) {
-        const users = userManager.getAllUsers().filter(user => user.newsletter);
-        showCartNotification(`Newsletter sent to ${users.length} subscribers!`, 'success');
-    }
+    sendNewsletterToAll();
 }
 
 function sendPromotionModal() {
-    const message = prompt('Enter promotion details:');
-    if (message) {
-        const users = userManager.getAllUsers();
-        showCartNotification(`Promotion sent to ${users.length} users!`, 'success');
+    // For now, use the newsletter modal for promotions
+    // In a full implementation, this would have its own dedicated modal
+    const subject = prompt('Enter promotion subject:');
+    if (subject) {
+        const content = prompt('Enter promotion details:');
+        if (content) {
+            const users = userManager.getAllUsers();
+            // Store promotion in newsletter history with promotion flag
+            const newsletters = JSON.parse(localStorage.getItem('colp-newsletters')) || [];
+            newsletters.push({
+                id: 'promo_' + Date.now(),
+                subject: subject,
+                content: content,
+                isPromotion: true,
+                sentAt: new Date().toISOString(),
+                recipientCount: users.length
+            });
+            localStorage.setItem('colp-newsletters', JSON.stringify(newsletters));
+            showNotification(`Promotion sent to ${users.length} users!`, 'success');
+        }
     }
 }

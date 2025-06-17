@@ -85,6 +85,7 @@
                 <button class="admin-tab" onclick="switchAdminTab('activities')">📊 Activities</button>
                 <button class="admin-tab" onclick="switchAdminTab('analytics')">📈 Analytics</button>
                 <button class="admin-tab" onclick="switchAdminTab('admins')">🔐 Admin Management</button>
+                <button class="admin-tab" onclick="switchAdminTab('stock')">📦 Stock Management</button>
                 <button class="admin-tab" onclick="switchAdminTab('newsletter')">📧 Newsletter</button>
                 <button class="admin-tab" onclick="switchAdminTab('settings')">⚙️ Settings</button>
             </div>
@@ -308,6 +309,42 @@
         </div>
     </div>
 
+    <!-- Stock Management Tab -->
+    <div id="stock-tab" class="admin-tab-content">
+        <div class="admin-section">
+            <div class="section-header">
+                <h2>📦 Stock Management</h2>
+                <div class="admin-controls">
+                    <input type="text" id="stockSearch" placeholder="Search products..." onkeyup="filterStockItems()">
+                    <select id="stockFilter" onchange="filterStockByStatus()">
+                        <option value="all">All Products</option>
+                        <option value="in-stock">In Stock</option>
+                        <option value="low-stock">Low Stock (≤5)</option>
+                        <option value="out-of-stock">Out of Stock</option>
+                    </select>
+                    <button class="btn-primary" onclick="openBulkUpdateModal()">🔄 Bulk Update</button>
+                </div>
+            </div>
+            
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Current Stock</th>
+                            <th>Status</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stockTableBody">
+                        <!-- Stock items will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <!-- Add Admin Modal -->
     <div class="modal" id="addAdminModal">
         <div class="modal-content">
@@ -379,6 +416,101 @@
                     <div class="modal-actions">
                         <button type="button" class="btn-secondary" onclick="closeNewsletterModal()">Cancel</button>
                         <button type="submit" class="btn-primary">Send Newsletter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock Update Modal -->
+    <div class="modal" id="stockUpdateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📦 Update Stock</h2>
+                <button class="modal-close" onclick="closeStockUpdateModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="stockUpdateForm" onsubmit="handleStockUpdate(event)">
+                    <div class="form-group">
+                        <label for="stockProductName">Product</label>
+                        <input type="text" id="stockProductName" name="productName" readonly>
+                        <input type="hidden" id="stockProductId" name="productId">
+                    </div>
+                    <div class="form-group">
+                        <label for="stockCurrentAmount">Current Stock</label>
+                        <input type="number" id="stockCurrentAmount" name="currentStock" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="stockNewAmount">New Stock Amount</label>
+                        <input type="number" id="stockNewAmount" name="newStock" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stockStatus">Status</label>
+                        <select id="stockStatus" name="status">
+                            <option value="available">Available</option>
+                            <option value="coming-soon">Coming Soon</option>
+                            <option value="discontinued">Discontinued</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stockNotes">Notes (Optional)</label>
+                        <textarea id="stockNotes" name="notes" rows="3" placeholder="Any notes about this stock update..."></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeStockUpdateModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Update Stock</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Stock Update Modal -->
+    <div class="modal" id="bulkUpdateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔄 Bulk Stock Update</h2>
+                <button class="modal-close" onclick="closeBulkUpdateModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="bulkUpdateForm" onsubmit="handleBulkUpdate(event)">
+                    <div class="form-group">
+                        <label for="bulkUpdateType">Update Type</label>
+                        <select id="bulkUpdateType" name="updateType" onchange="toggleBulkUpdateFields()">
+                            <option value="add">Add Stock</option>
+                            <option value="subtract">Subtract Stock</option>
+                            <option value="set">Set Stock Amount</option>
+                            <option value="status">Change Status</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="bulkAmountGroup">
+                        <label for="bulkAmount">Amount</label>
+                        <input type="number" id="bulkAmount" name="amount" min="0">
+                    </div>
+                    <div class="form-group" id="bulkStatusGroup" style="display: none;">
+                        <label for="bulkStatus">New Status</label>
+                        <select id="bulkStatus" name="status">
+                            <option value="available">Available</option>
+                            <option value="coming-soon">Coming Soon</option>
+                            <option value="discontinued">Discontinued</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Apply to:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="categories" value="rings"> Rings</label>
+                            <label><input type="checkbox" name="categories" value="necklaces"> Necklaces</label>
+                            <label><input type="checkbox" name="categories" value="brooches"> Brooches</label>
+                            <label><input type="checkbox" name="categories" value="earrings"> Earrings</label>
+                            <label><input type="checkbox" name="categories" value="formal"> Formal Jewelry</label>
+                        </div>
+                    </div>
+                    <div class="bulk-preview">
+                        <h4>This will affect <span id="bulkAffectedCount">0</span> products</h4>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeBulkUpdateModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Apply Bulk Update</button>
                     </div>
                 </form>
             </div>

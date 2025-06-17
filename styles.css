@@ -4246,6 +4246,667 @@ footer {
         gap: 1rem;
         text-align: center;
     }
+}
+
+/* Stock Filter Styles */
+.stock-filters {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(139, 115, 85, 0.2);
+}
+
+.checkbox-filter {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #8b7355;
+    transition: color 0.3s ease;
+}
+
+.checkbox-filter:hover {
+    color: #deb887;
+}
+
+.checkbox-filter input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #8b7355;
+    border-radius: 3px;
+    margin-right: 0.75rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.checkbox-filter input[type="checkbox"]:checked + .checkmark {
+    background-color: #8a2be2;
+    border-color: #8a2be2;
+}
+
+.checkbox-filter input[type="checkbox"]:checked + .checkmark::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Stock Status Styles for Admin */
+.status-available {
+    background-color: #4CAF50 !important;
+    color: white !important;
+}
+
+.status-low-stock {
+    background-color: #FF9800 !important;
+    color: white !important;
+}
+
+.status-out-of-stock {
+    background-color: #F44336 !important;
+    color: white !important;
+}
+
+.status-coming-soon {
+    background-color: #2196F3 !important;
+    color: white !important;
+}
+
+.status-discontinued {
+    background-color: #9E9E9E !important;
+    color: white !important;
+}
+
+/* Admin Stock Management Styles */
+.stock-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-small.btn-primary {
+    background-color: #8a2be2;
+    color: white;
+}
+
+.btn-small.btn-primary:hover {
+    background-color: #7020c2;
+}
+
+.btn-small.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-small.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.product-info strong {
+    font-weight: 600;
+    color: #333;
+}
+
+.product-info small {
+    color: #666;
+    font-size: 0.75rem;
+}
+
+.stock-amount {
+    font-weight: 600;
+    color: #8a2be2;
+    text-align: center;
+}
+
+.product-price {
+    font-weight: 600;
+    color: #2e7d32;
+    text-align: center;
+}
+
+.stock-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.bulk-preview {
+    background-color: rgba(138, 43, 226, 0.1);
+    border: 1px solid rgba(138, 43, 226, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.bulk-preview h4 {
+    margin: 0;
+    color: #8a2be2;
+}
+
+/* Admin Dashboard Additional Styles */
+.admin-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.admin-info strong {
+    color: #8b4513;
+    font-weight: 600;
+}
+
+.admin-info small {
+    color: #666;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.role-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+}
+
+.role-badge.admin {
+    background-color: #2196F3;
+    color: white;
+}
+
+.role-badge.super-admin {
+    background-color: #8a2be2;
+    color: white;
+}
+
+.user-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+}
+
+.user-status.registered {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.user-status.newsletter-only {
+    background-color: #FF9800;
+    color: white;
+}
+
+.newsletter-stats {
+    background: rgba(139, 115, 85, 0.05);
+    border: 1px solid rgba(139, 115, 85, 0.2);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 8px;
+}
+
+.stat-row span:first-child {
+    color: #8b7355;
+    font-weight: 500;
+}
+
+.stat-row span:last-child {
+    color: #8a2be2;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.analytics-card {
+    background: white;
+    border: 1px solid rgba(139, 115, 85, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.analytics-card h3 {
+    margin: 0 0 1rem 0;
+    color: #8b4513;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.analytics-content {
+    color: #666;
+}
+
+.analytics-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.1);
+}
+
+.analytics-item:last-child {
+    border-bottom: none;
+}
+
+.analytics-item span:first-child {
+    font-weight: 500;
+    color: #8b7355;
+}
+
+.analytics-item span:last-child {
+    color: #8a2be2;
+    font-weight: 600;
+}
+
+.activity-timeline-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.1);
+}
+
+.activity-timeline-item:last-child {
+    border-bottom: none;
+}
+
+.activity-time {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+.activity-desc {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.analytics-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.1);
+}
+
+.analytics-stat:last-child {
+    border-bottom: none;
+}
+
+.analytics-stat span:first-child {
+    color: #8b7355;
+    font-weight: 500;
+}
+
+.analytics-stat span:last-child {
+    color: #8a2be2;
+    font-weight: 600;
+}
+
+.settings-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.setting-item {
+    background: white;
+    border: 1px solid rgba(139, 115, 85, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.setting-item h3 {
+    margin: 0 0 0.5rem 0;
+    color: #8b4513;
+    font-size: 1.1rem;
+}
+
+.setting-item p {
+    margin: 0 0 1rem 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.setting-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-small.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-small.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.no-data {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 2rem;
+}
+
+/* Mobile responsiveness for admin tables */
+@media (max-width: 768px) {
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .newsletter-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .setting-actions {
+        justify-content: center;
+    }
+    
+    .admin-table {
+        font-size: 0.8rem;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+/* Checkout Review Page Styles */
+.step-review {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.review-order-summary {
+    order: 1;
+    background: rgba(139, 115, 85, 0.05);
+    border: 1px solid rgba(139, 115, 85, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem;
+}
+
+.review-section {
+    order: 2;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(139, 115, 85, 0.1);
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+}
+
+.summary-item:last-child {
+    margin-bottom: 0;
+}
+
+.summary-item-image {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+.summary-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.summary-item-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.summary-item-details h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.9rem;
+    color: #8b4513;
+    line-height: 1.2;
+}
+
+.summary-item-price {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quantity-btn {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #deb887;
+    background: white;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #8b7355;
+    transition: all 0.3s ease;
+}
+
+.quantity-btn:hover {
+    background: #deb887;
+    color: white;
+}
+
+.quantity-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quantity-display {
+    min-width: 30px;
+    text-align: center;
+    font-weight: 600;
+    color: #8b4513;
+    font-size: 0.9rem;
+}
+
+.summary-item-total {
+    flex-shrink: 0;
+    font-weight: 600;
+    color: #2e7d32;
+    font-size: 0.95rem;
+    text-align: right;
+    min-width: 70px;
+}
+
+.empty-cart-checkout {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+.empty-cart-checkout p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Mobile Responsive for Checkout Items */
+@media (max-width: 768px) {
+    .summary-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .summary-item-image {
+        width: 80px;
+        height: 80px;
+        align-self: center;
+    }
+    
+    .summary-item-details {
+        width: 100%;
+    }
+    
+    .quantity-controls {
+        justify-content: center;
+    }
+    
+    .summary-item-total {
+        align-self: center;
+        font-size: 1.1rem;
+    }
+}
+
+/* Product highlighting when coming from checkout */
+.product-highlighted {
+    border: 3px solid #8a2be2 !important;
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.4) !important;
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+    background: linear-gradient(145deg, rgba(138, 43, 226, 0.05), rgba(255, 215, 0, 0.05)) !important;
+}
+
+/* Enhanced checkout review page styles */
+.summary-item-details h4:hover {
+    text-decoration: underline;
+    color: #7020c2 !important;
+}
+
+.summary-item-image:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.remove-item-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0.25rem;
+    margin-left: 0.5rem;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.remove-item-btn:hover {
+    background-color: #dc3545;
+    color: white;
+    transform: scale(1.1);
+}
+
+.summary-item-total {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+
+.quantity-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #f5f5f5 !important;
+}
+
+.quantity-btn:disabled:hover {
+    background-color: #f5f5f5 !important;
+    color: #999 !important;
+}
     
     .addresses-container {
         grid-template-columns: 1fr;
