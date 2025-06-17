@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close user dropdown on page load
     setTimeout(closeUserDropdown, 100);
     
+    // Hide out of stock products on homepage
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
+        hideOutOfStockProductsOnHomepage();
+    }
+    
     // Product page filters
     if (document.getElementById('productsGrid')) {
         const filterButtons = document.querySelectorAll('.filter-btn');
@@ -3199,5 +3204,76 @@ function applyStockFilter() {
         
         // Mark cards as hidden by stock filter for other filter functions
         card.dataset.hiddenByStock = (showInStockOnly && stock <= 0) ? 'true' : 'false';
+    });
+}
+
+// Hide out of stock products on homepage
+function hideOutOfStockProductsOnHomepage() {
+    const productCards = document.querySelectorAll('.product-card');
+    
+    productCards.forEach(card => {
+        const stock = parseInt(card.dataset.stock) || 0;
+        
+        if (stock <= 0) {
+            card.style.display = 'none';
+            card.classList.add('out-of-stock-hidden');
+        } else {
+            card.style.display = 'block';
+            card.classList.remove('out-of-stock-hidden');
+        }
+    });
+}
+
+// Function to update product display when stock changes (called from admin panel)
+function updateProductDisplay(productId, newStock, status) {
+    const productCards = document.querySelectorAll(`[data-product-id="${productId}"]`);
+    
+    productCards.forEach(card => {
+        card.setAttribute('data-stock', newStock);
+        
+        // Update stock badge if it exists
+        const stockBadge = card.querySelector('.product-stock-badge');
+        if (stockBadge) {
+            if (newStock <= 0) {
+                stockBadge.textContent = 'Out of Stock';
+                stockBadge.className = 'product-stock-badge stock-out';
+            } else if (newStock <= 5) {
+                stockBadge.textContent = `Only ${newStock} left!`;
+                stockBadge.className = 'product-stock-badge stock-low';
+            } else {
+                stockBadge.textContent = `${newStock} in stock`;
+                stockBadge.className = 'product-stock-badge';
+            }
+        }
+        
+        // Update add to cart button if it exists
+        const addToCartBtn = card.querySelector('.add-to-cart');
+        if (addToCartBtn) {
+            if (newStock <= 0 || status !== 'available') {
+                addToCartBtn.disabled = true;
+                if (status === 'coming-soon') {
+                    addToCartBtn.textContent = 'Coming Soon';
+                    addToCartBtn.className = 'add-to-cart coming-soon';
+                } else {
+                    addToCartBtn.textContent = 'Out of Stock';
+                    addToCartBtn.className = 'add-to-cart out-of-stock';
+                }
+            } else {
+                addToCartBtn.disabled = false;
+                addToCartBtn.textContent = 'Add to Cart';
+                addToCartBtn.className = 'add-to-cart';
+            }
+        }
+        
+        // Hide/show product on homepage if out of stock
+        if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
+            if (newStock <= 0) {
+                card.style.display = 'none';
+                card.classList.add('out-of-stock-hidden');
+            } else {
+                card.style.display = 'block';
+                card.classList.remove('out-of-stock-hidden');
+            }
+        }
     });
 }

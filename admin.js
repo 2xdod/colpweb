@@ -70,11 +70,11 @@ const adminManager = {
         const defaultProducts = {
             'dragon-ring': { name: 'Dragon\'s Ember Ring', stock: 15, price: 89.99, status: 'available', category: 'rings' },
             'moonstone-pendant': { name: 'Elven Moonstone Pendant', stock: 8, price: 124.99, status: 'available', category: 'necklaces' },
-            'crystal-brooch': { name: 'Mystical Crystal Brooch', stock: 3, price: 156.99, status: 'available', category: 'brooches' },
+            'crystal-brooch': { name: 'Mystical Crystal Brooch', stock: 0, price: 156.99, status: 'available', category: 'brooches' },
             'guardian-ring': { name: 'Guardian\'s Seal Ring', stock: 12, price: 178.99, status: 'available', category: 'rings' },
             'forest-necklace': { name: 'Forest Spirit Necklace', stock: 6, price: 142.99, status: 'available', category: 'necklaces' },
             'starlight-brooch': { name: 'Starlight Compass Brooch', stock: 20, price: 198.99, status: 'available', category: 'brooches' },
-            'wizard-cufflinks': { name: 'Wizard\'s Formal Cufflinks', stock: 4, price: 267.99, status: 'available', category: 'formal' },
+            'wizard-cufflinks': { name: 'Wizard\'s Formal Cufflinks', stock: 0, price: 267.99, status: 'available', category: 'formal' },
             'wizard-tower-ring': { name: 'Wizard Tower Ring', stock: 12, price: 134.99, status: 'available', category: 'rings' },
             'hero-pendant': { name: 'Hero\'s Legacy Pendant', stock: 6, price: 189.99, status: 'available', category: 'necklaces' },
             'geometric-phoenix-brooch': { name: 'Geometric Phoenix Brooch', stock: 13, price: 167.99, status: 'available', category: 'brooches' },
