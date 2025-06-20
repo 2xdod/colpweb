@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Dragon's Ember - Story Summary - COLP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="campaign-banner">
+        <p>🎉 Special Campaign: 20% OFF on all mystical rings! Use code: MYSTIC20</p>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1 onclick="location.href='index.html'">COLP</h1>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="customized.html">Customized</a></li>
+                <li><a href="stories.html">Colp Town Stories</a></li>
+                <li>
+                    <button class="wishlist-icon" onclick="toggleWishlistModal()">
+                        ❤️
+                        <span class="wishlist-count hidden" id="wishlistCount">0</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="cart-icon" onclick="toggleCart()">
+                        🛒
+                        <span class="cart-count hidden" id="cartCount">0</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="story-summary-page">
+        <div class="container">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a> 
+                <span>›</span> 
+                <a href="stories.html">Stories</a> 
+                <span>›</span> 
+                <span>The Dragon's Ember</span>
+            </nav>
+
+            <div class="story-summary-layout">
+                <div class="story-summary-main">
+                    <div class="story-summary-header">
+                        <div class="story-summary-image">
+                            <img src="https://via.placeholder.com/600x400/8B4513/FFFFFF?text=Dragon+Ring+Story+Art" alt="The Dragon's Ember">
+                        </div>
+                        <div class="story-summary-info">
+                            <h1>The Dragon's Ember</h1>
+                            <div class="story-meta-summary">
+                                <span class="story-category-badge mystical">Mystical</span>
+                                <span class="story-length">~15 min read</span>
+                                <span class="story-rating">⭐⭐⭐⭐⭐</span>
+                            </div>
+                            <p class="story-tagline">"When fire meets heart, legends are born"</p>
+                        </div>
+                    </div>
+
+                    <div class="story-summary-content">
+                        <section class="story-synopsis">
+                            <h2>📖 Story Synopsis</h2>
+                            <p>Deep in the volcanic caves of Mount Pyrion, a young blacksmith named Kael discovers something that will change his life forever. What begins as a routine expedition to gather rare minerals becomes an epic tale of courage, loss, and the birth of one of the most legendary pieces of jewelry in Colp Town's history.</p>
+                            
+                            <p>When an ancient dragon's final tear crystallizes into a gem of unimaginable power, Kael must learn to harness its magic while protecting it from those who would use it for evil. This is the origin story of the famous Dragon's Ember Ring, now one of our most cherished pieces.</p>
+                        </section>
+
+                        <section class="story-highlights">
+                            <h2>✨ Story Highlights</h2>
+                            <div class="highlights-grid">
+                                <div class="highlight-item">
+                                    <div class="highlight-icon">🔥</div>
+                                    <h3>Epic Adventure</h3>
+                                    <p>Journey through volcanic caves and ancient dragon lairs</p>
+                                </div>
+                                <div class="highlight-item">
+                                    <div class="highlight-icon">💎</div>
+                                    <h3>Magical Origins</h3>
+                                    <p>Discover how the Dragon's Ember Ring gained its legendary powers</p>
+                                </div>
+                                <div class="highlight-item">
+                                    <div class="highlight-icon">⚔️</div>
+                                    <h3>Hero's Journey</h3>
+                                    <p>Follow Kael's transformation from apprentice to master craftsman</p>
+                                </div>
+                                <div class="highlight-item">
+                                    <div class="highlight-icon">🏰</div>
+                                    <h3>Rich Lore</h3>
+                                    <p>Learn about the ancient history of Mount Pyrion and its guardians</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="story-characters">
+                            <h2>👥 Main Characters</h2>
+                            <div class="characters-list">
+                                <div class="character-item">
+                                    <strong>Kael the Blacksmith</strong> - A young, ambitious craftsman with a pure heart
+                                </div>
+                                <div class="character-item">
+                                    <strong>Pyrion the Ancient</strong> - The last dragon of Mount Pyrion, keeper of ancient wisdom
+                                </div>
+                                <div class="character-item">
+                                    <strong>Master Thorne</strong> - Kael's mentor and the town's most skilled jeweler
+                                </div>
+                                <div class="character-item">
+                                    <strong>The Shadow Collectors</strong> - Mysterious beings who seek powerful artifacts
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="related-product">
+                            <h2>💍 The Inspired Jewelry</h2>
+                            <div class="product-showcase">
+                                <div class="product-preview">
+                                    <img src="images/dragon-ring.jpg" alt="Dragon's Ember Ring" onerror="this.src='https://via.placeholder.com/200x200/8B4513/FFFFFF?text=Dragon+Ring'">
+                                    <div class="product-info">
+                                        <h3>Dragon's Ember Ring</h3>
+                                        <p>Inspired by this legendary tale, our Dragon's Ember Ring captures the essence of Kael's incredible discovery.</p>
+                                        <div class="product-price">$89.99</div>
+                                        <button class="btn-view-product" onclick="location.href='product-dragon-ring.html'">View Product</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="story-summary-sidebar">
+                    <div class="story-actions">
+                        <button class="btn-read-full" onclick="location.href='story-dragons-ember.html'">
+                            📚 Read Full Story
+                        </button>
+                        <button class="btn-share" onclick="shareStory()">
+                            🔗 Share Story
+                        </button>
+                        <button class="btn-back" onclick="location.href='stories.html'">
+                            ← Back to Stories
+                        </button>
+                    </div>
+
+                    <div class="story-stats">
+                        <h3>Story Details</h3>
+                        <div class="stat-item">
+                            <span class="stat-label">Genre:</span>
+                            <span class="stat-value">Fantasy Adventure</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Themes:</span>
+                            <span class="stat-value">Courage, Legacy, Magic</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Setting:</span>
+                            <span class="stat-value">Mount Pyrion, Ancient Caves</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Era:</span>
+                            <span class="stat-value">Age of Dragons</span>
+                        </div>
+                    </div>
+
+                    <div class="related-stories">
+                        <h3>Similar Stories</h3>
+                        <div class="related-story-item">
+                            <a href="story-summary-guardians-seal.html">The Guardian's Seal</a>
+                            <span class="story-category">Historical</span>
+                        </div>
+                        <div class="related-story-item">
+                            <a href="story-summary-crystal-brooch.html">The Mystical Crystal Brooch</a>
+                            <span class="story-category">Mystical</span>
+                        </div>
+                        <div class="related-story-item">
+                            <a href="story-summary-phoenix-earrings.html">The Phoenix Feather Earrings</a>
+                            <span class="story-category">Legendary</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="cart-empty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-total" id="cartTotal" style="display: none;">
+                <h3>Total: $<span id="cartTotalAmount">0.00</span></h3>
+            </div>
+            <div class="cart-actions" id="cartActions" style="display: none;">
+                <button class="cart-checkout" onclick="goToCheckout()">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div class="wishlist-modal" id="wishlistModal">
+        <div class="wishlist-content">
+            <div class="wishlist-header">
+                <h2>My Wishlist</h2>
+                <button class="wishlist-close" onclick="toggleWishlistModal()">&times;</button>
+            </div>
+            <div class="wishlist-items" id="wishlistItems">
+                <div class="wishlist-empty">
+                    <div class="wishlist-empty-icon">❤️</div>
+                    <p>Your wishlist is empty</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 COLP - Fantasy Jewelry Collection. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function shareStory() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'The Dragon\'s Ember - COLP Story',
+                    text: 'Check out this amazing fantasy story about the Dragon\'s Ember Ring!',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const url = window.location.href;
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Story link copied to clipboard!');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
         hideOutOfStockProductsOnHomepage();
     }
     
+    // Initialize checkout page
+    if (window.location.pathname.includes('checkout.html')) {
+        initializeCheckout();
+    }
+    
     // Product page filters
     if (document.getElementById('productsGrid')) {
         const filterButtons = document.querySelectorAll('.filter-btn');
@@ -2012,6 +2017,349 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Checkout functionality and discount system
+let appliedCoupons = [];
+let appliedDiscounts = {
+    coupon: null,
+    autoDiscounts: [],
+    quantityDiscount: null,
+    firstPurchaseDiscount: null
+};
+
+function initializeCheckout() {
+    if (typeof discountManager === 'undefined') {
+        // Create a simplified discount manager for checkout if admin.js is not loaded
+        window.discountManager = {
+            getCoupons: () => JSON.parse(localStorage.getItem('colp-coupons')) || [],
+            getDiscountSettings: () => {
+                const defaults = {
+                    freeShippingThreshold: 50,
+                    quantityDiscount: { min: 2, percent: 10 },
+                    firstPurchaseDiscount: 15
+                };
+                return Object.assign(defaults, JSON.parse(localStorage.getItem('colp-discount-settings')) || {});
+            },
+            getAutoDiscounts: () => JSON.parse(localStorage.getItem('colp-auto-discounts')) || [],
+            applyCoupon: function(code, cart, isFirstPurchase = false) {
+                const coupons = this.getCoupons();
+                const coupon = coupons.find(c => 
+                    c.code.toLowerCase() === code.toLowerCase() && 
+                    c.active && 
+                    new Date(c.expiry) > new Date() &&
+                    c.currentUses < c.maxUses
+                );
+                
+                if (!coupon) {
+                    return { success: false, message: 'Invalid or expired coupon code' };
+                }
+                
+                const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                
+                if (cartTotal < coupon.minOrder) {
+                    return { success: false, message: `Minimum order amount is $${coupon.minOrder}` };
+                }
+                
+                if (coupon.type === 'first_purchase' && !isFirstPurchase) {
+                    return { success: false, message: 'This coupon is only valid for first-time customers' };
+                }
+                
+                let discount = 0;
+                let eligibleItems = cart;
+                
+                if (coupon.category && coupon.type === 'category') {
+                    eligibleItems = cart.filter(item => this.getProductCategory(item.id) === coupon.category);
+                    if (eligibleItems.length === 0) {
+                        return { success: false, message: `This coupon is only valid for ${coupon.category}` };
+                    }
+                }
+                
+                const eligibleTotal = eligibleItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+                
+                if (coupon.type === 'percentage' || coupon.type === 'category' || coupon.type === 'first_purchase') {
+                    discount = eligibleTotal * (coupon.value / 100);
+                } else if (coupon.type === 'fixed') {
+                    discount = Math.min(coupon.value, eligibleTotal);
+                }
+                
+                return {
+                    success: true,
+                    discount: discount,
+                    coupon: coupon,
+                    message: `${coupon.code} applied! You saved $${discount.toFixed(2)}`
+                };
+            },
+            getProductCategory: function(productId) {
+                const categories = {
+                    'dragon-ring': 'rings',
+                    'guardian-ring': 'rings',
+                    'wizard-tower-ring': 'rings',
+                    'moonstone-pendant': 'necklaces',
+                    'forest-necklace': 'necklaces',
+                    'hero-pendant': 'necklaces',
+                    'crystal-brooch': 'brooches',
+                    'starlight-brooch': 'brooches',
+                    'geometric-phoenix-brooch': 'brooches',
+                    'phoenix-earrings': 'earrings',
+                    'leaf-earrings': 'earrings',
+                    'crystal-earrings': 'earrings',
+                    'wizard-cufflinks': 'formal',
+                    'noble-tie-pin': 'formal',
+                    'castle-cufflinks': 'formal'
+                };
+                return categories[productId] || 'rings';
+            }
+        };
+    }
+    
+    loadOrderSummary();
+    updateFreeShippingInfo();
+    calculateTotalsWithDiscounts();
+    
+    // Listen for discount settings updates from admin panel
+    setupDiscountUpdateListener();
+}
+
+// Setup listener for discount settings updates
+function setupDiscountUpdateListener() {
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'colp-discount-update' && e.newValue) {
+            try {
+                const updateEvent = JSON.parse(e.newValue);
+                if (updateEvent.type === 'discount-settings-update') {
+                    // Refresh discount information
+                    updateFreeShippingInfo();
+                    calculateTotalsWithDiscounts();
+                    console.log('Discount settings updated from admin panel');
+                }
+            } catch (error) {
+                console.log('Error processing discount update:', error);
+            }
+        }
+    });
+}
+
+function applyCouponCode() {
+    const couponInput = document.getElementById('couponCode');
+    const couponCode = couponInput.value.trim().toUpperCase();
+    const messageDiv = document.getElementById('couponMessage');
+    
+    if (!couponCode) {
+        showCouponMessage('Please enter a coupon code', 'error');
+        return;
+    }
+    
+    // Check if coupon already applied
+    if (appliedCoupons.find(c => c.code === couponCode)) {
+        showCouponMessage('This coupon is already applied', 'error');
+        return;
+    }
+    
+    const cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    if (cart.length === 0) {
+        showCouponMessage('Your cart is empty', 'error');
+        return;
+    }
+    
+    // Check if user is first-time customer
+    const currentUser = userManager.getCurrentUser();
+    const isFirstPurchase = currentUser ? !hasUserMadePurchase(currentUser.id) : true;
+    
+    const result = discountManager.applyCoupon(couponCode, cart, isFirstPurchase);
+    
+    if (result.success) {
+        appliedCoupons.push({
+            code: couponCode,
+            discount: result.discount,
+            coupon: result.coupon
+        });
+        
+        showCouponMessage(result.message, 'success');
+        couponInput.value = '';
+        updateAppliedCouponsDisplay();
+        calculateTotalsWithDiscounts();
+    } else {
+        showCouponMessage(result.message, 'error');
+    }
+}
+
+function showCouponMessage(message, type) {
+    const messageDiv = document.getElementById('couponMessage');
+    messageDiv.textContent = message;
+    messageDiv.className = `coupon-message ${type}`;
+    
+    setTimeout(() => {
+        messageDiv.textContent = '';
+        messageDiv.className = 'coupon-message';
+    }, 5000);
+}
+
+function updateAppliedCouponsDisplay() {
+    const appliedDiv = document.getElementById('appliedCoupons');
+    
+    if (appliedCoupons.length === 0) {
+        appliedDiv.innerHTML = '';
+        return;
+    }
+    
+    appliedDiv.innerHTML = appliedCoupons.map(item => `
+        <div class="applied-coupon">
+            <span class="coupon-code">${item.code}</span>
+            <span class="coupon-savings">-$${item.discount.toFixed(2)}</span>
+            <button type="button" class="remove-coupon" onclick="removeCoupon('${item.code}')">×</button>
+        </div>
+    `).join('');
+}
+
+function removeCoupon(code) {
+    appliedCoupons = appliedCoupons.filter(c => c.code !== code);
+    updateAppliedCouponsDisplay();
+    calculateTotalsWithDiscounts();
+    showCouponMessage(`Coupon ${code} removed`, 'info');
+}
+
+function calculateTotalsWithDiscounts() {
+    const cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    const settings = discountManager.getDiscountSettings();
+    
+    if (cart.length === 0) return;
+    
+    // Calculate subtotal
+    const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    
+    // Calculate all discounts
+    let totalDiscount = 0;
+    const discountRows = [];
+    
+    // Applied coupons
+    appliedCoupons.forEach(couponItem => {
+        totalDiscount += couponItem.discount;
+        discountRows.push({
+            name: `Coupon: ${couponItem.code}`,
+            amount: couponItem.discount
+        });
+    });
+    
+    // Automatic discounts
+    const autoDiscounts = discountManager.getAutoDiscounts();
+    const now = new Date();
+    
+    autoDiscounts.forEach(discount => {
+        if (!discount.active) return;
+        
+        const startDate = new Date(discount.startDate);
+        const endDate = new Date(discount.endDate);
+        
+        if (now >= startDate && now <= endDate) {
+            let eligibleItems = cart;
+            
+            if (discount.category !== 'all') {
+                eligibleItems = cart.filter(item => discountManager.getProductCategory(item.id) === discount.category);
+            }
+            
+            if (eligibleItems.length > 0) {
+                const eligibleTotal = eligibleItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+                const discountAmount = eligibleTotal * (discount.value / 100);
+                
+                totalDiscount += discountAmount;
+                discountRows.push({
+                    name: `${discount.name} (${discount.value}% off)`,
+                    amount: discountAmount
+                });
+            }
+        }
+    });
+    
+    // Quantity discount
+    const totalQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+    if (totalQuantity >= settings.quantityDiscount.min) {
+        const quantityDiscountAmount = subtotal * (settings.quantityDiscount.percent / 100);
+        totalDiscount += quantityDiscountAmount;
+        discountRows.push({
+            name: `Quantity Discount (${settings.quantityDiscount.percent}% off ${settings.quantityDiscount.min}+ items)`,
+            amount: quantityDiscountAmount
+        });
+    }
+    
+    // First purchase discount
+    const currentUser = userManager.getCurrentUser();
+    const isFirstPurchase = currentUser ? !hasUserMadePurchase(currentUser.id) : true;
+    if (isFirstPurchase && settings.firstPurchaseDiscount > 0) {
+        const firstPurchaseDiscountAmount = subtotal * (settings.firstPurchaseDiscount / 100);
+        totalDiscount += firstPurchaseDiscountAmount;
+        discountRows.push({
+            name: `First Purchase Discount (${settings.firstPurchaseDiscount}% off)`,
+            amount: firstPurchaseDiscountAmount
+        });
+    }
+    
+    // Calculate final total
+    const finalTotal = Math.max(0, subtotal - totalDiscount);
+    
+    // Check free shipping
+    const isFreeShipping = finalTotal >= settings.freeShippingThreshold;
+    const shippingCost = isFreeShipping ? 0 : 10; // $10 shipping if not free
+    
+    // Update display
+    updateOrderSummaryDisplay(subtotal, discountRows, shippingCost, finalTotal + shippingCost);
+}
+
+function updateOrderSummaryDisplay(subtotal, discountRows, shipping, total) {
+    document.getElementById('summarySubtotal').textContent = `$${subtotal.toFixed(2)}`;
+    
+    // Update discount rows
+    const discountContainer = document.getElementById('discountRows');
+    discountContainer.innerHTML = discountRows.map(discount => `
+        <div class="summary-row discount-row">
+            <span>${discount.name}:</span>
+            <span class="discount-amount">-$${discount.amount.toFixed(2)}</span>
+        </div>
+    `).join('');
+    
+    // Update shipping
+    const shippingElement = document.getElementById('summaryShipping');
+    if (shipping === 0) {
+        shippingElement.innerHTML = '<span class="free-shipping">FREE</span>';
+    } else {
+        shippingElement.textContent = `$${shipping.toFixed(2)}`;
+    }
+    
+    document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
+}
+
+function updateFreeShippingInfo() {
+    const settings = discountManager.getDiscountSettings();
+    const freeShippingInfo = document.getElementById('freeShippingInfo');
+    if (freeShippingInfo) {
+        freeShippingInfo.textContent = `Free shipping on orders over $${settings.freeShippingThreshold}`;
+    }
+}
+
+function hasUserMadePurchase(userId) {
+    // Check if user has made any previous purchases
+    const orders = JSON.parse(localStorage.getItem('colp-orders')) || [];
+    return orders.some(order => order.userId === userId);
+}
+
+function loadOrderSummary() {
+    const cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    const summaryItems = document.getElementById('summaryItems');
+    
+    if (cart.length === 0) {
+        summaryItems.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
+        return;
+    }
+    
+    summaryItems.innerHTML = cart.map(item => `
+        <div class="summary-item">
+            <div class="item-details">
+                <h4>${item.name}</h4>
+                <p>Quantity: ${item.quantity}</p>
+            </div>
+            <div class="item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+        </div>
+    `).join('');
+}
 
 // Payment Integration
 let stripe, card, paypalButtons;

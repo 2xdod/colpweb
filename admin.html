@@ -81,13 +81,14 @@
             </div>
 
             <div class="admin-tabs">
-                <button class="admin-tab active" onclick="switchAdminTab('users')">👥 Users</button>
-                <button class="admin-tab" onclick="switchAdminTab('activities')">📊 Activities</button>
-                <button class="admin-tab" onclick="switchAdminTab('analytics')">📈 Analytics</button>
-                <button class="admin-tab" onclick="switchAdminTab('admins')">🔐 Admin Management</button>
-                <button class="admin-tab" onclick="switchAdminTab('stock')">📦 Stock Management</button>
-                <button class="admin-tab" onclick="switchAdminTab('newsletter')">📧 Newsletter</button>
-                <button class="admin-tab" onclick="switchAdminTab('settings')">⚙️ Settings</button>
+                <button class="admin-tab active" onclick="switchTab('users', this)">👥 Users</button>
+                <button class="admin-tab" onclick="switchTab('activities', this)">📊 Activities</button>
+                <button class="admin-tab" onclick="switchTab('analytics', this)">📈 Analytics</button>
+                <button class="admin-tab" onclick="switchTab('admins', this)">🔐 Admin Management</button>
+                <button class="admin-tab" onclick="switchTab('stock', this)">📦 Stock Management</button>
+                <button class="admin-tab" onclick="switchTab('discounts', this)">🎯 Discounts & Coupons</button>
+                <button class="admin-tab" onclick="switchTab('newsletter', this)">📧 Newsletter</button>
+                <button class="admin-tab" onclick="switchTab('settings', this)">⚙️ Settings</button>
             </div>
 
             <!-- Users Tab -->
@@ -256,6 +257,134 @@
                                 <!-- Newsletter subscribers will be populated here -->
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Discounts & Coupons Tab -->
+            <div id="discounts-tab" class="admin-tab-content">
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>🎯 Discounts & Coupons Management</h2>
+                        <button class="btn-primary" onclick="showCreateCouponModal()">✨ Create New Coupon</button>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="discount-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">🎫</div>
+                            <div class="stat-info">
+                                <h3 id="activeCoupons">0</h3>
+                                <p>Active Coupons</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🛒</div>
+                            <div class="stat-info">
+                                <h3 id="couponUsage">0</h3>
+                                <p>Times Used Today</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-info">
+                                <h3 id="totalSavings">$0</h3>
+                                <p>Total Savings</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discount Settings -->
+                    <div class="discount-settings-grid">
+                        <div class="setting-card">
+                            <h3>🚚 Free Shipping</h3>
+                            <p>Set minimum order amount for free shipping</p>
+                            <div class="setting-input">
+                                <label for="freeShippingThreshold">Minimum Order Amount ($)</label>
+                                <input type="number" id="freeShippingThreshold" value="50" min="0" step="0.01">
+                                <button onclick="updateFreeShippingThreshold()" class="btn-primary">Update</button>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <h3>🔢 Quantity Discounts</h3>
+                            <p>Set discounts based on quantity purchased</p>
+                            <div class="quantity-discounts">
+                                <div class="quantity-rule">
+                                    <label>Buy <input type="number" id="quantityMin" value="2" min="2"> or more items, get <input type="number" id="quantityDiscount" value="10" min="1" max="100">% off</label>
+                                    <button onclick="updateQuantityDiscount()" class="btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="setting-card">
+                            <h3>🎁 First Purchase Discount</h3>
+                            <p>Welcome discount for new customers</p>
+                            <div class="setting-input">
+                                <label for="firstPurchaseDiscount">First Purchase Discount (%)</label>
+                                <input type="number" id="firstPurchaseDiscount" value="15" min="0" max="100">
+                                <button onclick="updateFirstPurchaseDiscount()" class="btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Coupons Table -->
+                    <div class="coupons-section">
+                        <h3>🎫 Active Coupons</h3>
+                        <div class="admin-controls">
+                            <input type="text" id="couponSearch" placeholder="Search coupons..." onkeyup="filterCoupons()">
+                            <select id="couponFilter" onchange="filterCouponsByType()">
+                                <option value="all">All Coupons</option>
+                                <option value="percentage">Percentage</option>
+                                <option value="fixed">Fixed Amount</option>
+                                <option value="category">Category</option>
+                                <option value="first_purchase">First Purchase</option>
+                            </select>
+                        </div>
+                        <div class="admin-table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Coupon Code</th>
+                                        <th>Type</th>
+                                        <th>Value</th>
+                                        <th>Usage</th>
+                                        <th>Valid Until</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="couponsTableBody">
+                                    <!-- Coupons will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Auto Discounts Section -->
+                    <div class="auto-discounts-section">
+                        <div class="section-header">
+                            <h3>⏰ Automatic Discounts</h3>
+                            <button class="btn-secondary" onclick="showCreateAutoDiscountModal()">➕ Add Auto Discount</button>
+                        </div>
+                        <div class="admin-table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Category</th>
+                                        <th>Discount</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="autoDiscountsTableBody">
+                                    <!-- Auto discounts will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -517,6 +646,134 @@
         </div>
     </div>
 
+    <!-- Create Coupon Modal -->
+    <div class="modal" id="createCouponModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✨ Create New Coupon</h2>
+                <button class="modal-close" onclick="closeCouponModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createCouponForm" onsubmit="handleCreateCoupon(event)">
+                    <div class="form-group">
+                        <label for="couponCode">Coupon Code</label>
+                        <input type="text" id="couponCode" name="code" required placeholder="e.g., SAVE20">
+                        <small>Enter a unique coupon code (letters and numbers only)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="couponType">Discount Type</label>
+                        <select id="couponType" name="type" required onchange="toggleCouponFields()">
+                            <option value="percentage">Percentage Discount</option>
+                            <option value="fixed">Fixed Amount</option>
+                            <option value="category">Category Discount</option>
+                            <option value="first_purchase">First Purchase Discount</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="couponValueGroup">
+                        <label for="couponValue">Discount Value</label>
+                        <input type="number" id="couponValue" name="value" required min="1">
+                        <small id="couponValueHint">Enter percentage (1-100) or fixed amount</small>
+                    </div>
+                    
+                    <div class="form-group" id="couponCategoryGroup" style="display: none;">
+                        <label for="couponCategory">Category</label>
+                        <select id="couponCategory" name="category">
+                            <option value="rings">Rings</option>
+                            <option value="necklaces">Necklaces</option>
+                            <option value="brooches">Brooches</option>
+                            <option value="earrings">Earrings</option>
+                            <option value="formal">Formal Jewelry</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="couponMinOrder">Minimum Order Amount ($)</label>
+                        <input type="number" id="couponMinOrder" name="minOrder" value="0" min="0" step="0.01">
+                        <small>Optional minimum order amount to use this coupon</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="couponMaxUses">Maximum Uses</label>
+                        <input type="number" id="couponMaxUses" name="maxUses" value="100" min="1">
+                        <small>How many times this coupon can be used</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="couponExpiry">Expiry Date</label>
+                        <input type="date" id="couponExpiry" name="expiry" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="couponDescription">Description</label>
+                        <textarea id="couponDescription" name="description" rows="3" placeholder="Brief description of this coupon"></textarea>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeCouponModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Create Coupon</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Auto Discount Modal -->
+    <div class="modal" id="createAutoDiscountModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⏰ Create Automatic Discount</h2>
+                <button class="modal-close" onclick="closeAutoDiscountModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createAutoDiscountForm" onsubmit="handleCreateAutoDiscount(event)">
+                    <div class="form-group">
+                        <label for="autoDiscountName">Discount Name</label>
+                        <input type="text" id="autoDiscountName" name="name" required placeholder="e.g., Summer Ring Sale">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="autoDiscountCategory">Category</label>
+                        <select id="autoDiscountCategory" name="category" required>
+                            <option value="rings">Rings</option>
+                            <option value="necklaces">Necklaces</option>
+                            <option value="brooches">Brooches</option>
+                            <option value="earrings">Earrings</option>
+                            <option value="formal">Formal Jewelry</option>
+                            <option value="all">All Products</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="autoDiscountValue">Discount Percentage (%)</label>
+                        <input type="number" id="autoDiscountValue" name="value" required min="1" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="autoDiscountStart">Start Date</label>
+                        <input type="datetime-local" id="autoDiscountStart" name="startDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="autoDiscountEnd">End Date</label>
+                        <input type="datetime-local" id="autoDiscountEnd" name="endDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="autoDiscountDescription">Description</label>
+                        <textarea id="autoDiscountDescription" name="description" rows="3" placeholder="Description of this automatic discount"></textarea>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeAutoDiscountModal()">Cancel</button>
+                        <button type="submit" class="btn-primary">Create Auto Discount</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Shopping Cart Modal -->
     <div class="cart-modal" id="cartModal">
         <div class="cart-content">
@@ -547,5 +804,50 @@
 
     <script src="script.js"></script>
     <script src="admin.js"></script>
+    <script>
+        // Debug function to test if admin.js is loaded
+        console.log('Admin page loaded');
+        console.log('switchAdminTab function:', typeof switchAdminTab);
+        
+        // Backup tab switching function
+        window.switchTab = function(tabName, clickedElement) {
+            console.log('Switching to tab:', tabName);
+            
+            // Hide all tab contents
+            document.querySelectorAll('.admin-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            const selectedTab = document.getElementById(`${tabName}-tab`);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+                console.log('Tab shown:', tabName);
+            } else {
+                console.error('Tab not found:', `${tabName}-tab`);
+            }
+            
+            // Add active class to clicked tab
+            if (clickedElement) {
+                clickedElement.classList.add('active');
+            }
+            
+            // Call the original function if it exists
+            if (typeof switchAdminTab === 'function') {
+                switchAdminTab(tabName);
+            }
+        };
+        
+        // Test function directly
+        window.testTabSwitch = function(tabName) {
+            console.log('Testing tab switch to:', tabName);
+            switchTab(tabName);
+        };
+    </script>
 </body>
 </html>
