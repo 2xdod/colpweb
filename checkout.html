@@ -17,26 +17,45 @@
 
     <nav class="navbar">
         <div class="nav-container">
+            <!-- Left side menu -->
+            <div class="left-menu">
+                <button class="shop-btn" onclick="toggleShopMenu()">SHOP</button>
+                <button class="hamburger-menu" onclick="toggleShopMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="shop-dropdown" id="shopDropdown">
+                    <a href="products.html">Products</a>
+                    <a href="customized.html">Customized</a>
+                </div>
+            </div>
+            
+            <!-- Center logo -->
             <div class="logo">
                 <h1 onclick="location.href='index.html'">COLP</h1>
             </div>
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="customized.html">Customized</a></li>
-                <li><a href="stories.html">Colp Town Stories</a></li>
-                <li>
-                    <button class="cart-icon" onclick="toggleCart()">
-                        🛒
+            
+            <!-- Right side menu -->
+            <div class="right-menu">
+                <button class="profile-menu-btn" onclick="toggleProfileMenu()">
+                    <div class="profile-icon">👤</div>
+                </button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <a href="stories.html">Colp Town Stories</a>
+                    <a href="profile.html">My Profile</a>
+                    <a href="orders.html">My Orders</a>
+                    <a href="#" onclick="toggleWishlistModal()">Wishlist</a>
+                    <a href="settings.html">Settings</a>
+                    <a href="#" onclick="logout()">Log Out</a>
+                </div>
+                <button class="gothic-cart-icon" onclick="toggleCart()">
+                    <div class="warrior-cart">
+                        <span class="cart-symbol">⚔️🛒</span>
                         <span class="cart-count hidden" id="cartCount">0</span>
-                    </button>
-                </li>
-            </ul>
+                    </div>
+                </button>
+            </div>
         </div>
     </nav>
 

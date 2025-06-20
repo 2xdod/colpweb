@@ -25,42 +25,57 @@
 
     <nav class="navbar">
         <div class="nav-container">
+            <!-- Left side menu -->
+            <div class="left-menu">
+                <button class="shop-btn" onclick="toggleShopMenu()">SHOP</button>
+                <button class="hamburger-menu" onclick="toggleShopMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="shop-dropdown" id="shopDropdown">
+                    <a href="products.html">Products</a>
+                    <a href="customized.html">Customized</a>
+                </div>
+            </div>
+            
+            <!-- Center logo -->
             <div class="logo">
                 <h1>COLP</h1>
             </div>
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="products.html">Products</a></li>
-                <li><a href="customized.html">Customized</a></li>
-                <li><a href="stories.html">Colp Town Stories</a></li>
-                <li>
-                    <button class="wishlist-icon" onclick="toggleWishlistModal()">
-                        ❤️
-                        <span class="wishlist-count hidden" id="wishlistCount">0</span>
-                    </button>
-                </li>
-                <li>
-                    <button class="cart-icon" onclick="toggleCart()">
-                        🛒
+            
+            <!-- Right side menu -->
+            <div class="right-menu">
+                <button class="profile-menu-btn" onclick="toggleProfileMenu()">
+                    <div class="profile-icon">👤</div>
+                </button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <a href="stories.html">Colp Town Stories</a>
+                    <a href="profile.html">My Profile</a>
+                    <a href="orders.html">My Orders</a>
+                    <a href="#" onclick="toggleWishlistModal()">Wishlist</a>
+                    <a href="settings.html">Settings</a>
+                    <a href="#" onclick="logout()">Log Out</a>
+                </div>
+                <button class="gothic-cart-icon" onclick="toggleCart()">
+                    <div class="warrior-cart">
+                        <span class="cart-symbol">⚔️🛒</span>
                         <span class="cart-count hidden" id="cartCount">0</span>
-                    </button>
-                </li>
-            </ul>
+                    </div>
+                </button>
+            </div>
         </div>
     </nav>
 
     <section class="hero-section">
         <div class="hero-content">
-            <h1>Welcome to COLP</h1>
-            <p>Discover magical jewelry from the mystical realm of Colp Town</p>
+            <div class="centered-logo">
+                <h1 class="main-logo">COLP</h1>
+                <p class="tagline">Discover cursed treasures from the dark realm of Colp Town</p>
+            </div>
             <div class="hero-buttons">
-                <button class="btn-primary" onclick="location.href='products.html'">SHOP NOW</button>
-                <button class="btn-secondary" onclick="location.href='stories.html'">Visit Colp Town Stories</button>
+                <button class="btn-primary" onclick="location.href='products.html'">ENTER THE SHADOWS</button>
+                <button class="btn-secondary" onclick="location.href='stories.html'">TALES OF DARKNESS</button>
             </div>
         </div>
         <div class="hero-background"></div>
@@ -70,7 +85,7 @@
         <div class="container">
             <h2>Popular Products</h2>
             <div class="products-grid">
-                <div class="product-card" data-product-id="dragon-ring" data-product-name="Dragon's Ember Ring" data-product-price="89.99" data-product-image="https://via.placeholder.com/250x250/8B4513/FFFFFF?text=Dragon+Ring" data-stock="15">
+                <div class="product-card" data-product-id="dragon-ring" data-product-name="Dragon's Ember Ring" data-product-price="89.99" data-product-image="images/dragon-ring.jpg" data-stock="15">
                     <div class="product-stock-badge status-available">✅ In Stock</div>
                     <button class="wishlist-btn" onclick="toggleWishlist('dragon-ring')" aria-label="Add to wishlist">
                         <span class="heart-icon">🤍</span>
@@ -81,7 +96,7 @@
                     <span class="price">$89.99</span>
                     <button class="add-to-cart" onclick="addToCart('dragon-ring')">Add to Cart</button>
                 </div>
-                <div class="product-card" data-product-id="moonstone-pendant" data-product-name="Elven Moonstone Pendant" data-product-price="124.99" data-product-image="https://via.placeholder.com/250x250/4169E1/FFFFFF?text=Moonstone+Necklace" data-stock="8">
+                <div class="product-card" data-product-id="moonstone-pendant" data-product-name="Elven Moonstone Pendant" data-product-price="124.99" data-product-image="images/moonstone-pendant.jpg" data-stock="8">
                     <div class="product-stock-badge status-available">✅ In Stock</div>
                     <button class="wishlist-btn" onclick="toggleWishlist('moonstone-pendant')" aria-label="Add to wishlist">
                         <span class="heart-icon">🤍</span>
@@ -92,7 +107,7 @@
                     <span class="price">$124.99</span>
                     <button class="add-to-cart" onclick="addToCart('moonstone-pendant')">Add to Cart</button>
                 </div>
-                <div class="product-card" data-product-id="crystal-brooch" data-product-name="Mystical Crystal Brooch" data-product-price="156.99" data-product-image="https://via.placeholder.com/250x250/800080/FFFFFF?text=Crystal+Brooch" data-stock="0">
+                <div class="product-card" data-product-id="crystal-brooch" data-product-name="Mystical Crystal Brooch" data-product-price="156.99" data-product-image="images/crystal-brooch.jpg" data-stock="0">
                     <div class="product-stock-badge status-low-stock">⚠️ Low Stock</div>
                     <img src="images/crystal-brooch.jpg" alt="Mystical Crystal Brooch">
                     <h3>Mystical Crystal Brooch</h3>
@@ -100,7 +115,7 @@
                     <span class="price">$156.99</span>
                     <button class="add-to-cart" onclick="addToCart('crystal-brooch')">Add to Cart</button>
                 </div>
-                <div class="product-card" data-product-id="guardian-ring" data-product-name="Guardian's Seal Ring" data-product-price="178.99" data-product-image="https://via.placeholder.com/250x250/DC143C/FFFFFF?text=Guardian+Ring" data-stock="12">
+                <div class="product-card" data-product-id="guardian-ring" data-product-name="Guardian's Seal Ring" data-product-price="178.99" data-product-image="images/guardian-ring.jpg" data-stock="12">
                     <div class="product-stock-badge status-available">✅ In Stock</div>
                     <img src="images/guardian-ring.jpg" alt="Guardian's Seal Ring">
                     <h3>Guardian's Seal Ring</h3>
@@ -108,7 +123,7 @@
                     <span class="price">$178.99</span>
                     <button class="add-to-cart" onclick="addToCart('guardian-ring')">Add to Cart</button>
                 </div>
-                <div class="product-card" data-product-id="forest-necklace" data-product-name="Forest Spirit Necklace" data-product-price="142.99" data-product-image="https://via.placeholder.com/250x250/228B22/FFFFFF?text=Nature+Necklace" data-stock="6">
+                <div class="product-card" data-product-id="forest-necklace" data-product-name="Forest Spirit Necklace" data-product-price="142.99" data-product-image="images/forest-necklace.jpg" data-stock="6">
                     <div class="product-stock-badge status-available">✅ In Stock</div>
                     <img src="images/forest-necklace.jpg" alt="Forest Spirit Necklace">
                     <h3>Forest Spirit Necklace</h3>
@@ -116,7 +131,7 @@
                     <span class="price">$142.99</span>
                     <button class="add-to-cart" onclick="addToCart('forest-necklace')">Add to Cart</button>
                 </div>
-                <div class="product-card" data-product-id="starlight-brooch" data-product-name="Starlight Compass Brooch" data-product-price="198.99" data-product-image="https://via.placeholder.com/250x250/191970/FFFFFF?text=Starlight+Brooch" data-stock="20">
+                <div class="product-card" data-product-id="starlight-brooch" data-product-name="Starlight Compass Brooch" data-product-price="198.99" data-product-image="images/starlight-brooch.jpg" data-stock="20">
                     <div class="product-stock-badge status-available">✅ In Stock</div>
                     <img src="images/starlight-brooch.jpg" alt="Starlight Compass Brooch">
                     <h3>Starlight Compass Brooch</h3>
@@ -124,7 +139,7 @@
                     <span class="price">$198.99</span>
                     <button class="add-to-cart" onclick="addToCart('starlight-brooch')">Add to Cart</button>
                 </div>
-                <div class="product-card" data-product-id="wizard-cufflinks" data-product-name="Wizard's Formal Cufflinks" data-product-price="267.99" data-product-image="https://via.placeholder.com/250x250/8B008B/FFFFFF?text=Wizard+Cufflinks" data-stock="0">
+                <div class="product-card" data-product-id="wizard-cufflinks" data-product-name="Wizard's Formal Cufflinks" data-product-price="267.99" data-product-image="images/wizard-cufflinks.jpg" data-stock="0">
                     <div class="product-stock-badge status-low-stock">⚠️ Low Stock</div>
                     <img src="images/wizard-cufflinks.jpg" alt="Wizard's Formal Cufflinks">
                     <h3>Wizard's Formal Cufflinks</h3>

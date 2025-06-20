@@ -17,8 +17,8 @@ function generateMockOrders() {
                 date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
                 status: 'delivered',
                 items: [
-                    { name: "Dragon's Ember Ring", quantity: 1, price: 89.99, image: 'https://via.placeholder.com/80x80/8B4513/FFFFFF?text=Ring' },
-                    { name: "Elven Moonstone Pendant", quantity: 1, price: 124.99, image: 'https://via.placeholder.com/80x80/4169E1/FFFFFF?text=Pendant' }
+                    { name: "Dragon's Ember Ring", quantity: 1, price: 89.99, image: 'images/dragon-ring.jpg' },
+                    { name: "Elven Moonstone Pendant", quantity: 1, price: 124.99, image: 'images/moonstone-pendant.jpg' }
                 ],
                 total: 229.98,
                 shippingAddress: '123 Magic Lane, Fantasy City, FC 12345',
@@ -30,7 +30,7 @@ function generateMockOrders() {
                 date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
                 status: 'processing',
                 items: [
-                    { name: "Mystical Crystal Brooch", quantity: 1, price: 156.99, image: 'https://via.placeholder.com/80x80/800080/FFFFFF?text=Brooch' }
+                    { name: "Mystical Crystal Brooch", quantity: 1, price: 156.99, image: 'images/crystal-brooch.jpg' }
                 ],
                 total: 171.99, // including shipping
                 shippingAddress: '123 Magic Lane, Fantasy City, FC 12345',
@@ -42,8 +42,8 @@ function generateMockOrders() {
                 date: new Date().toISOString(),
                 status: 'pending',
                 items: [
-                    { name: "Guardian's Seal Ring", quantity: 1, price: 178.99, image: 'https://via.placeholder.com/80x80/DC143C/FFFFFF?text=Guard' },
-                    { name: "Forest Spirit Necklace", quantity: 1, price: 142.99, image: 'https://via.placeholder.com/80x80/228B22/FFFFFF?text=Forest' }
+                    { name: "Guardian's Seal Ring", quantity: 1, price: 178.99, image: 'images/guardian-ring.jpg' },
+                    { name: "Forest Spirit Necklace", quantity: 1, price: 142.99, image: 'images/forest-necklace.jpg' }
                 ],
                 total: 321.98,
                 shippingAddress: '123 Magic Lane, Fantasy City, FC 12345',

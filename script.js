@@ -1,5 +1,22 @@
+// Clear old cart data with placeholder images
+function clearOldCartData() {
+    const cart = JSON.parse(localStorage.getItem('colp-cart')) || [];
+    const cleanedCart = cart.filter(item => {
+        // Remove items with placeholder images
+        return !item.image.includes('placeholder') && !item.image.includes('via.placeholder');
+    });
+    
+    if (cleanedCart.length !== cart.length) {
+        localStorage.setItem('colp-cart', JSON.stringify(cleanedCart));
+        console.log('Cleaned old cart data with placeholder images');
+    }
+}
+
 // Product filtering functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Clear old cart data first
+    clearOldCartData();
+    
     // Close user dropdown on page load
     setTimeout(closeUserDropdown, 100);
     
@@ -763,11 +780,15 @@ function addToCart(productId) {
         return;
     }
     
+    // Get image from actual img tag, fallback to data attribute
+    const imgElement = productCard.querySelector('img');
+    const imageUrl = imgElement ? imgElement.src : productCard.dataset.productImage;
+    
     const product = {
         id: productId,
         name: productCard.dataset.productName,
         price: parseFloat(productCard.dataset.productPrice),
-        image: productCard.dataset.productImage
+        image: imageUrl
     };
     
     // Reload cart from localStorage to ensure consistency
@@ -2352,6 +2373,7 @@ function loadOrderSummary() {
     
     summaryItems.innerHTML = cart.map(item => `
         <div class="summary-item">
+            <img src="${item.image}" alt="${item.name}" class="summary-item-image">
             <div class="item-details">
                 <h4>${item.name}</h4>
                 <p>Quantity: ${item.quantity}</p>
@@ -3625,3 +3647,54 @@ function updateProductDisplay(productId, newStock, status) {
         }
     });
 }
+
+// New Navigation Functions
+function toggleShopMenu() {
+    const dropdown = document.getElementById('shopDropdown');
+    dropdown.classList.toggle('show');
+    
+    // Close profile menu if open
+    const profileDropdown = document.getElementById('profileDropdown');
+    profileDropdown.classList.remove('show');
+}
+
+function toggleProfileMenu() {
+    const dropdown = document.getElementById('profileDropdown');
+    dropdown.classList.toggle('show');
+    
+    // Close shop menu if open
+    const shopDropdown = document.getElementById('shopDropdown');
+    shopDropdown.classList.remove('show');
+}
+
+function logout() {
+    // Clear user session
+    localStorage.removeItem('currentUser');
+    sessionStorage.removeItem('currentUser');
+    
+    // Show logout notification
+    showCartNotification('Logged out successfully', 'success');
+    
+    // Redirect to home page after a short delay
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1000);
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(event) {
+    const shopMenu = document.querySelector('.left-menu');
+    const profileMenu = document.querySelector('.right-menu .profile-menu-btn');
+    const shopDropdown = document.getElementById('shopDropdown');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    // Close shop dropdown if clicking outside
+    if (shopDropdown && !shopMenu.contains(event.target)) {
+        shopDropdown.classList.remove('show');
+    }
+    
+    // Close profile dropdown if clicking outside
+    if (profileDropdown && !profileMenu.contains(event.target)) {
+        profileDropdown.classList.remove('show');
+    }
+});
